@@ -48,13 +48,38 @@ async function loadProjects() {
     .select('*')
     .order('created_at', { ascending: false });
 
+  // Always clear static HTML placeholders first
+  grid.innerHTML = '';
+
   if (error || !data || data.length === 0) {
-    // Keep the existing hardcoded static content that is already in the DOM
+    // Show empty state + keep the 'Build With Us' CTA
+    grid.innerHTML = `
+      <div class="col-span-full md:col-span-2 lg:col-span-2 flex flex-col items-center justify-center py-16 text-center">
+        <div class="w-20 h-20 rounded-2xl bg-google-green/10 flex items-center justify-center mb-5">
+          <svg class="w-10 h-10 text-google-green/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+          </svg>
+        </div>
+        <h3 class="font-display text-2xl font-bold text-gray-900 mb-2">Projects Coming Soon</h3>
+        <p class="text-gray-500 max-w-sm">Our members are building great things. The first projects will be showcased here shortly!</p>
+        <a href="https://github.com/Le-e-lab" target="_blank" class="mt-4 text-google-blue text-sm font-semibold hover:underline">Browse our GitHub in the meantime →</a>
+      </div>`;
+
+    // Always add the Build With Us CTA card
+    grid.insertAdjacentHTML('beforeend', `
+      <div class="bg-gradient-to-br from-google-blue/10 to-google-green/10 border border-google-blue/30 rounded-2xl p-8 flex flex-col items-center justify-center text-center">
+        <div class="w-16 h-16 mb-6 rounded-full bg-google-blue/20 flex items-center justify-center">
+          <svg class="w-8 h-8 text-google-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+        </div>
+        <h3 class="font-display text-xl font-bold mb-2 text-gray-900">Build With Us</h3>
+        <p class="text-gray-600 text-sm mb-6">Have an idea? Join our chapter and turn it into reality.</p>
+        <button data-open-modal class="bg-google-blue text-white px-6 py-3 rounded-full font-bold text-sm hover:bg-google-blue/90 transition-colors">Start Building</button>
+      </div>`);
+    attachModalTriggers();
     return;
   }
 
-  // Clear the loading state and the static placeholders
-  grid.innerHTML = '';
+  // Data loaded — render project cards
 
   data.forEach((project, i) => {
     const gradient = GRADIENTS[i % GRADIENTS.length];

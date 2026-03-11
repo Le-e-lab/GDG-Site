@@ -1,0 +1,140 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   GDSC Africa University - Styles
+   White/Google-style theme
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* Base Styles */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Gradient Text - Google Colors */
+.gradient-text {
+  background: linear-gradient(90deg, #4285f4, #ea4335, #fbbc05, #34a853);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Navigation Link Underline Effect */
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #4285f4, #34a853);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MEMBERSHIP MODAL STYLES
+═══════════════════════════════════════════════════════════════════════════ */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 1.5rem;
+  padding: 2rem;
+  max-width: 28rem;
+  width: 90%;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+}
+
+.modal-overlay.active .modal-content {
+  transform: scale(1);
+}
+
+/* WhatsApp Button Styling */
+.btn-whatsapp {
+  background-color: #25d366;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-whatsapp:hover {
+  background-color: #128c7e;
+  transform: scale(1.02);
+}
+
+/* Discord Button Styling */
+.btn-discord {
+  background-color: #5865f2;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-discord:hover {
+  background-color: #4752c4;
+  transform: scale(1.02);
+}
+
+/* Close Button */
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: #f3f4f6;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+}
+
+.modal-close:hover {
+  background: #e5e7eb;
+}

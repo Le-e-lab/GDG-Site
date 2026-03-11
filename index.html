@@ -1,0 +1,1808 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GDSC Africa University | Ubuntu Meets Innovation</title>
+    <meta
+      name="description"
+      content="Join Google Developer Student Clubs at Africa University. The premier tech community bridging classroom theory with real-world practice through peer learning, workshops, and hackathons."
+    />
+    <meta name="keywords" content="GDSC, Africa University, Google Developer Student Clubs, Tech Community, Zimbabwe, Coding, Innovation, Ubuntu, Software Engineering" />
+    <meta name="author" content="GDG Africa University" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://gdsc-africa-university.netlify.app/" />
+    <meta property="og:title" content="GDSC Africa University | Ubuntu Meets Innovation" />
+    <meta property="og:description" content="Building pan-African tech talent. Join our community of developers, designers, and innovators at Africa University." />
+    <meta property="og:image" content="about-illustration.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://gdsc-africa-university.netlify.app/" />
+    <meta property="twitter:title" content="GDSC Africa University | Ubuntu Meets Innovation" />
+    <meta property="twitter:description" content="Building pan-African tech talent. Join our community of developers, designers, and innovators at Africa University." />
+    <meta property="twitter:image" content="about-illustration.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="gdg-logo.jpg" />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "google-blue": "#4285F4",
+              "google-red": "#EA4335",
+              "google-yellow": "#FBBC05",
+              "google-green": "#34A853",
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              display: ["Space Grotesk", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+
+  <body class="bg-white text-gray-900 font-sans antialiased">
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+       NAVIGATION
+  ═══════════════════════════════════════════════════════════════════════════ -->
+    <nav
+      class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm"
+    >
+      <div
+        class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4"
+      >
+        <!-- Logo Section -->
+        <div class="flex items-center gap-4">
+          <div class="flex items-center gap-2">
+            <!-- GDG Logo Mark -->
+            <img src="gdg-logo.jpg" alt="GDG Logo" class="w-10 h-10 object-contain">
+            <span class="font-display font-bold text-lg text-gray-900">GDG</span>
+          </div>
+          <div class="h-8 w-[2px] bg-google-blue/40"></div>
+          <span
+            class="font-semibold text-sm tracking-wide uppercase text-google-blue"
+            >Africa University</span
+          >
+        </div>
+
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex items-center gap-8">
+          <a href="#about" class="nav-link text-sm uppercase font-semibold tracking-wide text-gray-600 hover:text-gray-900 transition-colors">About</a>
+          <a href="#projects" class="nav-link text-sm uppercase font-semibold tracking-wide text-gray-600 hover:text-gray-900 transition-colors">Projects</a>
+          <a href="#team" class="nav-link text-sm uppercase font-semibold tracking-wide text-gray-600 hover:text-gray-900 transition-colors">Team</a>
+          <a href="#events" class="nav-link text-sm uppercase font-semibold tracking-wide text-gray-600 hover:text-gray-900 transition-colors">Events</a>
+          <a href="blog.html" class="nav-link text-sm uppercase font-semibold tracking-wide text-gray-600 hover:text-gray-900 transition-colors">Blog</a>
+          <a href="#apply" class="bg-google-blue text-white px-5 py-2 rounded-full font-bold text-sm hover:bg-google-blue/90 hover:scale-105 transition-all">
+            Apply for Lead
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-700">
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            ></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden bg-gray-50 border-t border-gray-200 px-6 py-4"
+      >
+        <div class="flex flex-col gap-4">
+          <a href="#about" class="text-gray-600 hover:text-gray-900 py-2">About</a>
+          <a href="#pillars" class="text-gray-600 hover:text-gray-900 py-2"
+            >Our Pillars</a
+          >
+          <a href="#projects" class="text-gray-600 hover:text-gray-900 py-2"
+            >Projects</a
+          >
+          <a href="#team" class="text-gray-600 hover:text-gray-900 py-2">Team</a>
+          <a
+            href="https://gdsc.community.dev/"
+            target="_blank"
+            class="bg-google-blue text-white px-5 py-3 rounded-full font-bold text-sm text-center mt-2"
+          >
+            Join on Bevy
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+       HERO SECTION
+  ═══════════════════════════════════════════════════════════════════════════ -->
+    <section
+      class="min-h-screen flex items-center justify-center pt-20 bg-gradient-to-b from-white via-gray-50 to-gray-100 relative overflow-hidden"
+    >
+      <!-- Background Pattern -->
+      <div class="absolute inset-0 opacity-10">
+        <div
+          class="absolute top-20 left-10 w-72 h-72 bg-google-blue rounded-full blur-3xl"
+        ></div>
+        <div
+          class="absolute top-40 right-20 w-96 h-96 bg-google-red rounded-full blur-3xl"
+        ></div>
+        <div
+          class="absolute bottom-20 left-1/3 w-80 h-80 bg-google-green rounded-full blur-3xl"
+        ></div>
+      </div>
+
+      <div class="relative z-10 text-center px-6 py-24 max-w-5xl mx-auto">
+        <!-- Main Headline -->
+        <h1
+          class="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight"
+        >
+          <span class="text-google-blue">Ubuntu</span>
+          <span class="text-google-red"> Meets</span>
+          <br />
+          <span class="gradient-text">Innovation.</span>
+        </h1>
+
+        <!-- Subheadline -->
+        <p
+          class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed"
+        >
+          Join the premier community of developers at
+          <strong class="text-gray-900">Africa University</strong>. We bridge the
+          gap between theory and practice using Google technologies.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div
+          class="flex flex-col sm:flex-row gap-4 justify-center items-center"
+        >
+          <button
+            data-open-modal
+            class="bg-google-blue text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-google-blue/90 hover:scale-105 transition-all shadow-lg shadow-google-blue/25"
+          >
+            Become a Member
+          </button>
+          <a
+            href="#projects"
+            class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-full font-bold text-lg hover:bg-gray-100 hover:border-gray-400 transition-all"
+          >
+            View Our Work
+          </a>
+        </div>
+
+        <!-- Stats Row -->
+        <div
+          class="flex flex-wrap justify-center gap-8 md:gap-16 mt-16 pt-8 border-t border-gray-200"
+        >
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-bold text-google-blue">
+              50+
+            </div>
+            <div class="text-sm text-gray-500 uppercase tracking-wide mt-1">
+              Active Members
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-bold text-google-red">
+              12+
+            </div>
+            <div class="text-sm text-gray-500 uppercase tracking-wide mt-1">
+              Projects Shipped
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-bold text-google-yellow">
+              20+
+            </div>
+            <div class="text-sm text-gray-500 uppercase tracking-wide mt-1">
+              Events Hosted
+            </div>
+          </div>
+          <div class="text-center">
+            <div class="text-3xl md:text-4xl font-bold text-google-green">
+              5
+            </div>
+            <div class="text-sm text-gray-500 uppercase tracking-wide mt-1">
+              Countries Represented
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2">
+        <svg
+          class="w-6 h-6 text-google-blue"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 14l-7 7m0 0l-7-7m7 7V3"
+          ></path>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Google Color Bar -->
+    <div class="flex h-2">
+      <div class="w-1/4 bg-google-blue"></div>
+      <div class="w-1/4 bg-google-red"></div>
+      <div class="w-1/4 bg-google-yellow"></div>
+      <div class="w-1/4 bg-google-green"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+       ABOUT SECTION
+  ═══════════════════════════════════════════════════════════════════════════ -->
+    <section id="about" class="py-24 px-6 bg-gray-50">
+      <div class="max-w-6xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-12">
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <div class="h-[2px] w-12 bg-google-blue"></div>
+            <span
+              class="text-google-blue uppercase tracking-widest text-sm font-semibold"
+              >Who We Are</span
+            >
+            <div class="h-[2px] w-12 bg-google-blue"></div>
+          </div>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            GDG Africa University
+          </h2>
+          <div class="grid md:grid-cols-2 gap-12 items-center mb-12">
+            <p class="text-gray-600 text-lg leading-relaxed text-left">
+              We are a <strong class="text-google-blue">pan-African tech community</strong> 
+              at Africa University, equipping students with Google technologies and 
+              the skills to build Africa's digital future. Through peer-driven learning 
+              and hands-on projects, we bridge classroom theory with real-world impact.
+            </p>
+            <div class="flex justify-center md:justify-end">
+              <img 
+                src="about-illustration.png" 
+                alt="Team collaboration illustration" 
+                class="w-full max-w-sm h-auto mix-blend-multiply"
+                loading="lazy"
+              >
+            </div>
+          </div>
+
+        <!-- Feature Tags -->
+        <div class="mt-16 flex flex-wrap gap-4 justify-center">
+          <div
+            class="flex items-center gap-2 bg-white border border-gray-200 rounded-full px-5 py-2 shadow-sm"
+          >
+            <span class="w-3 h-3 rounded-full bg-google-blue"></span>
+            <span class="text-gray-700 text-sm">Google Certified Programs</span>
+          </div>
+          <div
+            class="flex items-center gap-2 bg-white border border-gray-200 rounded-full px-5 py-2 shadow-sm"
+          >
+            <span class="w-3 h-3 rounded-full bg-google-green"></span>
+            <span class="text-gray-700 text-sm">50+ Active Members</span>
+          </div>
+          <div
+            class="flex items-center gap-2 bg-white border border-gray-200 rounded-full px-5 py-2 shadow-sm"
+          >
+            <span class="w-3 h-3 rounded-full bg-google-red"></span>
+            <span class="text-gray-700 text-sm">Pan-African Network</span>
+          </div>
+          <div
+            class="flex items-center gap-2 bg-white border border-gray-200 rounded-full px-5 py-2 shadow-sm"
+          >
+            <span class="w-3 h-3 rounded-full bg-google-yellow"></span>
+            <span class="text-gray-700 text-sm">Real-World Projects</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+       CORE PILLARS SECTION
+  ═══════════════════════════════════════════════════════════════════════════ -->
+    <section id="pillars" class="py-24 px-6 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <div class="h-[2px] w-8 bg-google-red"></div>
+            <span
+              class="text-google-red uppercase tracking-widest text-sm font-semibold"
+              >The AU Influence</span
+            >
+            <div class="h-[2px] w-8 bg-google-red"></div>
+          </div>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900">
+            Our Core Pillars
+          </h2>
+          <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="flex justify-center md:justify-start order-2 md:order-1">
+              <img 
+                src="pillars-illustration.png" 
+                alt="Learning and coding illustration" 
+                class="w-full max-w-sm h-auto mix-blend-multiply"
+                loading="lazy"
+              >
+            </div>
+
+            <p class="text-gray-600 text-lg max-w-xl mx-auto md:mx-0 text-left md:text-right order-1 md:order-2 leading-relaxed">
+              Our mission is deeply rooted in Africa University's vision of a hunger-free, poverty-free, and peaceful continent. We align our technical training with this purpose, ensuring every line of code we write contributes to identifying and solving the most pressing challenges facing our communities.
+            </p>
+          </div>
+        </div>
+
+        <!-- Pillars Grid -->
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Pillar 1: Leadership Transformation -->
+          <div
+            class="bg-white border border-gray-200 rounded-2xl p-8 text-center shadow-sm"
+          >
+            <div
+              class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-google-blue/20 flex items-center justify-center"
+            >
+              <svg
+                class="w-8 h-8 text-google-blue"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="font-display text-2xl font-bold mb-4 text-gray-900">
+              Leadership Transformation
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Developing tech leads who think
+              <strong class="text-google-blue">"Africa-first"</strong>. We cultivate
+              leaders who can bridge technical excellence with social impact.
+            </p>
+            <div class="mt-6 pt-6 border-t border-gray-200">
+              <span class="text-google-blue text-sm font-semibold"
+                >Study Jams • Tech Talks • Mentorship</span
+              >
+            </div>
+          </div>
+
+          <!-- Pillar 2: Ubuntu in Tech -->
+          <div
+            class="bg-white border border-gray-200 rounded-2xl p-8 text-center shadow-sm"
+          >
+            <div
+              class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-google-red/20 flex items-center justify-center"
+            >
+              <svg
+                class="w-8 h-8 text-google-red"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="font-display text-2xl font-bold mb-4 text-gray-900">
+              Ubuntu in Tech
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Peer-to-peer learning and community-driven coding.
+              <strong class="text-google-red">"I am because we are"</strong>
+              guides how we build, learn, and grow together.
+            </p>
+            <div class="mt-6 pt-6 border-t border-gray-200">
+              <span class="text-google-red text-sm font-semibold"
+                >Pair Programming • Code Reviews • Open Source</span
+              >
+            </div>
+          </div>
+
+          <!-- Pillar 3: Pan-African Innovation -->
+          <div
+            class="bg-white border border-gray-200 rounded-2xl p-8 text-center shadow-sm"
+          >
+            <div
+              class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-google-green/20 flex items-center justify-center"
+            >
+              <svg
+                class="w-8 h-8 text-google-green"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="font-display text-2xl font-bold mb-4 text-gray-900">
+              Pan-African Innovation
+            </h3>
+            <p class="text-gray-600 leading-relaxed">
+              Building solutions for local and continental challenges. From
+              fintech to agritech, we solve
+              <strong class="text-google-green">real African problems</strong>.
+            </p>
+            <div class="mt-6 pt-6 border-t border-gray-200">
+              <span class="text-google-green text-sm font-semibold"
+                >Hackathons • Solution Challenges • Startups</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+       PROJECT GALLERY SECTION
+  ═══════════════════════════════════════════════════════════════════════════ -->
+    <section id="projects" class="py-24 px-6 bg-gray-50">
+      <div class="max-w-6xl mx-auto">
+        <!-- Section Header -->
+        <div
+          class="flex flex-col md:flex-row md:items-end md:justify-between mb-16"
+        >
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-[2px] w-12 bg-google-green"></div>
+              <span
+                class="text-google-green uppercase tracking-widest text-sm font-semibold"
+                >What We Build</span
+              >
+            </div>
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900">
+              Project Showcase
+            </h2>
+            <p class="text-gray-600 text-lg mt-4 max-w-xl">
+              AU students aren't just learning—they're shipping real products
+              that solve real problems.
+            </p>
+          </div>
+          <a
+            href="https://github.com/gdsc-africau"
+            target="_blank"
+            class="mt-6 md:mt-0 inline-flex items-center gap-2 text-google-blue hover:text-gray-900 transition-colors font-semibold"
+          >
+            View All on GitHub
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              ></path>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Projects Grid (Dynamically loaded from Supabase) -->
+        <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Project 1: Chef's Muse -->
+          <div
+            class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
+          >
+            <div
+              class="h-48 bg-gradient-to-br from-google-red/30 to-google-yellow/20 flex items-center justify-center"
+            >
+              <svg
+                class="w-16 h-16 text-gray-400 group-hover:text-gray-600 transition-colors"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                ></path>
+              </svg>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center gap-2 mb-3">
+                <span
+                  class="px-2 py-1 rounded text-xs font-semibold bg-google-red/20 text-google-red"
+                  >AI/ML</span
+                >
+                <span
+                  class="px-2 py-1 rounded text-xs font-semibold bg-google-yellow/20 text-google-yellow"
+                  >Flutter</span
+                >
+              </div>
+              <h3 class="font-display text-xl font-bold mb-2 text-gray-900">
+                Chef's Muse
+              </h3>
+              <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                AI-powered recipe generator that creates personalized meal plans
+                based on available ingredients and dietary preferences.
+              </p>
+              <a
+                href="https://le-e-lab.github.io/chefs-muse/"
+                class="text-google-blue text-sm font-semibold hover:text-gray-900 transition-colors inline-flex items-center gap-1"
+              >
+                View Project
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 2: SecureScan -->
+          <div
+            class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
+          >
+            <div
+              class="h-48 bg-gradient-to-br from-google-blue/30 to-google-green/20 flex items-center justify-center"
+            >
+              <svg
+                class="w-16 h-16 text-gray-400 group-hover:text-gray-600 transition-colors"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                ></path>
+              </svg>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center gap-2 mb-3">
+                <span
+                  class="px-2 py-1 rounded text-xs font-semibold bg-google-blue/20 text-google-blue"
+                  >Security</span
+                >
+                <span
+                  class="px-2 py-1 rounded text-xs font-semibold bg-google-green/20 text-google-green"
+                  >Android</span
+                >
+              </div>
+              <h3 class="font-display text-xl font-bold mb-2 text-gray-900">
+                SecureScan
+              </h3>
+              <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                Mobile security app that scans QR codes and links for phishing
+                attempts, protecting users from digital fraud.
+              </p>
+              <a
+                href="#"
+                class="text-google-blue text-sm font-semibold hover:text-gray-900 transition-colors inline-flex items-center gap-1"
+              >
+                View Project
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 3: AgriConnect -->
+          <div
+            class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
+          >
+            <div
+              class="h-48 bg-gradient-to-br from-google-green/30 to-google-yellow/20 flex items-center justify-center"
+            >
+              <svg
+                class="w-16 h-16 text-gray-400 group-hover:text-gray-600 transition-colors"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"
+                ></path>
+              </svg>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center gap-2 mb-3">
+                <span
+                  class="px-2 py-1 rounded text-xs font-semibold bg-google-green/20 text-google-green"
+                  >AgriTech</span
+                >
+                <span
+                  class="px-2 py-1 rounded text-xs font-semibold bg-google-yellow/20 text-google-yellow"
+                  >Firebase</span
+                >
+              </div>
+              <h3 class="font-display text-xl font-bold mb-2 text-gray-900">
+                AgriConnect
+              </h3>
+              <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                Platform connecting smallholder farmers to markets, providing
+                real-time pricing and logistics coordination.
+              </p>
+              <a
+                href="#"
+                class="text-google-blue text-sm font-semibold hover:text-gray-900 transition-colors inline-flex items-center gap-1"
+              >
+                View Project
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div
+            class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
+          >
+            <div
+              class="h-48 bg-gradient-to-br from-google-red/30 to-google-blue/20 flex items-center justify-center"
+            >
+              <svg
+                class="w-16 h-16 text-gray-400 group-hover:text-gray-600 transition-colors"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                ></path>
+              </svg>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center gap-2 mb-3">
+                <span
+                  class="px-2 py-1 rounded text-xs font-semibold bg-google-red/20 text-google-red"
+                  >HealthTech</span
+                >
+                <span
+                  class="px-2 py-1 rounded text-xs font-semibold bg-google-blue/20 text-google-blue"
+                  >Cloud</span
+                >
+              </div>
+              <h3 class="font-display text-xl font-bold mb-2 text-gray-900">
+                HealthHub ZW
+              </h3>
+              <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                Telemedicine platform enabling rural Zimbabweans to access
+                healthcare consultations via mobile devices.
+              </p>
+              <a
+                href="#"
+                class="text-google-blue text-sm font-semibold hover:text-gray-900 transition-colors inline-flex items-center gap-1"
+              >
+                View Project
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 5: EduTrack -->
+          <div
+            class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
+          >
+            <div
+              class="h-48 bg-gradient-to-br from-google-yellow/30 to-google-green/20 flex items-center justify-center"
+            >
+              <svg
+                class="w-16 h-16 text-gray-400 group-hover:text-gray-600 transition-colors"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M12 14l9-5-9-5-9 5 9 5z"
+                ></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.5"
+                  d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"
+                ></path>
+              </svg>
+            </div>
+            <div class="p-6">
+              <div class="flex items-center gap-2 mb-3">
+                <span
+                  class="px-2 py-1 rounded text-xs font-semibold bg-google-yellow/20 text-google-yellow"
+                  >EdTech</span
+                >
+                <span
+                  class="px-2 py-1 rounded text-xs font-semibold bg-google-green/20 text-google-green"
+                  >Web</span
+                >
+              </div>
+              <h3 class="font-display text-xl font-bold mb-2 text-gray-900">
+                EduTrack
+              </h3>
+              <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                Student progress tracking system for AU, helping advisors
+                monitor academic performance and provide timely support.
+              </p>
+              <a
+                href="#"
+                class="text-google-blue text-sm font-semibold hover:text-gray-900 transition-colors inline-flex items-center gap-1"
+              >
+                View Project
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 5l7 7-7 7"
+                  ></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Build With Us CTA Card -->
+          <div
+            class="bg-gradient-to-br from-google-blue/10 to-google-green/10 border border-google-blue/30 rounded-2xl p-8 flex flex-col items-center justify-center text-center"
+          >
+            <div
+              class="w-16 h-16 mb-6 rounded-full bg-google-blue/20 flex items-center justify-center"
+            >
+              <svg
+                class="w-8 h-8 text-google-blue"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="font-display text-xl font-bold mb-2 text-gray-900">
+              Build With Us
+            </h3>
+            <p class="text-gray-600 text-sm mb-6">
+              Have an idea? Join our chapter and turn it into reality.
+            </p>
+            <button
+              data-open-modal
+              class="bg-google-blue text-white px-6 py-3 rounded-full font-bold text-sm hover:bg-google-blue/90 transition-colors"
+            >
+              Start Building
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+       TEAM SECTION
+  ═══════════════════════════════════════════════════════════════════════════ -->
+    <section id="team" class="py-24 px-6 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <div class="h-[2px] w-8 bg-google-yellow"></div>
+            <span
+              class="text-google-yellow uppercase tracking-widest text-sm font-semibold"
+              >The Humans</span
+            >
+            <div class="h-[2px] w-8 bg-google-yellow"></div>
+          </div>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900">
+            Core Team 2025-26
+          </h2>
+          <p class="text-gray-600 text-lg mt-4 max-w-2xl mx-auto">
+            Meet the passionate developers leading our chapter forward.
+          </p>
+        </div>
+
+        <!-- Team Grid (Dynamically loaded from Supabase) -->
+        <div id="team-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <!-- Team Member 1: GDSC Lead -->
+          <div class="text-center group">
+            <div class="relative w-32 h-32 mx-auto mb-6">
+              <div
+                class="w-full h-full rounded-full bg-gradient-to-br from-google-blue to-google-green p-1"
+              >
+                <div
+                  class="w-full h-full rounded-full bg-white flex items-center justify-center"
+                >
+                  <span class="text-4xl font-bold text-google-blue">GL</span>
+                </div>
+              </div>
+              <div
+                class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-google-blue text-white text-xs font-bold px-3 py-1 rounded-full"
+              >
+                LEAD
+              </div>
+            </div>
+            <h3 class="font-display text-xl font-bold text-gray-900 mb-1">
+              GDSC Lead
+            </h3>
+            <p class="text-google-blue text-sm mb-3">Chapter Lead</p>
+            <p class="text-gray-600 text-sm">
+              Computer Science • Class of 2026
+            </p>
+            <div class="flex justify-center gap-3 mt-4">
+              <a
+                href="#"
+                class="text-gray-500 hover:text-google-blue transition-colors"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="#"
+                class="text-gray-500 hover:text-gray-900 transition-colors"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Placeholder removed: populated by Supabase -->
+          <!-- Team Member 2: Tech Lead -->
+          <div class="text-center group">
+            <div class="relative w-32 h-32 mx-auto mb-6">
+              <div
+                class="w-full h-full rounded-full bg-gradient-to-br from-google-red to-google-yellow p-1"
+              >
+                <div
+                  class="w-full h-full rounded-full bg-white flex items-center justify-center"
+                >
+                  <span class="text-4xl font-bold text-google-blue">TL</span>
+                </div>
+              </div>
+              <div
+                class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-google-red text-white text-xs font-bold px-3 py-1 rounded-full"
+              >
+                TECH
+              </div>
+            </div>
+            <h3 class="font-display text-xl font-bold text-gray-900 mb-1">
+              Tech Lead
+            </h3>
+            <p class="text-google-blue text-sm mb-3">Technical Lead</p>
+            <p class="text-gray-600 text-sm">
+              Software Engineering • Class of 2026
+            </p>
+            <div class="flex justify-center gap-3 mt-4">
+              <a
+                href="#"
+                class="text-gray-500 hover:text-google-blue transition-colors"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="#"
+                class="text-gray-500 hover:text-gray-900 transition-colors"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Team Member 3: Design Lead -->
+          <div class="text-center group">
+            <div class="relative w-32 h-32 mx-auto mb-6">
+              <div
+                class="w-full h-full rounded-full bg-gradient-to-br from-google-yellow to-google-green p-1"
+              >
+                <div
+                  class="w-full h-full rounded-full bg-white flex items-center justify-center"
+                >
+                  <span class="text-4xl font-bold text-google-yellow">DL</span>
+                </div>
+              </div>
+              <div
+                class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-google-yellow text-white text-xs font-bold px-3 py-1 rounded-full"
+              >
+                DESIGN
+              </div>
+            </div>
+            <h3 class="font-display text-xl font-bold text-gray-900 mb-1">
+              Design Lead
+            </h3>
+            <p class="text-google-blue text-sm mb-3">Design Lead</p>
+            <p class="text-gray-600 text-sm">
+              Information Systems • Class of 2027
+            </p>
+            <div class="flex justify-center gap-3 mt-4">
+              <a
+                href="#"
+                class="text-gray-500 hover:text-google-blue transition-colors"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="#"
+                class="text-gray-500 hover:text-gray-900 transition-colors"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Team Member 4: Community Lead -->
+          <div class="text-center group">
+            <div class="relative w-32 h-32 mx-auto mb-6">
+              <div
+                class="w-full h-full rounded-full bg-gradient-to-br from-google-green to-google-blue p-1"
+              >
+                <div
+                  class="w-full h-full rounded-full bg-white flex items-center justify-center"
+                >
+                  <span class="text-4xl font-bold text-google-green">CL</span>
+                </div>
+              </div>
+              <div
+                class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-google-green text-white text-xs font-bold px-3 py-1 rounded-full"
+              >
+                COMMUNITY
+              </div>
+            </div>
+            <h3 class="font-display text-xl font-bold text-gray-900 mb-1">
+              Community Lead
+            </h3>
+            <p class="text-google-blue text-sm mb-3">Community Lead</p>
+            <p class="text-gray-600 text-sm">
+              Business Informatics • Class of 2027
+            </p>
+            <div class="flex justify-center gap-3 mt-4">
+              <a
+                href="#"
+                class="text-gray-500 hover:text-google-blue transition-colors"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                  />
+                </svg>
+              </a>
+              <a
+                href="#"
+                class="text-gray-500 hover:text-gray-900 transition-colors"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Join Team CTA -->
+        <div class="mt-16 text-center">
+          <p class="text-gray-600 mb-4">Want to join the core team?</p>
+          <a href="#apply" class="text-google-blue hover:text-gray-900 transition-colors font-semibold inline-flex items-center gap-2">
+            Apply for a Lead Role
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+       EVENTS SECTION (UPCOMING)
+  ═══════════════════════════════════════════════════════════════════════════ -->
+    <section id="events" class="py-24 px-6 bg-gray-50">
+      <div class="max-w-6xl mx-auto">
+        <!-- Section Header -->
+        <div
+          class="flex flex-col md:flex-row md:items-end md:justify-between mb-16"
+        >
+          <div>
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-[2px] w-12 bg-google-red"></div>
+              <span
+                class="text-google-red uppercase tracking-widest text-sm font-semibold"
+                >Events</span
+              >
+            </div>
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900">
+              Upcoming Events
+            </h2>
+          </div>
+          <a
+            href="https://gdsc.community.dev/"
+            target="_blank"
+            class="mt-6 md:mt-0 inline-flex items-center gap-2 text-google-blue hover:text-gray-900 transition-colors font-semibold"
+          >
+            View All Events on Bevy
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              ></path>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Events Grid (Dynamically loaded from Supabase) -->
+        <div id="events-grid" class="grid md:grid-cols-3 gap-6">
+          <!-- Placeholder spin while Supabase loads -->
+          <div class="col-span-3 py-10 text-center text-gray-400">Loading events...</div>
+          <!-- Event 1 (Static Fallback, removed once dynamic) -->
+          <div class="hidden"
+          >
+            <div
+              class="h-3 bg-gradient-to-r from-google-blue to-google-green"
+            ></div>
+            <div class="p-6">
+              <div class="flex items-center gap-3 mb-4">
+                <div
+                  class="w-14 h-14 rounded-xl bg-google-blue/20 flex flex-col items-center justify-center"
+                >
+                  <span class="text-xs text-google-blue font-bold">FEB</span>
+                  <span class="text-xl text-gray-900 font-bold">15</span>
+                </div>
+                <div>
+                  <span class="text-xs text-gray-400 uppercase">Workshop</span>
+                  <h4 class="text-gray-900 font-bold">Flutter Kickstart</h4>
+                </div>
+              </div>
+              <p class="text-gray-600 text-sm mb-4">
+                Build your first cross-platform mobile app in 3 hours.
+              </p>
+              <div class="flex items-center gap-2 text-xs text-gray-500">
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  ></path>
+                </svg>
+                AU Computer Lab 3
+              </div>
+            </div>
+          </div>
+
+          <!-- Event 2 -->
+          <div
+            class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
+          >
+            <div
+              class="h-3 bg-gradient-to-r from-google-red to-google-yellow"
+            ></div>
+            <div class="p-6">
+              <div class="flex items-center gap-3 mb-4">
+                <div
+                  class="w-14 h-14 rounded-xl bg-google-red/20 flex flex-col items-center justify-center"
+                >
+                  <span class="text-xs text-google-red font-bold">MAR</span>
+                  <span class="text-xl text-gray-900 font-bold">08</span>
+                </div>
+                <div>
+                  <span class="text-xs text-gray-400 uppercase">Hackathon</span>
+                  <h4 class="text-gray-900 font-bold">Solution Challenge Prep</h4>
+                </div>
+              </div>
+              <p class="text-gray-600 text-sm mb-4">
+                Team formation and ideation session for Google's annual
+                competition.
+              </p>
+              <div class="flex items-center gap-2 text-xs text-gray-500">
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  ></path>
+                </svg>
+                AU Library Auditorium
+              </div>
+            </div>
+          </div>
+
+          <!-- Event 3 -->
+          <div
+            class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
+          >
+            <div
+              class="h-3 bg-gradient-to-r from-google-yellow to-google-green"
+            ></div>
+            <div class="p-6">
+              <div class="flex items-center gap-3 mb-4">
+                <div
+                  class="w-14 h-14 rounded-xl bg-google-yellow/20 flex flex-col items-center justify-center"
+                >
+                  <span class="text-xs text-google-yellow font-bold">MAR</span>
+                  <span class="text-xl text-gray-900 font-bold">22</span>
+                </div>
+                <div>
+                  <span class="text-xs text-gray-400 uppercase">Study Jam</span>
+                  <h4 class="text-gray-900 font-bold">Cloud Skills Boost</h4>
+                </div>
+              </div>
+              <p class="text-gray-600 text-sm mb-4">
+                Guided learning path through Google Cloud fundamentals.
+              </p>
+              <div class="flex items-center gap-2 text-xs text-gray-500">
+                <svg
+                  class="w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                Hybrid (Online + In-person)
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+       ALUMNI TESTIMONIALS SECTION
+  ═══════════════════════════════════════════════════════════════════════════ -->
+    <section id="testimonials" class="py-24 px-6 bg-white">
+      <div class="max-w-6xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <div class="h-[2px] w-12 bg-google-green"></div>
+            <span
+              class="text-google-green uppercase tracking-widest text-sm font-semibold"
+              >Testimonials</span
+            >
+            <div class="h-[2px] w-12 bg-google-green"></div>
+          </div>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            What Our Alumni Say
+          </h2>
+          <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+            Hear from previous GDG members about their experiences and how the community helped shape their careers.
+          </p>
+        </div>
+
+        <!-- Testimonials Grid (Dynamically loaded from Supabase) -->
+        <div id="testimonials-grid" class="grid md:grid-cols-3 gap-8">
+          <!-- Placeholder spin while Supabase loads -->
+          <div class="col-span-3 py-10 text-center text-gray-400">Loading testimonials...</div>
+          <!-- Testimonial 1 (static, hidden once dynamic loads) -->
+          <div class="hidden">
+            <div class="flex items-center gap-1 mb-4">
+              <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+              <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+              <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+              <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+              <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+            </div>
+            <p class="text-gray-600 leading-relaxed mb-6">
+              "GDG AU completely transformed my career trajectory. The hands-on workshops and supportive community gave me the confidence to pursue a career in tech. I landed my first developer role just 6 months after joining!"
+            </p>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-google-blue to-google-green flex items-center justify-center text-white font-bold">
+                TM
+              </div>
+              <div>
+                <h4 class="font-bold text-gray-900">Tatenda Moyo</h4>
+                <p class="text-gray-500 text-sm">Class of 2023 • Software Engineer at TechCorp</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 2 -->
+          <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100">
+            <div class="flex items-center gap-1 mb-4">
+              <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+              <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+              <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+              <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+              <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+            </div>
+            <p class="text-gray-600 leading-relaxed mb-6">
+              "The Solution Challenge project we worked on opened so many doors. Working with a team on a real-world problem taught me more than any classroom could. Plus, the Google certifications helped me stand out in job applications."
+            </p>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-google-red to-google-yellow flex items-center justify-center text-white font-bold">
+                CN
+              </div>
+              <div>
+                <h4 class="font-bold text-gray-900">Chiedza Nyamukapa</h4>
+                <p class="text-gray-500 text-sm">Class of 2024 • Cloud Engineer at Google</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Testimonial 3 -->
+          <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100">
+            <div class="flex items-center gap-1 mb-4">
+              <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+              <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+              <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+              <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+              <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+            </div>
+            <p class="text-gray-600 leading-relaxed mb-6">
+              "As someone from a non-technical background, I was nervous about joining. But the welcoming atmosphere and beginner-friendly workshops made all the difference. Now I'm a full-stack developer and I mentor new members!"
+            </p>
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-full bg-gradient-to-br from-google-yellow to-google-green flex items-center justify-center text-white font-bold">
+                KM
+              </div>
+              <div>
+                <h4 class="font-bold text-gray-900">Kudakwashe Mupfumira</h4>
+                <p class="text-gray-500 text-sm">Class of 2022 • Full-Stack Developer</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+       LEAD ROLE APPLICATION SECTION
+   ═══════════════════════════════════════════════════════════════════════════ -->
+    <section id="apply" class="py-24 px-6 bg-gray-50">
+      <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-12">
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <div class="h-[2px] w-12 bg-google-blue"></div>
+            <span class="text-google-blue uppercase tracking-widest text-sm font-semibold">Join the Team</span>
+            <div class="h-[2px] w-12 bg-google-blue"></div>
+          </div>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-4">Apply for a Lead Role</h2>
+          <p class="text-gray-600 text-lg">Think you have what it takes? Tell us about yourself and the role you're passionate about.</p>
+        </div>
+
+        <div class="bg-white rounded-2xl p-8 md:p-10 shadow-sm border border-gray-200">
+          <form id="apply-form" class="space-y-6">
+            <div class="grid sm:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Full Name <span class="text-red-500">*</span></label>
+                <input type="text" name="name" required placeholder="e.g. Tendai Moyo" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-google-blue/30 focus:border-google-blue outline-none transition-all">
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address <span class="text-red-500">*</span></label>
+                <input type="email" name="email" required placeholder="you@africau.edu" class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-google-blue/30 focus:border-google-blue outline-none transition-all">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Role Applying For <span class="text-red-500">*</span></label>
+              <select name="role" required class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-google-blue/30 focus:border-google-blue outline-none transition-all bg-white">
+                <option value="" disabled selected>Select a lead role...</option>
+                <option value="Chapter Lead">Chapter Lead</option>
+                <option value="Technical Lead">Technical Lead (Web / Mobile / AI)</option>
+                <option value="Design Lead">Design Lead (UI/UX)</option>
+                <option value="Community Lead">Community Lead</option>
+                <option value="Events Lead">Events & Marketing Lead</option>
+                <option value="Content Lead">Content & Blog Lead</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Your Skill Level <span class="text-red-500">*</span></label>
+              <div class="grid grid-cols-3 gap-3">
+                <label class="skill-option flex items-center gap-2 border border-gray-300 rounded-xl p-3 cursor-pointer has-[:checked]:border-google-blue has-[:checked]:bg-blue-50 transition-all">
+                  <input type="radio" name="level" value="Beginner" class="accent-google-blue">
+                  <span class="text-sm font-medium">🌱 Beginner</span>
+                </label>
+                <label class="skill-option flex items-center gap-2 border border-gray-300 rounded-xl p-3 cursor-pointer has-[:checked]:border-google-yellow has-[:checked]:bg-yellow-50 transition-all">
+                  <input type="radio" name="level" value="Intermediate" class="accent-google-yellow">
+                  <span class="text-sm font-medium">⚡ Intermediate</span>
+                </label>
+                <label class="skill-option flex items-center gap-2 border border-gray-300 rounded-xl p-3 cursor-pointer has-[:checked]:border-google-green has-[:checked]:bg-green-50 transition-all">
+                  <input type="radio" name="level" value="Advanced" class="accent-google-green">
+                  <span class="text-sm font-medium">🚀 Advanced</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Tell Us About Your Skills <span class="text-red-500">*</span></label>
+              <textarea name="skills" required rows="4" placeholder="List your relevant skills, experience, and why you want this role..." class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-google-blue/30 focus:border-google-blue outline-none transition-all resize-none"></textarea>
+            </div>
+
+            <div id="apply-success" class="hidden bg-green-50 border border-green-200 text-green-700 rounded-xl p-4 text-center font-semibold">
+              🎉 Application submitted! We'll be in touch soon.
+            </div>
+            <div id="apply-error" class="hidden bg-red-50 border border-red-200 text-red-600 rounded-xl p-4 text-center text-sm"></div>
+
+            <button type="submit" id="apply-submit-btn" class="w-full bg-google-blue text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-600 transition-colors shadow-sm hover:shadow-md">
+              Submit Application
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+       NEWSLETTER SECTION
+  ═══════════════════════════════════════════════════════════════════════════ -->
+    <section id="newsletter" class="py-24 px-6 bg-gray-50">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <!-- Illustration -->
+          <div class="flex justify-center md:justify-start">
+            <img 
+              src="newsletter-illustration.png" 
+              alt="Newsletter subscription illustration" 
+              class="w-full max-w-sm h-auto mix-blend-multiply"
+              loading="lazy"
+            >
+          </div>
+
+          <!-- Content -->
+          <div class="text-left">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="h-[2px] w-12 bg-google-blue"></div>
+              <span
+                class="text-google-blue uppercase tracking-widest text-sm font-semibold"
+                >Stay Updated</span
+              >
+            </div>
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              Subscribe to Our Newsletter
+            </h2>
+            <p class="text-gray-600 text-lg mb-8">
+              Get the latest updates on workshops, hackathons, and community events directly in your inbox.
+            </p>
+
+            <form id="newsletter-form" class="flex flex-col sm:flex-row gap-4" action="https://docs.google.com/forms/d/e/1FAIpQLSckWs08CC4cIXWB3jZjl0DCZcSEly1rfRBFuP5yUSalx2mqRQ/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
+              <input
+                type="email"
+                name="entry.20182220"
+                placeholder="Enter your email address"
+                class="flex-1 px-6 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-google-blue focus:ring-2 focus:ring-google-blue/20 transition-all"
+                required
+              />
+              <button
+                type="submit"
+                class="bg-google-blue text-white px-8 py-3 rounded-full font-bold hover:bg-google-blue/90 hover:shadow-lg transition-all transform hover:scale-105"
+              >
+                Subscribe
+              </button>
+            </form>
+            <div id="newsletter-success" class="hidden mt-4 text-green-600 font-semibold">
+              🎉 Thanks for subscribing! We'll allow you to keep up with the latest GDG news.
+            </div>
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {document.getElementById('newsletter-form').classList.add('hidden'); document.getElementById('newsletter-success').classList.remove('hidden');}"></iframe>
+            <script>var submitted=false;</script>
+            <p class="text-xs text-gray-400 mt-4">
+              We respect your privacy. Unsubscribe at any time.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+       FOOTER
+  ═══════════════════════════════════════════════════════════════════════════ -->
+    <footer class="bg-gray-50 border-t border-gray-200">
+      <!-- Main Footer -->
+      <div class="max-w-6xl mx-auto px-6 py-16">
+        <div class="grid md:grid-cols-4 gap-12">
+          <!-- Brand Column -->
+          <div class="md:col-span-2">
+            <div class="flex items-center gap-3 mb-6">
+              <img src="gdg-logo.jpg" alt="GDG Logo" class="w-10 h-10 object-contain">
+              <span class="font-display font-bold text-xl text-gray-900"
+                >GDG Africa University</span
+              >
+            </div>
+            <p class="text-gray-600 leading-relaxed mb-6 max-w-md">
+              Google Developer Groups on Campus at Africa University. Building
+              pan-African tech talent through peer learning, hands-on projects,
+              and community.
+            </p>
+            <div class="flex gap-4">
+              <!-- TikTok -->
+              <a
+                href="https://www.tiktok.com/@au_gdsc?_r=1&_t=ZS-93ne6ATIdGP"
+                target="_blank"
+                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-black hover:text-white transition-all"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                     d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"
+                  />
+                </svg>
+              </a>
+              <!-- Instagram -->
+              <a
+                href="https://www.instagram.com/au_gdsc?igsh=OW9vaXlseDM4Y2dw"
+                target="_blank"
+                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-google-red hover:text-white transition-all"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                  />
+                </svg>
+              </a>
+              <!-- GitHub -->
+              <a
+                href="https://github.com/gdg-au"
+                target="_blank"
+                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-900 hover:text-white transition-all"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                  />
+                </svg>
+              </a>
+              <!-- LinkedIn -->
+              <a
+                href="https://www.linkedin.com/in/google-developer-group-on-campus-au-50317828b?utm_source=share_via&utm_content=profile&utm_medium=member_ios"
+                target="_blank"
+                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-google-blue hover:text-white transition-all"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path
+                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Quick Links -->
+          <div>
+            <h4 class="font-bold text-gray-900 mb-6">Quick Links</h4>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="#about"
+                  class="text-gray-600 hover:text-google-blue transition-colors"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#pillars"
+                  class="text-gray-600 hover:text-google-blue transition-colors"
+                  >Our Pillars</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#projects"
+                  class="text-gray-600 hover:text-google-blue transition-colors"
+                  >Projects</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#team"
+                  class="text-gray-600 hover:text-google-blue transition-colors"
+                  >Core Team</a
+                >
+              </li>
+              <li>
+                <a href="#events" class="text-gray-600 hover:text-google-blue transition-colors">Events</a>
+              </li>
+              <li>
+                <a href="blog.html" class="text-gray-600 hover:text-google-blue transition-colors">Blog</a>
+              </li>
+              <li>
+                <a href="#apply" class="text-gray-600 hover:text-google-blue transition-colors">Apply for Lead</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Resources -->
+          <div>
+            <h4 class="font-bold text-gray-900 mb-6">Resources</h4>
+            <ul class="space-y-3">
+              <li>
+                <a
+                  href="https://gdsc.community.dev/"
+                  target="_blank"
+                  class="text-gray-600 hover:text-google-blue transition-colors"
+                  >GDG Global</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://developers.google.com/"
+                  target="_blank"
+                  class="text-gray-600 hover:text-google-blue transition-colors"
+                  >Google Developers</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.africau.edu/"
+                  target="_blank"
+                  class="text-gray-600 hover:text-google-blue transition-colors"
+                  >Africa University</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://skillshop.withgoogle.com/"
+                  target="_blank"
+                  class="text-gray-600 hover:text-google-blue transition-colors"
+                  >Google Skillshop</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="border-t border-gray-200">
+        <div
+          class="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-4"
+        >
+          <p class="text-gray-500 text-sm text-center md:text-left">
+            &copy; 2025 GDG Africa University. Part of the global
+            <a
+              href="https://gdsc.community.dev/"
+              target="_blank"
+              class="text-google-blue hover:underline"
+              >Google Developer Groups</a
+            >
+            program.
+          </p>
+          <div class="flex items-center gap-4">
+            <span class="text-gray-500 text-sm">Made with</span>
+            <span class="text-google-red">❤</span>
+            <span class="text-gray-500 text-sm">in Mutare, Zimbabwe</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Google Color Bar -->
+      <div class="flex h-1">
+        <div class="w-1/4 bg-google-blue"></div>
+        <div class="w-1/4 bg-google-red"></div>
+        <div class="w-1/4 bg-google-yellow"></div>
+        <div class="w-1/4 bg-google-green"></div>
+      </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+       MEMBERSHIP MODAL
+  ═══════════════════════════════════════════════════════════════════════════ -->
+    <div id="membership-modal" class="modal-overlay">
+      <div class="modal-content relative">
+        <button data-close-modal class="modal-close">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+        
+        <div class="text-center mb-6">
+          <div class="flex justify-center gap-1 mb-4">
+            <div class="w-3 h-3 rounded-full bg-google-blue"></div>
+            <div class="w-3 h-3 rounded-full bg-google-red"></div>
+            <div class="w-3 h-3 rounded-full bg-google-yellow"></div>
+            <div class="w-3 h-3 rounded-full bg-google-green"></div>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-2">Join Our Community</h3>
+          <p class="text-gray-600">Connect with GDSC Africa University on your favorite platform</p>
+        </div>
+        
+        <div class="space-y-4">
+          <a href="https://chat.whatsapp.com/HMTLxxUu00V3GZ6SEZjxdy" target="_blank" class="btn-whatsapp">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            Join WhatsApp Group
+          </a>
+          
+          <a href="https://discord.gg/5gepG5Mj" target="_blank" class="btn-discord">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+            </svg>
+            Join Discord Server
+          </a>
+        </div>
+        
+        <p class="text-center text-xs text-gray-400 mt-6">Or register on <a href="https://gdsc.community.dev/" target="_blank" class="text-google-blue hover:underline">GDSC Bevy</a></p>
+      </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button
+      id="back-to-top"
+      class="fixed bottom-8 right-8 w-12 h-12 bg-google-blue text-white rounded-full shadow-lg flex items-center justify-center opacity-0 invisible transition-all hover:bg-google-blue/90 hover:scale-110 z-50"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+      </svg>
+    </button>
+
+    <!-- External JavaScript (module for Supabase) -->
+    <script type="module" src="site.js"></script>
+  </body>
+</html>
+

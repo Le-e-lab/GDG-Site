@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | GDSC Africa University</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              "google-blue": "#4285F4",
+              "google-red": "#EA4335",
+              "google-yellow": "#FBBC05",
+              "google-green": "#34A853",
+            },
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+              display: ["Space Grotesk", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans antialiased">
+    <!-- Navigation (Same as index.html) -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+            <a href="index.html" class="flex items-center gap-4">
+                <div class="flex items-center gap-2">
+                    <img src="gdg-logo.jpg" alt="GDG Logo" class="w-10 h-10 object-contain">
+                    <span class="font-display font-bold text-lg text-gray-900">GDG</span>
+                </div>
+                <div class="h-8 w-[2px] bg-google-blue/40"></div>
+                <span class="font-semibold text-sm tracking-wide uppercase text-google-blue">Africa University</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html#projects" class="nav-link text-sm uppercase font-semibold tracking-wide text-gray-600 hover:text-gray-900 transition-colors">Projects</a>
+                <a href="blog.html" class="nav-link text-sm uppercase font-semibold tracking-wide text-google-blue transition-colors">Blog</a>
+            </div>
+            <a href="index.html#apply" class="hidden md:inline-flex bg-google-blue text-white px-5 py-2 rounded-full font-bold text-sm hover:bg-google-blue/90 hover:scale-105 transition-all">
+                Apply for Lead
+            </a>
+        </div>
+    </nav>
+
+    <!-- Header Section -->
+    <header class="pt-32 pb-16 px-6 bg-white border-b border-gray-200">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="font-display text-4xl md:text-6xl font-bold mb-6 text-gray-900">Inside the Club</h1>
+            <p class="text-xl text-gray-600">The latest news, tech insights, and stories from GDSC Africa University members.</p>
+        </div>
+    </header>
+
+    <!-- Blog Posts Grid -->
+    <main class="py-20 px-6 max-w-6xl mx-auto">
+        <div id="blog-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Dynamically populated by Supabase -->
+            <div class="col-span-full py-20 text-center text-gray-500 text-lg">Loading latest posts...</div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 px-6">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-gray-400">© 2026 GDG Africa University. Developed with <span class="text-google-red">♥</span> in Mutare, Zimbabwe.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="blog.js"></script>
+</body>
+</html>

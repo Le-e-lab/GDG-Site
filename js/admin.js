@@ -192,10 +192,10 @@ function switchTab(tabId) {
     tabBtns.forEach(btn => {
         if (btn.dataset.tab === tabId) {
             btn.classList.add('text-google-blue', 'bg-blue-50');
-            btn.classList.remove('text-gray-600 dark:text-gray-300', 'hover:bg-gray-50 dark:bg-gray-800/50');
+            btn.classList.remove('text-gray-600', 'hover:bg-gray-50');
         } else {
             btn.classList.remove('text-google-blue', 'bg-blue-50');
-            btn.classList.add('text-gray-600 dark:text-gray-300', 'hover:bg-gray-50 dark:bg-gray-800/50');
+            btn.classList.add('text-gray-600', 'hover:bg-gray-50');
         }
     });
     
@@ -263,7 +263,7 @@ async function loadDashboardStats() {
 function showToast(message, type = 'success') {
     const toast = document.createElement('div');
     const isError = type === 'error';
-    toast.className = `flexitems-center p-4 rounded-lg shadow-lg border-l-4 transform transition-all translate-y-full opacity-0 duration-300 ${isError ? 'bg-white dark:bg-gray-800 border-red-500 text-red-700' : 'bg-white dark:bg-gray-800 border-google-green text-gray-800 dark:text-gray-100'}`;
+    toast.className = `flexitems-center p-4 rounded-lg shadow-lg border-l-4 transform transition-all translate-y-full opacity-0 duration-300 ${isError ? 'bg-white border-red-500 text-red-700' : 'bg-white border-google-green text-gray-800'}`;
     toast.innerHTML = `
         <div class="flex items-center gap-3">
             ${isError ? 
@@ -333,7 +333,7 @@ if (tableSearch) {
 
 // --- Data Loading & Rendering ---
 async function loadTabData(tabId) {
-    contentContainer.innerHTML = `<div class="p-8 text-center text-gray-500 dark:text-gray-400">Loading...</div>`;
+    contentContainer.innerHTML = `<div class="p-8 text-center text-gray-500">Loading...</div>`;
     
     const config = tableConfigs[tabId];
     const { data, error } = await supabase
@@ -353,22 +353,22 @@ async function loadTabData(tabId) {
 
 function renderTable(data, config) {
     if (data.length === 0) {
-        contentContainer.innerHTML = `<div class="p-8 text-center text-gray-500 dark:text-gray-400">No records found.</div>`;
+        contentContainer.innerHTML = `<div class="p-8 text-center text-gray-500">No records found.</div>`;
         return;
     }
 
-    let thead = `<thead class="bg-gray-50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-800"><tr>`;
+    let thead = `<thead class="bg-gray-50 border-b border-gray-200"><tr>`;
     config.displayCols.forEach(col => {
-        thead += `<th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">${col.replace('_', ' ')}</th>`;
+        thead += `<th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">${col.replace('_', ' ')}</th>`;
     });
     if (!config.readonly || config.allowDelete || config.hasPreview || config.hasDetails) {
-        thead += `<th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>`;
+        thead += `<th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>`;
     }
     thead += `</tr></thead>`;
 
     let tbody = `<tbody class="divide-y divide-gray-200">`;
     data.forEach(item => {
-        tbody += `<tr class="hover:bg-gray-50 dark:bg-gray-800/50 transition-colors">`;
+        tbody += `<tr class="hover:bg-gray-50 transition-colors">`;
         config.displayCols.forEach(col => {
             let val = item[col] || '';
             let content = '';
@@ -388,7 +388,7 @@ function renderTable(data, config) {
                 content = new Date(val).toLocaleDateString();
             } else if (col === 'image' || (typeof val === 'string' && val.match(/\\.(jpeg|jpg|gif|png|webp|svg)(\\?.*)?$/i))) {
                 if (val && val.trim() !== '') {
-                    content = `<div class="flex items-center"><img src="${val}" alt="Preview" class="h-10 w-10 rounded object-cover border border-gray-200 dark:border-gray-800 shadow-sm" loading="lazy"></div>`;
+                    content = `<div class="flex items-center"><img src="${val}" alt="Preview" class="h-10 w-10 rounded object-cover border border-gray-200 shadow-sm" loading="lazy"></div>`;
                 } else {
                     content = `<span class="text-xs text-gray-400 italic">No image</span>`;
                 }
@@ -468,7 +468,7 @@ function openModal(id = null) {
             <label class="block text-sm font-semibold text-gray-700 mb-1">${field.label} ${field.required && !config.readonly ? '<span class="text-red-500">*</span>' : ''}</label>`;
         
         if (config.readonly) {
-            html += `<div class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-800 rounded-lg text-gray-700 whitespace-pre-wrap">${val}</div>`;
+            html += `<div class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 whitespace-pre-wrap">${val}</div>`;
         } else if (field.type === 'textarea') {
             if (field.isHtml) {
                 html += `<div id="quill-editor-${field.name}" class="bg-white rounded-b-lg border-x border-b border-gray-300" style="height: 250px;">${val}</div>`;
@@ -478,7 +478,7 @@ function openModal(id = null) {
         } else if (field.type === 'file') {
             html += `<input type="file" name="${field.name}" accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none transition-all">`;
             if (val) {
-                html += `<div class="text-sm text-gray-500 dark:text-gray-400 mt-1">Current: <a href="${val}" target="_blank" class="text-blue-500 underline">View Image</a></div>`;
+                html += `<div class="text-sm text-gray-500 mt-1">Current: <a href="${val}" target="_blank" class="text-blue-500 underline">View Image</a></div>`;
             }
         } else if (field.type === 'select' && field.options) {
             html += `<select name="${field.name}" ${field.required ? 'required' : ''} class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-google-blue outline-none transition-all bg-white">`;
@@ -636,7 +636,7 @@ async function composeNewsletter() {
     editingId = '__newsletter__';
 
     formFields.innerHTML = `
-        <div class="mb-2 text-sm text-gray-500 dark:text-gray-400">Sending to <strong class="text-google-blue">${emails.length}</strong> subscriber(s)</div>
+        <div class="mb-2 text-sm text-gray-500">Sending to <strong class="text-google-blue">${emails.length}</strong> subscriber(s)</div>
         <div class="mb-4">
             <label class="block text-sm font-semibold text-gray-700 mb-1">Subject <span class="text-red-500">*</span></label>
             <input type="text" name="newsletter-subject" required placeholder="e.g. GDG Monthly Update — March 2026" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-google-blue outline-none transition-all">

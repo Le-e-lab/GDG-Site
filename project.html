@@ -19,88 +19,54 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-    <script>
-      // Prevent FOUC (Flash of Unstyled Content)
-      // Default to light mode unless explicitly set to dark
-      if (localStorage.theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-
-      tailwind.config = {
-        darkMode: 'class',
-        theme: {
-          extend: {
-            colors: {
-              "google-blue": "#4285F4",
-              "google-red": "#EA4335",
-              "google-yellow": "#FBBC05",
-              "google-green": "#34A853",
-            },
-            fontFamily: {
-              sans: ["Inter", "sans-serif"],
-              display: ["Space Grotesk", "sans-serif"],
-            },
-          },
-        },
-      };
-    </script>
+    
     <style>
         .hero-blob { position: absolute; border-radius: 9999px; filter: blur(80px); opacity: 0.12; pointer-events: none; }
     </style>
 </head>
-<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-sans antialiased transition-colors duration-200">
+<body class="bg-white text-gray-900 font-sans antialiased transition-colors duration-200">
 
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors duration-200">
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm transition-colors duration-200">
         <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
             <div class="flex items-center gap-4">
                 <!-- Back button: icon only on mobile, text on desktop -->
-                <a href="index.html" class="flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-google-blue transition-colors group mr-2" title="Back to Home">
+                <a href="index.html" class="flex items-center gap-2 text-gray-500 hover:text-google-blue transition-colors group mr-2" title="Back to Home">
                     <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                     <span class="hidden md:inline text-sm font-semibold">Home</span>
                 </a>
                 <div class="h-8 w-[1px] bg-gray-200 hidden md:block"></div>
                 <a href="blog.html" class="flex items-center gap-2">
-                    <img src="images/gdg-logo.jpg" alt="GDG Logo" class="w-10 h-10 object-contain rounded mix-blend-multiply dark:mix-blend-screen dark:invert dark:hue-rotate-180">
-                    <span class="font-display font-bold text-lg text-gray-900 dark:text-white hidden sm:inline">GDG</span>
+                    <img src="images/gdg-logo.jpg" alt="GDG Logo" class="w-10 h-10 object-contain rounded">
+                    <span class="font-display font-bold text-lg text-gray-900 hidden sm:inline">GDG</span>
                 </a>
             </div>
             <div class="hidden md:flex items-center gap-8">
-                <a href="index.html#about" class="text-sm font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white transition-colors">About</a>
+                <a href="index.html#about" class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-gray-900 transition-colors">About</a>
                 <a href="index.html#projects" class="text-sm font-semibold uppercase tracking-wide text-google-blue transition-colors">Projects</a>
-                <a href="index.html#events" class="text-sm font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white transition-colors">Events</a>
-                <a href="blog.html" class="text-sm font-semibold uppercase tracking-wide text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white transition-colors flex items-center gap-1">
-                <!-- Theme Toggle -->
-                <button id="theme-toggle" class="p-2 ml-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:text-white bg-gray-100 hover:bg-gray-200 dark:text-gray-400 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors rounded-full focus:outline-none" aria-label="Toggle Dark Mode">
-                    <svg id="theme-toggle-light-icon" class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                    <svg id="theme-toggle-dark-icon" class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                </button>
+                <a href="index.html#events" class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-gray-900 transition-colors">Events</a>
+                <a href="blog.html" class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-1">
+                
             </div>
             <!-- Mobile menu button -->
             <button id="mobile-blog-menu-btn" class="md:hidden p-2 text-gray-700">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
         </div>
-        <div id="mobile-blog-menu" class="hidden md:hidden bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-800 px-6 py-4">
+        <div id="mobile-blog-menu" class="hidden md:hidden bg-gray-50 border-t border-gray-200 px-6 py-4">
             <div class="flex flex-col gap-4">
-                <a href="index.html" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white py-2">Home</a>
-                <a href="index.html#projects" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white py-2">Projects</a>
-                <a href="index.html#events" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white py-2">Events</a>
+                <a href="index.html" class="text-gray-600 hover:text-gray-900 py-2">Home</a>
+                <a href="index.html#projects" class="text-gray-600 hover:text-gray-900 py-2">Projects</a>
+                <a href="index.html#events" class="text-gray-600 hover:text-gray-900 py-2">Events</a>
                 <a href="blog.html" class="text-google-blue font-semibold py-2">Blog</a>
-                <div class="h-px bg-gray-200 dark:bg-gray-700 my-2"></div>
-                <!-- Mobile Theme Toggle -->
-                <button id="mobile-theme-toggle" class="flex items-center gap-3 text-gray-600 dark:text-gray-300 py-2 w-full text-left font-medium">
-                    <span id="mobile-theme-text" class="block dark:hidden">Dark Mode</span>
-                    <span id="mobile-theme-text-dark" class="hidden dark:block">Light Mode</span>
-                </button>
+                <div class="h-px bg-gray-200 my-2"></div>
+                
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="relative pt-24 pb-6 px-6 bg-white dark:bg-gray-900 overflow-hidden transition-colors duration-200" id="blog-header">
+    <header class="relative pt-24 pb-6 px-6 bg-white overflow-hidden transition-colors duration-200" id="blog-header">
         <div class="relative max-w-4xl mx-auto text-center">
             <!-- Label -->
             <div class="inline-flex items-center gap-2 bg-google-green/10 text-google-green px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
@@ -112,10 +78,10 @@
             <h1 class="font-display text-3xl md:text-5xl font-bold mb-3 leading-tight">
                 <span class="text-google-blue">Built</span>
                 <span class="text-google-green"> by</span>
-                <span class="text-gray-900 dark:text-white"> Students</span>
+                <span class="text-gray-900"> Students</span>
             </h1>
-            <p class="text-base text-gray-500 dark:text-gray-400 max-w-xl mx-auto leading-relaxed">
-                Real solutions to real problems. Explore applications engineered by the <strong class="text-gray-800 dark:text-gray-100">GDSC Africa University</strong> community.
+            <p class="text-base text-gray-500 max-w-xl mx-auto leading-relaxed">
+                Real solutions to real problems. Explore applications engineered by the <strong class="text-gray-800">GDSC Africa University</strong> community.
             </p>
 
             <!-- Google colour bar -->
@@ -137,21 +103,21 @@
     </div>
 
     <!-- Blog Posts Grid -->
-    <main class="py-12 px-6 bg-gray-50 dark:bg-gray-800/50 min-h-screen">
+    <main class="py-12 px-6 bg-gray-50 min-h-screen">
         <div class="max-w-6xl mx-auto">
             
             <!-- Search & Filter Bar -->
-            <div class="mb-10 flex flex-col md:flex-row gap-4 items-center justify-between bg-transparent p-0 rounded-none border-0 shadow-none" data-aos="fade-up">
+            <div id="blog-search-bar" class="mb-10 flex flex-col md:flex-row gap-4 items-center justify-between bg-transparent p-0 rounded-none border-0 shadow-none" data-aos="fade-up">
                 <div class="relative w-full md:w-96">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
-                    <input type="text" id="blog-search-input" placeholder="Search articles, keywords, or topics..." class="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-gray-800/80 border border-gray-200 dark:border-gray-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-google-blue dark:text-white transition-all text-sm">
+                    <input type="text" id="blog-search-input" placeholder="Search projects, technologies, or tags..." class="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-google-blue transition-all text-sm">
                 </div>
             </div>
             <!-- Loading skeleton -->
             <div id="blog-loading" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-800 animate-pulse">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 animate-pulse">
                     <div class="h-52 bg-gray-100"></div>
                     <div class="p-6 space-y-3">
                         <div class="h-4 bg-gray-100 rounded w-3/4"></div>
@@ -161,7 +127,7 @@
                         <div class="h-4 bg-gray-100 rounded w-1/3"></div>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-800 animate-pulse">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 animate-pulse">
                     <div class="h-52 bg-gray-100"></div>
                     <div class="p-6 space-y-3">
                         <div class="h-4 bg-gray-100 rounded w-3/4"></div>
@@ -171,7 +137,7 @@
                         <div class="h-4 bg-gray-100 rounded w-1/3"></div>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 dark:border-gray-800 animate-pulse">
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 animate-pulse">
                     <div class="h-52 bg-gray-100"></div>
                     <div class="p-6 space-y-3">
                         <div class="h-4 bg-gray-100 rounded w-3/4"></div>
@@ -189,7 +155,7 @@
             
             <!-- Load More Button -->
             <div id="load-more-container" class="hidden mt-12 flex justify-center">
-                <button id="load-more-btn" class="px-8 py-3 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 font-semibold rounded-full shadow-sm hover:shadow hover:-translate-y-0.5 transition-all text-sm flex items-center gap-2">
+                <button id="load-more-btn" class="px-8 py-3 bg-white border border-gray-200 text-gray-700 font-semibold rounded-full shadow-sm hover:shadow hover:-translate-y-0.5 transition-all text-sm flex items-center gap-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     Load More Articles
                 </button>
@@ -201,7 +167,7 @@
     <footer class="bg-gray-900 text-white py-12 px-6">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
-                <img src="images/gdg-logo.jpg" alt="GDG Logo" class="w-8 h-8 object-contain rounded mix-blend-multiply dark:mix-blend-screen dark:invert dark:hue-rotate-180">
+                <img src="images/gdg-logo.jpg" alt="GDG Logo" class="w-8 h-8 object-contain rounded">
                 <span class="font-display font-bold text-white">GDG Africa University</span>
             </div>
             <p class="text-gray-400 text-sm">© 2026 GDG Africa University. Developed with <span class="text-google-red">♥</span> in Mutare, Zimbabwe.</p>
@@ -223,21 +189,7 @@
         }
     </script>
 
-    <!-- Theme Toggle Script -->
-    <script>
-      const themeToggleBtn = document.getElementById('theme-toggle');
-      const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
-      const toggleTheme = () => {
-        if (document.documentElement.classList.contains('dark')) {
-          document.documentElement.classList.remove('dark');
-          localStorage.theme = 'light';
-        } else {
-          document.documentElement.classList.add('dark');
-          localStorage.theme = 'dark';
-        }
-      };
-      if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
-      if (mobileThemeToggleBtn) mobileThemeToggleBtn.addEventListener('click', toggleTheme);
-    </script>
+
+
 </body>
 </html>

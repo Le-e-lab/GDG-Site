@@ -46,7 +46,7 @@ async function loadProjects() {
   // Render skeleton loaders
   grid.innerHTML = `
     ${Array(3).fill(`
-      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm animate-pulse">
+      <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm animate-pulse">
         <div class="h-48 bg-gray-200"></div>
         <div class="p-6">
           <div class="flex gap-2 mb-3"><div class="h-4 w-12 bg-gray-200 rounded"></div><div class="h-4 w-12 bg-gray-200 rounded"></div></div>
@@ -76,8 +76,8 @@ async function loadProjects() {
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
           </svg>
         </div>
-        <h3 class="font-display text-2xl font-bold text-gray-900 dark:text-white mb-2">Projects Coming Soon</h3>
-        <p class="text-gray-500 dark:text-gray-400 max-w-sm">Our members are building great things. The first projects will be showcased here shortly!</p>
+        <h3 class="font-display text-2xl font-bold text-gray-900 mb-2">Projects Coming Soon</h3>
+        <p class="text-gray-500 max-w-sm">Our members are building great things. The first projects will be showcased here shortly!</p>
         <a href="https://github.com/Le-e-lab" target="_blank" class="mt-4 text-google-blue text-sm font-semibold hover:underline">Browse our GitHub in the meantime →</a>
       </div>`;
 
@@ -87,8 +87,8 @@ async function loadProjects() {
         <div class="w-16 h-16 mb-6 rounded-full bg-google-blue/20 flex items-center justify-center">
           <svg class="w-8 h-8 text-google-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
         </div>
-        <h3 class="font-display text-xl font-bold mb-2 text-gray-900 dark:text-white">Build With Us</h3>
-        <p class="text-gray-600 dark:text-gray-300 text-sm mb-6">Have an idea? Join our chapter and turn it into reality.</p>
+        <h3 class="font-display text-xl font-bold mb-2 text-gray-900">Build With Us</h3>
+        <p class="text-gray-600 text-sm mb-6">Have an idea? Join our chapter and turn it into reality.</p>
         <button data-open-modal class="bg-google-blue text-white px-6 py-3 rounded-full font-bold text-sm hover:bg-google-blue/90 transition-colors">Start Building</button>
       </div>`);
     attachModalTriggers();
@@ -103,18 +103,18 @@ async function loadProjects() {
     const tagsHtml = tags.map((tag, j) => `<span class="px-2 py-1 rounded text-xs font-semibold ${TAG_COLORS[j % TAG_COLORS.length]}">${tag}</span>`).join('');
     const imageHtml = project.image
       ? `<img src="${project.image}" alt="${project.title}" class="w-full h-full object-cover">`
-      : `<svg class="w-16 h-16 text-gray-300 group-hover:text-gray-500 dark:text-gray-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>`;
+      : `<svg class="w-16 h-16 text-gray-300 group-hover:text-gray-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>`;
 
     grid.insertAdjacentHTML('beforeend', `
-      <a href="blog.html?project=${project.id}" class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow block">
+      <a href="blog.html?project=${project.id}" class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow block">
         <div class="h-48 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden">
           ${imageHtml}
         </div>
         <div class="p-6">
           <div class="flex items-center gap-2 mb-3">${tagsHtml}</div>
-          <h3 class="font-display text-xl font-bold mb-2 text-gray-900 dark:text-white">${project.title}</h3>
-          <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">${project.description.substring(0, 120)}${project.description.length > 120 ? '...' : ''}</p>
-          <span class="text-google-blue text-sm font-semibold group-hover:text-gray-900 dark:text-white transition-colors inline-flex items-center gap-1">View Project <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></span>
+          <h3 class="font-display text-xl font-bold mb-2 text-gray-900">${project.title}</h3>
+          <p class="text-gray-600 text-sm leading-relaxed mb-4">${project.description.substring(0, 120)}${project.description.length > 120 ? '...' : ''}</p>
+          <span class="text-google-blue text-sm font-semibold group-hover:text-gray-900 transition-colors inline-flex items-center gap-1">View Project <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></span>
         </div>
       </a>
     `);;
@@ -126,8 +126,8 @@ async function loadProjects() {
       <div class="w-16 h-16 mb-6 rounded-full bg-google-blue/20 flex items-center justify-center">
         <svg class="w-8 h-8 text-google-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
       </div>
-      <h3 class="font-display text-xl font-bold mb-2 text-gray-900 dark:text-white">Build With Us</h3>
-      <p class="text-gray-600 dark:text-gray-300 text-sm mb-6">Have an idea? Join our chapter and turn it into reality.</p>
+      <h3 class="font-display text-xl font-bold mb-2 text-gray-900">Build With Us</h3>
+      <p class="text-gray-600 text-sm mb-6">Have an idea? Join our chapter and turn it into reality.</p>
       <button data-open-modal class="bg-google-blue text-white px-6 py-3 rounded-full font-bold text-sm hover:bg-google-blue/90 transition-colors">Start Building</button>
     </div>
   `);
@@ -198,12 +198,12 @@ async function loadTeam() {
             ${badge.label}
           </div>
         </div>
-        <h3 class="font-display text-xl font-bold text-gray-900 dark:text-white mb-1">${member.name}</h3>
+        <h3 class="font-display text-xl font-bold text-gray-900 mb-1">${member.name}</h3>
         <p class="text-google-blue text-sm mb-1">${member.role}</p>
-        ${member.bio ? `<p class="text-gray-600 dark:text-gray-300 text-sm mb-3">${member.bio}</p>` : '<div class="mb-3"></div>'}
+        ${member.bio ? `<p class="text-gray-600 text-sm mb-3">${member.bio}</p>` : '<div class="mb-3"></div>'}
         <div class="flex justify-center gap-3 mt-4">
-          ${member.linkedin ? `<a href="${member.linkedin}" target="_blank" class="text-gray-500 dark:text-gray-400 hover:text-google-blue transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>` : ''}
-          ${member.github ? `<a href="${member.github}" target="_blank" class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:text-white transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>` : ''}
+          ${member.linkedin ? `<a href="${member.linkedin}" target="_blank" class="text-gray-500 hover:text-google-blue transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>` : ''}
+          ${member.github ? `<a href="${member.github}" target="_blank" class="text-gray-500 hover:text-gray-900 transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>` : ''}
         </div>
       </div>
     `);
@@ -220,7 +220,7 @@ async function loadEvents() {
   // Render skeleton loaders
   grid.innerHTML = `
     ${Array(3).fill(`
-      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm animate-pulse">
+      <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm animate-pulse">
         <div class="h-3 bg-gray-200"></div>
         <div class="p-6">
           <div class="flex items-center gap-3 mb-4">
@@ -259,19 +259,19 @@ async function loadEvents() {
     const day = eventDate.getDate().toString().padStart(2, '0');
 
     grid.insertAdjacentHTML('beforeend', `
-      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+      <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
         <div class="h-3 bg-gradient-to-r ${accent.bar}"></div>
         <div class="p-6">
           <div class="flex items-center gap-3 mb-4">
             <div class="w-14 h-14 rounded-xl ${accent.box} flex flex-col items-center justify-center">
               <span class="text-xs ${accent.text} font-bold">${month}</span>
-              <span class="text-xl text-gray-900 dark:text-white font-bold">${day}</span>
+              <span class="text-xl text-gray-900 font-bold">${day}</span>
             </div>
             <div>
-              <h4 class="text-gray-900 dark:text-white font-bold">${event.title}</h4>
+              <h4 class="text-gray-900 font-bold">${event.title}</h4>
             </div>
           </div>
-          <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">${event.description}</p>
+          <p class="text-gray-600 text-sm mb-4">${event.description}</p>
           ${event.link ? `<a href="${event.link}" target="_blank" class="text-google-blue text-xs font-semibold hover:underline">Register on Bevy →</a>` : ''}
         </div>
       </div>
@@ -289,7 +289,7 @@ async function loadTestimonials() {
   // Render skeleton loaders (grid needs to parent elements directly, assuming flex layout inside)
   grid.innerHTML = `
     ${Array(2).fill(`
-      <div class="bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-800 rounded-2xl p-8 shadow-sm flex flex-col justify-between hidden md:flex animate-pulse">
+      <div class="bg-gray-50 border border-gray-100 rounded-2xl p-8 shadow-sm flex flex-col justify-between hidden md:flex animate-pulse">
         <div><div class="h-6 w-full bg-gray-200 rounded mb-2"></div><div class="h-6 w-5/6 bg-gray-200 rounded mb-6"></div></div>
         <div class="flex items-center gap-4"><div class="w-12 h-12 rounded-full bg-gray-200"></div><div><div class="h-4 w-24 bg-gray-200 rounded mb-1"></div><div class="h-3 w-16 bg-gray-200 rounded"></div></div></div>
       </div>
@@ -323,16 +323,16 @@ async function loadTestimonials() {
       : initials;
 
     grid.insertAdjacentHTML('beforeend', `
-      <div class="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-8 border border-gray-100 dark:border-gray-800">
+      <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100">
         ${stars}
-        <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">"${t.content}"</p>
+        <p class="text-gray-600 leading-relaxed mb-6">"${t.content}"</p>
         <div class="flex items-center gap-4">
           <div class="w-12 h-12 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white font-bold overflow-hidden">
             ${avatarHtml}
           </div>
           <div>
-            <h4 class="font-bold text-gray-900 dark:text-white">${t.name}</h4>
-            <p class="text-gray-500 dark:text-gray-400 text-sm">${t.role}</p>
+            <h4 class="font-bold text-gray-900">${t.name}</h4>
+            <p class="text-gray-500 text-sm">${t.role}</p>
           </div>
         </div>
       </div>

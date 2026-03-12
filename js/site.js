@@ -131,7 +131,7 @@ async function loadProjects() {
       : `<svg class="w-16 h-16 text-gray-300 group-hover:text-gray-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>`;
 
     grid.insertAdjacentHTML('beforeend', `
-      <a href="project.html?id=${project.id}" class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow block card-hover">
+      <a href="project.html?v=v2&id=${project.id}" class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow block card-hover">
         <div class="h-48 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden">
           ${imageHtml}
         </div>

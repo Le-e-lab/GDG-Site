@@ -70,7 +70,7 @@ async function fetchBlogPosts() {
         const [gradFrom, gradTo, textClass] = gradientMap[accent].split(' ');
 
         return `
-        <a href="blog.html?id=${post.id}" class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col group cursor-pointer block">
+        <a href="blog.html?v=v2&id=${post.id}" class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col group cursor-pointer block">
             <div class="h-52 w-full relative overflow-hidden ${!imageUrl ? `bg-gradient-to-br ${gradFrom} ${gradTo} flex items-center justify-center` : ''}">
                 ${imageUrl
                     ? `<img src="${imageUrl}" alt="${post.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">`
@@ -150,7 +150,7 @@ async function fetchSinglePost(id) {
     if (error || !post) {
       if (blogContainer) {
         blogContainer.classList.remove('hidden');
-        blogContainer.innerHTML = `<div class="text-center py-20 text-red-500 font-bold">Post not found. <br><br><a href="blog.html" class="px-6 py-2 bg-google-blue text-white rounded-full">Go back</a></div>`;
+        blogContainer.innerHTML = `<div class="text-center py-20 text-red-500 font-bold">Post not found. <br><br><a href="blog.html?v=v2" class="px-6 py-2 bg-google-blue text-white rounded-full">Go back</a></div>`;
       }
       return;
     }
@@ -227,7 +227,7 @@ async function fetchSinglePost(id) {
             </div>
 
             <div class="mt-8 pt-6 border-t border-gray-100">
-                <a href="blog.html" class="inline-flex items-center gap-2 text-google-blue font-semibold hover:bg-blue-50 px-4 py-2 rounded-lg transition-colors">
+                <a href="blog.html?v=v2" class="inline-flex items-center gap-2 text-google-blue font-semibold hover:bg-blue-50 px-4 py-2 rounded-lg transition-colors">
                     ← Back to all posts
                 </a>
             </div>
@@ -266,7 +266,7 @@ async function fetchSingleProject(id) {
     if (error || !project) {
         if (blogContainer) {
             blogContainer.classList.remove('hidden');
-            blogContainer.innerHTML = `<div class="text-center py-20 text-red-500 font-bold">Project not found. <br><br><a href="blog.html" class="px-6 py-2 bg-google-blue text-white rounded-full">Go back</a></div>`;
+            blogContainer.innerHTML = `<div class="text-center py-20 text-red-500 font-bold">Project not found. <br><br><a href="blog.html?v=v2" class="px-6 py-2 bg-google-blue text-white rounded-full">Go back</a></div>`;
         }
         return;
     }

@@ -54,7 +54,7 @@ async function fetchProjects() {
         const html = postsToRender.map((project) => {
             const tagsHtml = project.tags ? project.tags.split(',').map(tag => `<span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-semibold rounded-md">${tag.trim()}</span>`).join('') : '';
             return `
-            <a href="project.html?id=${project.id}" class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow block">
+            <a href="project.html?v=v2&id=${project.id}" class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow block">
                 <div class="h-48 w-full bg-gray-100 relative overflow-hidden">
                     ${project.image ? `<img src="${project.image}" alt="${project.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">` : '<div class="w-full h-full flex items-center justify-center text-gray-400">No Image</div>'}
                 </div>
@@ -118,7 +118,7 @@ async function fetchSingleProject(id) {
     if (error || !project) {
         if (blogContainer) {
             blogContainer.classList.remove('hidden');
-            blogContainer.innerHTML = `<div class="text-center py-20 text-red-500 font-bold">Project not found. <br><br><a href="project.html" class="px-6 py-2 bg-google-blue text-white rounded-full">Go back</a></div>`;
+            blogContainer.innerHTML = `<div class="text-center py-20 text-red-500 font-bold">Project not found. <br><br><a href="project.html?v=v2" class="px-6 py-2 bg-google-blue text-white rounded-full">Go back</a></div>`;
         }
         return;
     }
@@ -175,7 +175,7 @@ async function fetchSingleProject(id) {
             </div>
 
             <div class="mt-8 pt-6 border-t border-gray-100">
-                <a href="project.html" class="inline-flex items-center gap-2 text-google-green font-semibold hover:bg-green-50 px-4 py-2 rounded-lg transition-colors">
+                <a href="project.html?v=v2" class="inline-flex items-center gap-2 text-google-green font-semibold hover:bg-green-50 px-4 py-2 rounded-lg transition-colors">
                     ← Back to all projects
                 </a>
             </div>

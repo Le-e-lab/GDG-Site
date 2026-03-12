@@ -8,6 +8,27 @@
 
 import { supabase } from './supabase-config.js';
 
+/* ==========================================
+   URGENT CACHE BUSTER
+   Forcefully unregisters previous sticky service workers and clears old caches
+========================================== */
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(regs => {
+    for (const reg of regs) {
+      reg.unregister().then(success => {
+        if (success) {
+          console.log('Successfully unregistered sticky service worker');
+          // Reload page to get fresh files now that SW is gone
+          window.location.reload(true);
+        }
+      });
+    }
+  });
+  caches.keys().then(keys => {
+    keys.forEach(key => caches.delete(key));
+  });
+}
+
 // ==========================================
 //  COLOUR PALETTES (for dynamic cards)
 // ==========================================

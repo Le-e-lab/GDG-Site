@@ -235,8 +235,10 @@ function switchTab(tabId) {
 tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         switchTab(btn.dataset.tab);
-        // Close sidebar on mobile after clicking tab
-        sidebar.classList.add('hidden');
+        // Close sidebar on mobile after clicking tab, but leave it open on desktop
+        if (window.innerWidth < 640) {
+            sidebar.classList.add('hidden');
+        }
     });
 });
 

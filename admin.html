@@ -18,8 +18,9 @@
     <!-- Quill.js CSS for Rich Text Editor -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <script>
-      // Prevent FOUC (Flash of Unstyled Content) by checking theme early
-      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      // Prevent FOUC (Flash of Unstyled Content)
+      // Default to light mode unless explicitly set to dark
+      if (localStorage.theme === 'dark') {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');

@@ -50,8 +50,9 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <script>
-      // Prevent FOUC (Flash of Unstyled Content) by checking theme early
-      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      // Prevent FOUC (Flash of Unstyled Content)
+      // Default to light mode unless explicitly set to dark
+      if (localStorage.theme === 'dark') {
         document.documentElement.classList.add('dark');
       } else {
         document.documentElement.classList.remove('dark');

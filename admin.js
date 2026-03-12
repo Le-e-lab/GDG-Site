@@ -75,10 +75,11 @@ const tableConfigs = {
         table: 'team',
         hasPreview: true,
         fields: [
-            { name: 'name', label: 'Name', type: 'text', required: true },
+            { name: 'name', label: 'Full Name', type: 'text', required: true },
             { name: 'role', label: 'Role', type: 'select', required: true, options: [
                 'Chapter Lead', 'Technical Lead', 'Design Lead', 'Community Lead', 'Events Lead', 'Content Lead', 'Member'
             ] },
+            { name: 'bio', label: 'Bio (e.g. Computer Science • Class of 2026)', type: 'text', required: false },
             { name: 'linkedin', label: 'LinkedIn URL', type: 'url', required: false },
             { name: 'github', label: 'GitHub URL', type: 'url', required: false },
             { name: 'image', label: 'Profile Picture', type: 'file', required: false, isImage: true }

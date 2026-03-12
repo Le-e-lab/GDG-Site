@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS team (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR NOT NULL,
     role VARCHAR NOT NULL,
+    bio VARCHAR,
     linkedin VARCHAR,
     github VARCHAR,
     image VARCHAR,
@@ -33,6 +34,7 @@ CREATE TABLE IF NOT EXISTS team (
 -- Add github column to existing tables (safe to re-run)
 ALTER TABLE projects ADD COLUMN IF NOT EXISTS github VARCHAR;
 ALTER TABLE team ADD COLUMN IF NOT EXISTS github VARCHAR;
+ALTER TABLE team ADD COLUMN IF NOT EXISTS bio VARCHAR;
 -- 4. Events Table
 CREATE TABLE IF NOT EXISTS events (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

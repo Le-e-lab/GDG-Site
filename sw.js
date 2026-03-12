@@ -8,7 +8,7 @@ const ASSETS_TO_CACHE = [
     '/blog.js',
     '/admin.js',
     '/supabase-config.js',
-    '/gdg-logo.jpg'
+    '/images/gdg-logo.jpg'
 ];
 
 // Install event: cache core assets

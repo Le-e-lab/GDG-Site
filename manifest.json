@@ -8,13 +8,13 @@
   "theme_color": "#4285F4",
   "icons": [
     {
-      "src": "gdg-logo.jpg",
+      "src": "images/gdg-logo.jpg",
       "sizes": "192x192",
       "type": "image/jpeg",
       "purpose": "any maskable"
     },
     {
-      "src": "gdg-logo.jpg",
+      "src": "images/gdg-logo.jpg",
       "sizes": "512x512",
       "type": "image/jpeg",
       "purpose": "any maskable"

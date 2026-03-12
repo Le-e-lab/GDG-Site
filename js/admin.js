@@ -406,7 +406,7 @@ function renderTable(data, config) {
             if (config.hasPreview) {
                let previewHref = 'index.html';
                if(currentTab === 'blog') previewHref = `blog.html?id=${item.id}`;
-               else if(currentTab === 'projects') previewHref = `blog.html?project=${item.id}`;
+               else if(currentTab === 'projects') previewHref = `project.html?id=${item.id}`;
                else previewHref = `index.html#${currentTab}`;
                
                tbody += `<a href="${previewHref}" target="_blank" class="text-green-600 hover:text-green-900 mr-3 transition-colors hover:bg-green-50 px-2 py-1 rounded inline-block">Preview</a>`;

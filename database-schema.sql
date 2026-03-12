@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS projects (
     description TEXT NOT NULL,
     tags VARCHAR,
     link VARCHAR,
+    github VARCHAR,
     image VARCHAR,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -24,10 +25,14 @@ CREATE TABLE IF NOT EXISTS team (
     name VARCHAR NOT NULL,
     role VARCHAR NOT NULL,
     linkedin VARCHAR,
-    twitter VARCHAR,
+    github VARCHAR,
     image VARCHAR,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- Add github column to existing tables (safe to re-run)
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS github VARCHAR;
+ALTER TABLE team ADD COLUMN IF NOT EXISTS github VARCHAR;
 -- 4. Events Table
 CREATE TABLE IF NOT EXISTS events (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

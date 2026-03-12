@@ -63,7 +63,8 @@ const tableConfigs = {
             { name: 'title', label: 'Project Title', type: 'text', required: true },
             { name: 'description', label: 'Description', type: 'textarea', required: true },
             { name: 'tags', label: 'Tags (comma separated)', type: 'text', required: false },
-            { name: 'link', label: 'Project Link', type: 'url', required: false },
+            { name: 'link', label: 'Project / Demo Link', type: 'url', required: false },
+            { name: 'github', label: 'GitHub Repository', type: 'url', required: false },
             { name: 'image', label: 'Project Image', type: 'file', required: false, isImage: true }
         ],
         displayCols: ['title', 'link']
@@ -75,9 +76,11 @@ const tableConfigs = {
         hasPreview: true,
         fields: [
             { name: 'name', label: 'Name', type: 'text', required: true },
-            { name: 'role', label: 'Role', type: 'text', required: true },
+            { name: 'role', label: 'Role', type: 'select', required: true, options: [
+                'Chapter Lead', 'Technical Lead', 'Design Lead', 'Community Lead', 'Events Lead', 'Content Lead', 'Member'
+            ] },
             { name: 'linkedin', label: 'LinkedIn URL', type: 'url', required: false },
-            { name: 'twitter', label: 'Twitter URL', type: 'url', required: false },
+            { name: 'github', label: 'GitHub URL', type: 'url', required: false },
             { name: 'image', label: 'Profile Picture', type: 'file', required: false, isImage: true }
         ],
         displayCols: ['name', 'role']
@@ -131,6 +134,7 @@ const tableConfigs = {
         table: 'newsletter_subscribers',
         readonly: true,
         allowDelete: true,
+        hasCompose: true,
         fields: [],
         displayCols: ['email', 'created_at']
     }
@@ -207,6 +211,22 @@ function switchTab(tabId) {
         addNewBtnReal.classList.remove('hidden');
     }
 
+    // Show compose button for newsletter
+    let composeBtn = document.getElementById('compose-newsletter-btn');
+    if (config.hasCompose) {
+        if (!composeBtn) {
+            composeBtn = document.createElement('button');
+            composeBtn.id = 'compose-newsletter-btn';
+            composeBtn.className = 'bg-google-green text-white px-5 py-2 rounded-lg font-bold text-sm hover:bg-green-600 transition-colors shadow-sm flex items-center gap-2';
+            composeBtn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> Compose Newsletter`;
+            composeBtn.addEventListener('click', composeNewsletter);
+            addNewBtnReal.parentElement.appendChild(composeBtn);
+        }
+        composeBtn.classList.remove('hidden');
+    } else if (composeBtn) {
+        composeBtn.classList.add('hidden');
+    }
+
     loadTabData(tabId);
 }
 
@@ -220,14 +240,9 @@ tabBtns.forEach(btn => {
 
 mobileTabSelect.addEventListener('change', (e) => switchTab(e.target.value));
 
-if (mobileSidebarToggle) {
-    mobileSidebarToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('hidden');
-        sidebar.classList.toggle('absolute');
-        sidebar.classList.toggle('z-40');
-        sidebar.classList.toggle('shadow-2xl');
-    });
-}
+    if (mobileSidebarToggle) {
+        mobileSidebarToggle.classList.add('hidden');
+    }
 
 // --- Dashboard Stats ---
 async function loadDashboardStats() {
@@ -383,6 +398,7 @@ function renderTable(data, config) {
             if (config.hasPreview) {
                let previewHref = 'index.html';
                if(currentTab === 'blog') previewHref = `blog.html?id=${item.id}`;
+               else if(currentTab === 'projects') previewHref = `blog.html?project=${item.id}`;
                else previewHref = `index.html#${currentTab}`;
                
                tbody += `<a href="${previewHref}" target="_blank" class="text-green-600 hover:text-green-900 mr-3 transition-colors hover:bg-green-50 px-2 py-1 rounded inline-block">Preview</a>`;
@@ -452,6 +468,13 @@ function openModal(id = null) {
             if (val) {
                 html += `<div class="text-sm text-gray-500 mt-1">Current: <a href="${val}" target="_blank" class="text-blue-500 underline">View Image</a></div>`;
             }
+        } else if (field.type === 'select' && field.options) {
+            html += `<select name="${field.name}" ${field.required ? 'required' : ''} class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-google-blue outline-none transition-all bg-white">`;
+            html += `<option value="" disabled ${!val ? 'selected' : ''}>Select ${field.label}...</option>`;
+            field.options.forEach(opt => {
+                html += `<option value="${opt}" ${val === opt ? 'selected' : ''}>${opt}</option>`;
+            });
+            html += `</select>`;
         } else {
             html += `<input type="${field.type}" name="${field.name}" value="${val}" ${field.required ? 'required' : ''} class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-google-blue outline-none transition-all">`;
         }
@@ -556,6 +579,71 @@ async function deleteItem(id) {
         }
     }
 }
+
+// --- Newsletter Compose ---
+async function composeNewsletter() {
+    // Fetch all subscribers
+    const { data: subscribers, error } = await supabase
+        .from('newsletter_subscribers')
+        .select('email');
+    
+    if (error || !subscribers || subscribers.length === 0) {
+        showToast('No subscribers found or error fetching emails.', 'error');
+        return;
+    }
+
+    const emails = subscribers.map(s => s.email);
+    
+    // Show compose modal
+    modalTitle.textContent = 'Compose Newsletter';
+    saveModalBtn.classList.remove('hidden');
+    saveModalBtn.textContent = 'Open in Email Client';
+    editingId = '__newsletter__';
+
+    formFields.innerHTML = `
+        <div class="mb-2 text-sm text-gray-500">Sending to <strong class="text-google-blue">${emails.length}</strong> subscriber(s)</div>
+        <div class="mb-4">
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Subject <span class="text-red-500">*</span></label>
+            <input type="text" name="newsletter-subject" required placeholder="e.g. GDG Monthly Update — March 2026" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-google-blue outline-none transition-all">
+        </div>
+        <div class="mb-4">
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Message Body <span class="text-red-500">*</span></label>
+            <textarea name="newsletter-body" required rows="8" placeholder="Write your newsletter content here..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-google-blue outline-none transition-all"></textarea>
+        </div>
+        <input type="hidden" name="newsletter-emails" value="${emails.join(',')}">
+    `;
+
+    editModal.classList.remove('hidden');
+    setTimeout(() => {
+        editModal.classList.remove('opacity-0');
+        editModalContent.classList.remove('scale-95');
+    }, 10);
+}
+
+// Override form submit for newsletter compose
+const originalFormSubmit = editForm.onsubmit;
+editForm.addEventListener('submit', async (e) => {
+    if (editingId === '__newsletter__') {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        const formData = new FormData(editForm);
+        const subject = formData.get('newsletter-subject');
+        const body = formData.get('newsletter-body');
+        const emailsStr = formData.get('newsletter-emails');
+        
+        if (!subject || !body) {
+            showToast('Please fill in subject and body.', 'error');
+            return;
+        }
+
+        const mailtoLink = `mailto:?bcc=${encodeURIComponent(emailsStr)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.open(mailtoLink, '_blank');
+        showToast(`Email client opened with ${emailsStr.split(',').length} recipient(s) in BCC.`);
+        closeModal();
+        editingId = null;
+        saveModalBtn.textContent = 'Save Changes';
+    }
+}, true); // Use capture to run before the other submit handler
 
 // --- Initialization ---
 checkAuth();

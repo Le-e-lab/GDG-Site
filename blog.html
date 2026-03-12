@@ -34,14 +34,18 @@
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm">
         <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-            <a href="index.html" class="flex items-center gap-4">
-                <div class="flex items-center gap-2">
+            <div class="flex items-center gap-4">
+                <!-- Back button: icon only on mobile, text on desktop -->
+                <a href="index.html" class="flex items-center gap-2 text-gray-500 hover:text-google-blue transition-colors group mr-2" title="Back to Home">
+                    <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                    <span class="hidden md:inline text-sm font-semibold">Home</span>
+                </a>
+                <div class="h-8 w-[1px] bg-gray-200 hidden md:block"></div>
+                <a href="blog.html" class="flex items-center gap-2">
                     <img src="gdg-logo.jpg" alt="GDG Logo" class="w-10 h-10 object-contain rounded">
-                    <span class="font-display font-bold text-lg text-gray-900">GDG</span>
-                </div>
-                <div class="h-8 w-[2px] bg-google-blue/40"></div>
-                <span class="font-semibold text-sm tracking-wide uppercase text-google-blue">Africa University</span>
-            </a>
+                    <span class="font-display font-bold text-lg text-gray-900 hidden sm:inline">GDG</span>
+                </a>
+            </div>
             <div class="hidden md:flex items-center gap-8">
                 <a href="index.html#about" class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-gray-900 transition-colors">About</a>
                 <a href="index.html#projects" class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-gray-900 transition-colors">Projects</a>
@@ -58,20 +62,13 @@
                 <a href="index.html" class="text-gray-600 hover:text-gray-900 py-2">Home</a>
                 <a href="index.html#projects" class="text-gray-600 hover:text-gray-900 py-2">Projects</a>
                 <a href="index.html#events" class="text-gray-600 hover:text-gray-900 py-2">Events</a>
+                <a href="blog.html" class="text-google-blue font-semibold py-2">Blog</a>
             </div>
         </div>
     </nav>
 
-    <!-- Sub Navigation / Breadcrumbs -->
-    <div class="pt-24 pb-4 px-6 max-w-7xl mx-auto flex items-center">
-        <a href="index.html" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-google-blue transition-colors group">
-            <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-            Back to Home
-        </a>
-    </div>
-
     <!-- Hero Section -->
-    <header class="relative pt-12 pb-20 px-6 bg-white overflow-hidden" id="blog-header">
+    <header class="relative pt-28 pb-20 px-6 bg-white overflow-hidden" id="blog-header">
         <!-- Decorative blobs -->
         <div class="hero-blob w-96 h-96 bg-google-blue top-0 -left-20"></div>
         <div class="hero-blob w-80 h-80 bg-google-red top-10 right-0"></div>
@@ -118,7 +115,6 @@
         <div class="max-w-6xl mx-auto">
             <!-- Loading skeleton -->
             <div id="blog-loading" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                ${[1,2,3].map(() => `
                 <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 animate-pulse">
                     <div class="h-52 bg-gray-100"></div>
                     <div class="p-6 space-y-3">
@@ -128,7 +124,27 @@
                         <div class="h-px bg-gray-100 my-4"></div>
                         <div class="h-4 bg-gray-100 rounded w-1/3"></div>
                     </div>
-                </div>`).join('')}
+                </div>
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 animate-pulse">
+                    <div class="h-52 bg-gray-100"></div>
+                    <div class="p-6 space-y-3">
+                        <div class="h-4 bg-gray-100 rounded w-3/4"></div>
+                        <div class="h-4 bg-gray-100 rounded w-full"></div>
+                        <div class="h-4 bg-gray-100 rounded w-2/3"></div>
+                        <div class="h-px bg-gray-100 my-4"></div>
+                        <div class="h-4 bg-gray-100 rounded w-1/3"></div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-200 animate-pulse">
+                    <div class="h-52 bg-gray-100"></div>
+                    <div class="p-6 space-y-3">
+                        <div class="h-4 bg-gray-100 rounded w-3/4"></div>
+                        <div class="h-4 bg-gray-100 rounded w-full"></div>
+                        <div class="h-4 bg-gray-100 rounded w-2/3"></div>
+                        <div class="h-px bg-gray-100 my-4"></div>
+                        <div class="h-4 bg-gray-100 rounded w-1/3"></div>
+                    </div>
+                </div>
             </div>
 
             <!-- Blog posts (injected by blog.js) -->

@@ -176,7 +176,7 @@ async function fetchSinglePost(id) {
         if (!formattedContent.startsWith('<p>')) formattedContent = `<p class="mb-6">${formattedContent}</p>`;
 
         blogContainer.innerHTML = `
-        <article class="bg-white rounded-2xl md:p-12 p-6 shadow-sm border border-gray-100 dark:border-gray-800 mt-8 mb-16">
+        <article class="bg-white dark:bg-gray-900 rounded-2xl md:p-12 p-6 shadow-sm border border-gray-100 dark:border-gray-700 mt-8 mb-16">
             <h1 class="font-display text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-8 leading-tight">${post.title}</h1>
             
             <div class="flex items-center gap-4 mb-10 pb-10 border-b border-gray-100 dark:border-gray-800">
@@ -189,7 +189,7 @@ async function fetchSinglePost(id) {
                 </div>
             </div>
 
-            ${imageUrl ? `<img src="${imageUrl}" alt="${post.title}" class="w-full rounded-2xl mb-12 object-cover max-h-[500px]">` : ''}
+            ${imageUrl ? `<img src="${imageUrl}" alt="${post.title}" class="w-full rounded-2xl mb-12 object-cover max-h-[500px] mix-blend-multiply dark:mix-blend-screen dark:invert dark:hue-rotate-180">` : ''}
 
             <div class="prose prose-lg max-w-none text-gray-800 dark:text-gray-100 leading-relaxed font-sans text-lg">
                 ${formattedContent}
@@ -286,7 +286,7 @@ async function fetchSingleProject(id) {
         if (!formattedDesc.startsWith('<p>')) formattedDesc = `<p class="mb-6">${formattedDesc}</p>`;
 
         blogContainer.innerHTML = `
-        <article class="bg-white rounded-2xl md:p-12 p-6 shadow-sm border border-gray-100 dark:border-gray-800 mt-8 mb-16">
+        <article class="bg-white dark:bg-gray-900 rounded-2xl md:p-12 p-6 shadow-sm border border-gray-100 dark:border-gray-700 mt-8 mb-16">
             <h1 class="font-display text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">${project.title}</h1>
             
             <div class="flex flex-wrap gap-2 mb-6">${tags}</div>

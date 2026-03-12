@@ -637,8 +637,8 @@ editForm.addEventListener('submit', async (e) => {
             return;
         }
 
-        const mailtoLink = `mailto:?bcc=${encodeURIComponent(emailsStr)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        window.open(mailtoLink, '_blank');
+        const mailtoLink = `mailto:gdscau2023@gmail.com?bcc=${encodeURIComponent(emailsStr)}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        window.location.href = mailtoLink;
         showToast(`Email client opened with ${emailsStr.split(',').length} recipient(s) in BCC.`);
         closeModal();
         editingId = null;

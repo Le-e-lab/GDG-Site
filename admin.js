@@ -22,10 +22,22 @@ const formFields = document.getElementById('form-fields');
 const modalTitle = document.getElementById('modal-title');
 const saveModalBtn = document.getElementById('save-modal-btn');
 
+// --- New Dashboard Elements ---
+const tableSearch = document.getElementById('table-search');
+const mobileSidebarToggle = document.getElementById('mobile-sidebar-toggle');
+const sidebar = document.querySelector('aside');
+const adminUserEmail = document.getElementById('admin-user-email');
+const toastContainer = document.getElementById('toast-container');
+const confirmModal = document.getElementById('confirm-modal');
+const confirmModalContent = document.getElementById('confirm-modal-content');
+const confirmCancelBtn = document.getElementById('confirm-cancel-btn');
+const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+
 // --- State ---
 let currentTab = 'blog';
 let dataList = [];
 let editingId = null; // null if adding new
+let confirmResolve = null; // for custom confirm promise
 
 // --- Configuration per Tab ---
 const tableConfigs = {
@@ -106,7 +118,9 @@ async function checkAuth() {
     const { data: { session } } = await supabase.auth.getSession();
     if (session) {
         loginModal.classList.add('hidden');
+        if (adminUserEmail) adminUserEmail.textContent = session.user.email;
         loadTabData(currentTab);
+        loadDashboardStats();
     } else {
         loginModal.classList.remove('hidden');
     }
@@ -132,7 +146,7 @@ loginForm.addEventListener('submit', async (e) => {
         loginError.classList.remove('hidden');
     } else {
         loginModal.classList.add('hidden');
-        loadTabData(currentTab);
+        checkAuth(); // refresh user email and stats
     }
 });
 
@@ -174,10 +188,108 @@ function switchTab(tabId) {
 }
 
 tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    btn.addEventListener('click', () => {
+        switchTab(btn.dataset.tab);
+        // Close sidebar on mobile after clicking tab
+        sidebar.classList.add('hidden');
+    });
 });
 
 mobileTabSelect.addEventListener('change', (e) => switchTab(e.target.value));
+
+if (mobileSidebarToggle) {
+    mobileSidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('hidden');
+        sidebar.classList.toggle('absolute');
+        sidebar.classList.toggle('z-40');
+        sidebar.classList.toggle('shadow-2xl');
+    });
+}
+
+// --- Dashboard Stats ---
+async function loadDashboardStats() {
+    const getCount = async (table) => {
+        const { count, error } = await supabase.from(table).select('*', { count: 'exact', head: true });
+        return error ? 0 : count;
+    };
+    
+    document.getElementById('stat-blog').textContent = await getCount('blog');
+    document.getElementById('stat-projects').textContent = await getCount('projects');
+    document.getElementById('stat-team').textContent = await getCount('team');
+    document.getElementById('stat-events').textContent = await getCount('events');
+}
+
+// --- Dynamic Toasts and Modals ---
+function showToast(message, type = 'success') {
+    const toast = document.createElement('div');
+    const isError = type === 'error';
+    toast.className = `flexitems-center p-4 rounded-lg shadow-lg border-l-4 transform transition-all translate-y-full opacity-0 duration-300 ${isError ? 'bg-white border-red-500 text-red-700' : 'bg-white border-google-green text-gray-800'}`;
+    toast.innerHTML = `
+        <div class="flex items-center gap-3">
+            ${isError ? 
+              `<svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>` : 
+              `<svg class="w-5 h-5 text-google-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>`
+            }
+            <p class="font-semibold text-sm">${message}</p>
+        </div>
+    `;
+    toastContainer.appendChild(toast);
+    
+    // Animate in
+    setTimeout(() => {
+        toast.classList.remove('translate-y-full', 'opacity-0');
+    }, 10);
+
+    // Remove after 3s
+    setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-x-full');
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
+function customConfirm() {
+    return new Promise((resolve) => {
+        confirmModal.classList.remove('hidden');
+        setTimeout(() => {
+            confirmModal.classList.remove('opacity-0');
+            confirmModalContent.classList.remove('scale-95');
+        }, 10);
+
+        confirmResolve = resolve;
+    });
+}
+
+function closeConfirmModal(result) {
+    confirmModal.classList.add('opacity-0');
+    confirmModalContent.classList.add('scale-95');
+    setTimeout(() => {
+        confirmModal.classList.add('hidden');
+        if (confirmResolve) confirmResolve(result);
+    }, 200);
+}
+
+if(confirmCancelBtn) confirmCancelBtn.addEventListener('click', () => closeConfirmModal(false));
+if(confirmDeleteBtn) confirmDeleteBtn.addEventListener('click', () => closeConfirmModal(true));
+
+// --- Search Filtering ---
+if (tableSearch) {
+    tableSearch.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        if (!query) {
+            renderTable(dataList, tableConfigs[currentTab]);
+            return;
+        }
+        
+        const config = tableConfigs[currentTab];
+        const filtered = dataList.filter(item => {
+            return config.displayCols.some(col => {
+                const val = item[col];
+                return val && String(val).toLowerCase().includes(query);
+            });
+        });
+        renderTable(filtered, config);
+    });
+}
 
 // --- Data Loading & Rendering ---
 async function loadTabData(tabId) {
@@ -195,6 +307,7 @@ async function loadTabData(tabId) {
     }
 
     dataList = data;
+    if(tableSearch) tableSearch.value = ""; // clear search on load
     renderTable(data, config);
 }
 
@@ -218,14 +331,33 @@ function renderTable(data, config) {
         tbody += `<tr class="hover:bg-gray-50 transition-colors">`;
         config.displayCols.forEach(col => {
             let val = item[col] || '';
-            if (val && typeof val === 'string' && val.length > 50) val = val.substring(0, 50) + '...';
-            tbody += `<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${val}</td>`;
+            let content = '';
+
+            // Handle images nicely, or author avatars
+            if (col === 'author' && currentTab === 'blog') {
+               content = `
+                  <div class="flex items-center">
+                    <div class="w-8 h-8 rounded-full bg-google-blue/10 flex items-center justify-center text-google-blue font-bold mr-3">
+                      ${val.charAt(0).toUpperCase()}
+                    </div>
+                    <span>${val}</span>
+                  </div>`;
+            } else if (col === 'role') {
+               content = `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">${val}</span>`;
+            } else if (col === 'created_at') {
+                content = new Date(val).toLocaleDateString();
+            } else {
+               if (val && typeof val === 'string' && val.length > 50) val = val.substring(0, 50) + '...';
+               content = val;
+            }
+
+            tbody += `<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${content}</td>`;
         });
         
         if (!config.readonly) {
             tbody += `<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <button class="text-indigo-600 hover:text-indigo-900 mr-3 edit-item-btn" data-id="${item.id}">Edit</button>
-                <button class="text-red-600 hover:text-red-900 delete-item-btn" data-id="${item.id}">Delete</button>
+                <button class="text-indigo-600 hover:text-indigo-900 mr-3 edit-item-btn transition-colors hover:bg-indigo-50 px-2 py-1 rounded" data-id="${item.id}">Edit</button>
+                <button class="text-red-600 hover:text-red-900 delete-item-btn transition-colors hover:bg-red-50 px-2 py-1 rounded" data-id="${item.id}">Delete</button>
             </td>`;
         }
         tbody += `</tr>`;
@@ -325,7 +457,7 @@ editForm.addEventListener('submit', async (e) => {
                     .upload(filePath, file);
 
                 if (error) {
-                    alert('Error uploading image: ' + error.message);
+                    showToast('Error uploading image: ' + error.message, 'error');
                     saveModalBtn.textContent = "Save Changes";
                     saveModalBtn.disabled = false;
                     return;
@@ -346,11 +478,11 @@ editForm.addEventListener('submit', async (e) => {
     if (!editingId) {
         // Create
         const { error } = await supabase.from(config.table).insert([saveObj]);
-        if (error) alert(error.message);
+        if (error) { showToast(error.message, 'error'); } else { showToast('Item created successfully'); }
     } else {
         // Update
         const { error } = await supabase.from(config.table).update(saveObj).eq('id', editingId);
-        if (error) alert(error.message);
+        if (error) { showToast(error.message, 'error'); } else { showToast('Item updated successfully'); }
     }
 
     saveModalBtn.textContent = "Save Changes";
@@ -360,13 +492,16 @@ editForm.addEventListener('submit', async (e) => {
 });
 
 async function deleteItem(id) {
-    if (confirm("Are you sure you want to delete this item?")) {
+    const isConfirmed = await customConfirm();
+    if (isConfirmed) {
         const config = tableConfigs[currentTab];
         const { error } = await supabase.from(config.table).delete().eq('id', id);
         if (error) {
-            alert(error.message);
+            showToast(error.message, 'error');
         } else {
+            showToast('Item deleted successfully');
             loadTabData(currentTab);
+            loadDashboardStats(); // update stats
         }
     }
 }

@@ -74,28 +74,48 @@ ALTER TABLE testimonials ENABLE ROW LEVEL SECURITY;
 ALTER TABLE applications ENABLE ROW LEVEL SECURITY;
 ALTER TABLE newsletter_subscribers ENABLE ROW LEVEL SECURITY;
 -- Public read access policies
-CREATE POLICY "Public Read Access" ON blog FOR
-SELECT USING (true);
-CREATE POLICY "Public Read Access" ON projects FOR
-SELECT USING (true);
-CREATE POLICY "Public Read Access" ON team FOR
-SELECT USING (true);
-CREATE POLICY "Public Read Access" ON events FOR
-SELECT USING (true);
-CREATE POLICY "Public Read Access" ON testimonials FOR
-SELECT USING (true);
+DROP POLICY IF EXISTS "Public Read Access" ON blog;
+CREATE POLICY "Public Read Access" ON blog FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public Read Access" ON projects;
+CREATE POLICY "Public Read Access" ON projects FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public Read Access" ON team;
+CREATE POLICY "Public Read Access" ON team FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public Read Access" ON events;
+CREATE POLICY "Public Read Access" ON events FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public Read Access" ON testimonials;
+CREATE POLICY "Public Read Access" ON testimonials FOR SELECT USING (true);
+
 -- Applications are private (admin only)
 -- Note: Admin inserts / selects will bypass RLS if using service_role,
 -- but since the admin uses the JavaScript client, we need auth policies.
+DROP POLICY IF EXISTS "Authenticated Admin All Access" ON blog;
 CREATE POLICY "Authenticated Admin All Access" ON blog FOR ALL USING (auth.uid() IS NOT NULL);
+
+DROP POLICY IF EXISTS "Authenticated Admin All Access" ON projects;
 CREATE POLICY "Authenticated Admin All Access" ON projects FOR ALL USING (auth.uid() IS NOT NULL);
+
+DROP POLICY IF EXISTS "Authenticated Admin All Access" ON team;
 CREATE POLICY "Authenticated Admin All Access" ON team FOR ALL USING (auth.uid() IS NOT NULL);
+
+DROP POLICY IF EXISTS "Authenticated Admin All Access" ON events;
 CREATE POLICY "Authenticated Admin All Access" ON events FOR ALL USING (auth.uid() IS NOT NULL);
+
+DROP POLICY IF EXISTS "Authenticated Admin All Access" ON testimonials;
 CREATE POLICY "Authenticated Admin All Access" ON testimonials FOR ALL USING (auth.uid() IS NOT NULL);
+
+DROP POLICY IF EXISTS "Authenticated Admin All Access" ON applications;
 CREATE POLICY "Authenticated Admin All Access" ON applications FOR ALL USING (auth.uid() IS NOT NULL);
+
+DROP POLICY IF EXISTS "Authenticated Admin All Access" ON newsletter_subscribers;
 CREATE POLICY "Authenticated Admin All Access" ON newsletter_subscribers FOR ALL USING (auth.uid() IS NOT NULL);
+
 -- Allow public to INSERT applications (for the lead role form)
-CREATE POLICY "Public Insert Access" ON applications FOR
-INSERT WITH CHECK (true);
-CREATE POLICY "Public Insert Access" ON newsletter_subscribers FOR
-INSERT WITH CHECK (true);
+DROP POLICY IF EXISTS "Public Insert Access" ON applications;
+CREATE POLICY "Public Insert Access" ON applications FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Public Insert Access" ON newsletter_subscribers;
+CREATE POLICY "Public Insert Access" ON newsletter_subscribers FOR INSERT WITH CHECK (true);

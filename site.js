@@ -519,11 +519,39 @@ function attachModalTriggers() {
 }
 
 // ==========================================
+//  BLOG UPDATES
+// ==========================================
+async function checkBlogUpdates() {
+  const { count, error } = await supabase
+    .from('blog')
+    .select('id', { count: 'exact', head: true });
+
+  if (error || count === null) return;
+
+  const seenCount = parseInt(localStorage.getItem('blog_seen_count') || '0', 10);
+  const newPosts = count - seenCount;
+
+  if (newPosts > 0) {
+    const desktopBadge = document.getElementById('blog-badge');
+    const mobileBadge = document.getElementById('mobile-blog-badge');
+
+    if (desktopBadge) {
+      desktopBadge.textContent = newPosts;
+      desktopBadge.classList.remove('hidden');
+    }
+    if (mobileBadge) {
+      mobileBadge.textContent = newPosts;
+      mobileBadge.classList.remove('hidden');
+    }
+  }
+}
+
+// ==========================================
 //  INIT
 // ==========================================
 document.addEventListener('DOMContentLoaded', async () => {
   initUI();
-  await Promise.all([loadProjects(), loadTeam(), loadEvents(), loadTestimonials()]);
+  await Promise.all([loadProjects(), loadTeam(), loadEvents(), loadTestimonials(), checkBlogUpdates()]);
   handleApplicationForm();
   handleNewsletterForm();
 

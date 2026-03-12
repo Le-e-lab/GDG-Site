@@ -297,6 +297,18 @@ async function fetchBlogData() {
     } else {
         await fetchBlogPosts();
     }
+    
+    await markBlogAsSeen();
+}
+
+async function markBlogAsSeen() {
+    const { count, error } = await supabase
+        .from('blog')
+        .select('id', { count: 'exact', head: true });
+    
+    if (!error && count !== null) {
+        localStorage.setItem('blog_seen_count', count.toString());
+    }
 }
 
 document.addEventListener('DOMContentLoaded', fetchBlogData);

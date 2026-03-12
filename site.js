@@ -306,6 +306,50 @@ async function handleApplicationForm() {
 }
 
 // ==========================================
+//  NEWSLETTER FORM
+// ==========================================
+async function handleNewsletterForm() {
+  const form = document.getElementById('newsletter-form');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('newsletter-submit-btn');
+    const successDiv = document.getElementById('newsletter-success');
+    const errorDiv = document.getElementById('newsletter-error');
+
+    btn.textContent = 'Subscribing...';
+    btn.disabled = true;
+    errorDiv.classList.add('hidden');
+    successDiv.classList.add('hidden');
+
+    const formData = new FormData(form);
+    
+    // Insert into Supabase
+    const { error } = await supabase.from('newsletter_subscribers').insert([{
+      email: formData.get('email')
+    }]);
+
+    btn.textContent = 'Subscribe';
+    btn.disabled = false;
+
+    if (error) {
+       // if error code 23505 it means duplicate email (UNIQUE constraint)
+       if(error.code === '23505') {
+         errorDiv.textContent = 'This email is already subscribed!';
+       } else {
+         errorDiv.textContent = 'Something went wrong: ' + error.message;
+       }
+       errorDiv.classList.remove('hidden');
+    } else {
+       form.reset();
+       successDiv.classList.remove('hidden');
+       form.classList.add('hidden'); // hide the form to indicate success
+    }
+  });
+}
+
+// ==========================================
 //  UI INTERACTIONS (from original script.js)
 // ==========================================
 function initUI() {
@@ -404,4 +448,5 @@ document.addEventListener('DOMContentLoaded', async () => {
   initUI();
   await Promise.all([loadProjects(), loadTeam(), loadEvents(), loadTestimonials()]);
   handleApplicationForm();
+  handleNewsletterForm();
 });

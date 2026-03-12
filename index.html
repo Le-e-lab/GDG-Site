@@ -1532,16 +1532,17 @@
               Get the latest updates on workshops, hackathons, and community events directly in your inbox.
             </p>
 
-            <form id="newsletter-form" class="flex flex-col sm:flex-row gap-4" action="https://docs.google.com/forms/d/e/1FAIpQLSckWs08CC4cIXWB3jZjl0DCZcSEly1rfRBFuP5yUSalx2mqRQ/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
+            <form id="newsletter-form" class="flex flex-col sm:flex-row gap-4">
               <input
                 type="email"
-                name="entry.20182220"
+                name="email"
                 placeholder="Enter your email address"
                 class="flex-1 px-6 py-3 rounded-full border border-gray-300 focus:outline-none focus:border-google-blue focus:ring-2 focus:ring-google-blue/20 transition-all"
                 required
               />
               <button
                 type="submit"
+                id="newsletter-submit-btn"
                 class="bg-google-blue text-white px-8 py-3 rounded-full font-bold hover:bg-google-blue/90 hover:shadow-lg transition-all transform hover:scale-105"
               >
                 Subscribe
@@ -1550,8 +1551,7 @@
             <div id="newsletter-success" class="hidden mt-4 text-green-600 font-semibold">
               🎉 Thanks for subscribing! We'll allow you to keep up with the latest GDG news.
             </div>
-            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted) {document.getElementById('newsletter-form').classList.add('hidden'); document.getElementById('newsletter-success').classList.remove('hidden');}"></iframe>
-            <script>var submitted=false;</script>
+            <div id="newsletter-error" class="hidden mt-4 text-red-600 font-semibold text-sm"></div>
             <p class="text-xs text-gray-400 mt-4">
               We respect your privacy. Unsubscribe at any time.
             </p>

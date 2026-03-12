@@ -45,6 +45,7 @@ const tableConfigs = {
         title: 'Manage Blog',
         subtitle: 'Add or edit blog posts for the site.',
         table: 'blog',
+        hasPreview: true,
         fields: [
             { name: 'title', label: 'Title', type: 'text', required: true },
             { name: 'author', label: 'Author', type: 'text', required: true },
@@ -57,6 +58,7 @@ const tableConfigs = {
         title: 'Manage Projects',
         subtitle: 'Showcase projects built by members.',
         table: 'projects',
+        hasPreview: true,
         fields: [
             { name: 'title', label: 'Project Title', type: 'text', required: true },
             { name: 'description', label: 'Description', type: 'textarea', required: true },
@@ -70,6 +72,7 @@ const tableConfigs = {
         title: 'Manage Core Team',
         subtitle: 'Update members of the core team.',
         table: 'team',
+        hasPreview: true,
         fields: [
             { name: 'name', label: 'Name', type: 'text', required: true },
             { name: 'role', label: 'Role', type: 'text', required: true },
@@ -83,6 +86,7 @@ const tableConfigs = {
         title: 'Manage Events',
         subtitle: 'Update upcoming and past events.',
         table: 'events',
+        hasPreview: true,
         fields: [
             { name: 'title', label: 'Event Title', type: 'text', required: true },
             { name: 'date', label: 'Event Date (YYYY-MM-DD)', type: 'date', required: true },
@@ -96,6 +100,7 @@ const tableConfigs = {
         title: 'Manage Testimonials',
         subtitle: 'Add quotes from members and partners.',
         table: 'testimonials',
+        hasPreview: true,
         fields: [
             { name: 'name', label: 'Name', type: 'text', required: true },
             { name: 'role', label: 'Role/Company', type: 'text', required: true },
@@ -109,7 +114,25 @@ const tableConfigs = {
         subtitle: 'View submissions from the application form.',
         table: 'applications',
         readonly: true,
+        allowDelete: true,
+        hasDetails: true,
+        fields: [
+            { name: 'name', label: 'Applicant Name', type: 'text' },
+            { name: 'email', label: 'Email Address', type: 'text' },
+            { name: 'role', label: 'Applied Role', type: 'text' },
+            { name: 'skills', label: 'Level and Skills', type: 'textarea' },
+            { name: 'created_at', label: 'Applied On', type: 'text' }
+        ],
         displayCols: ['name', 'email', 'role', 'created_at']
+    },
+    newsletter: {
+        title: 'Newsletter Subscribers',
+        subtitle: 'View and manage emails subscribed to the newsletter.',
+        table: 'newsletter_subscribers',
+        readonly: true,
+        allowDelete: true,
+        fields: [],
+        displayCols: ['email', 'created_at']
     }
 };
 
@@ -321,7 +344,7 @@ function renderTable(data, config) {
     config.displayCols.forEach(col => {
         thead += `<th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">${col.replace('_', ' ')}</th>`;
     });
-    if (!config.readonly) {
+    if (!config.readonly || config.allowDelete || config.hasPreview || config.hasDetails) {
         thead += `<th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>`;
     }
     thead += `</tr></thead>`;
@@ -354,11 +377,25 @@ function renderTable(data, config) {
             tbody += `<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${content}</td>`;
         });
         
-        if (!config.readonly) {
-            tbody += `<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <button class="text-indigo-600 hover:text-indigo-900 mr-3 edit-item-btn transition-colors hover:bg-indigo-50 px-2 py-1 rounded" data-id="${item.id}">Edit</button>
-                <button class="text-red-600 hover:text-red-900 delete-item-btn transition-colors hover:bg-red-50 px-2 py-1 rounded" data-id="${item.id}">Delete</button>
-            </td>`;
+        if (!config.readonly || config.allowDelete || config.hasPreview || config.hasDetails) {
+            tbody += `<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">`;
+            
+            if (config.hasPreview) {
+               let previewHref = 'index.html';
+               if(currentTab === 'blog') previewHref = `blog.html?id=${item.id}`;
+               else previewHref = `index.html#${currentTab}`;
+               
+               tbody += `<a href="${previewHref}" target="_blank" class="text-green-600 hover:text-green-900 mr-3 transition-colors hover:bg-green-50 px-2 py-1 rounded inline-block">Preview</a>`;
+            }
+            if (config.hasDetails) {
+                 tbody += `<button class="text-indigo-600 hover:text-indigo-900 mr-3 edit-item-btn transition-colors hover:bg-indigo-50 px-2 py-1 rounded" data-id="${item.id}">Details</button>`;
+            } else if (!config.readonly) {
+                 tbody += `<button class="text-indigo-600 hover:text-indigo-900 mr-3 edit-item-btn transition-colors hover:bg-indigo-50 px-2 py-1 rounded" data-id="${item.id}">Edit</button>`;
+            }
+            if (!config.readonly || config.allowDelete) {
+                 tbody += `<button class="text-red-600 hover:text-red-900 delete-item-btn transition-colors hover:bg-red-50 px-2 py-1 rounded" data-id="${item.id}">Delete</button>`;
+            }
+            tbody += `</td>`;
         }
         tbody += `</tr>`;
     });
@@ -367,10 +404,12 @@ function renderTable(data, config) {
     contentContainer.innerHTML = `<div class="overflow-x-auto"><table class="min-w-full divide-y divide-gray-200">${thead}${tbody}</table></div>`;
 
     // Attach event listeners to buttons
-    if (!config.readonly) {
+    if (!config.readonly || config.hasDetails) {
         document.querySelectorAll('.edit-item-btn').forEach(btn => {
             btn.addEventListener('click', (e) => openModal(e.target.dataset.id));
         });
+    }
+    if (!config.readonly || config.allowDelete) {
         document.querySelectorAll('.delete-item-btn').forEach(btn => {
             btn.addEventListener('click', (e) => deleteItem(e.target.dataset.id));
         });
@@ -390,12 +429,23 @@ function openModal(id = null) {
 
     // Build form
     let html = '';
+    
+    if (config.readonly) {
+        saveModalBtn.classList.add('hidden');
+    } else {
+        saveModalBtn.classList.remove('hidden');
+    }
+
     config.fields.forEach(field => {
-        const val = itemData[field.name] || '';
-        html += `<div class="mb-4">
-            <label class="block text-sm font-semibold text-gray-700 mb-1">${field.label} ${field.required ? '<span class="text-red-500">*</span>' : ''}</label>`;
+        let val = itemData[field.name] || '';
+        if (field.name === 'created_at' && val) val = new Date(val).toLocaleString();
         
-        if (field.type === 'textarea') {
+        html += `<div class="mb-4">
+            <label class="block text-sm font-semibold text-gray-700 mb-1">${field.label} ${field.required && !config.readonly ? '<span class="text-red-500">*</span>' : ''}</label>`;
+        
+        if (config.readonly) {
+            html += `<div class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 whitespace-pre-wrap">${val}</div>`;
+        } else if (field.type === 'textarea') {
             html += `<textarea name="${field.name}" ${field.required ? 'required' : ''} rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-google-blue outline-none transition-all">${val}</textarea>`;
         } else if (field.type === 'file') {
             html += `<input type="file" name="${field.name}" accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none transition-all">`;

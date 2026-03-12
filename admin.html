@@ -181,11 +181,14 @@
         class="bg-white border-b border-gray-200 px-4 py-3 flex justify-between items-center sm:hidden shadow-sm z-10 relative"
       >
         <div class="flex items-center gap-2">
-          <a href="index.html" class="text-gray-500 hover:text-google-blue transition-colors">
+          <button id="mobile-sidebar-toggle" class="p-1 -ml-1 text-gray-500 hover:text-google-blue transition-colors rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-200">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <a href="index.html" class="text-gray-500 hover:text-google-blue transition-colors ml-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
           </a>
-          <img src="images/gdg-logo.jpg" alt="GDG Logo" class="w-7 h-7 object-contain rounded-full mix-blend-multiply">
-          <span class="font-display font-bold text-base text-gray-900">Admin</span>
+          <img src="images/gdg-logo.jpg" alt="GDG Logo" class="w-7 h-7 object-contain rounded-full mix-blend-multiply ml-2 relative z-10 w-auto h-[40px] ">
+          <span class="font-display font-bold text-base text-gray-900 border-none w-[100px] absolute z-50 left-[90px] bottom-[1px] md:bottom-auto mb-2 md:mb-0 ml-[1px]">Admin</span>
         </div>
         <select
           id="mobile-tab-select"

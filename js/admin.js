@@ -242,9 +242,11 @@ tabBtns.forEach(btn => {
 
 mobileTabSelect.addEventListener('change', (e) => switchTab(e.target.value));
 
-    if (mobileSidebarToggle) {
-        mobileSidebarToggle.classList.add('hidden');
-    }
+if (mobileSidebarToggle && sidebar) {
+    mobileSidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('hidden');
+    });
+}
 
 // --- Dashboard Stats ---
 async function loadDashboardStats() {

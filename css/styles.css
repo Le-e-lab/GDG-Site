@@ -138,3 +138,80 @@ html {
 .modal-close:hover {
   background: #e5e7eb;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MICRO-ANIMATIONS
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* Card hover lift effect */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Subtle shimmer on gradient text */
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.gradient-text {
+  background-size: 200% 200%;
+  animation: gradient-shift 6s ease infinite;
+}
+
+/* Gentle floating for illustrations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+.float-animation {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* Button press feedback */
+.btn-press {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-press:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(66, 133, 244, 0.3);
+}
+.btn-press:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Pulse ring for call-to-action */
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.4); }
+  70%  { box-shadow: 0 0 0 10px rgba(66, 133, 244, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(66, 133, 244, 0); }
+}
+.pulse-cta {
+  animation: pulse-ring 2.5s infinite;
+}
+
+/* Smooth fade-in for page load */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in-up {
+  animation: fade-in-up 0.6s ease-out both;
+}
+
+/* Staggered delays for sequential elements */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+
+/* Google color bar animation */
+@keyframes color-bar-slide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}

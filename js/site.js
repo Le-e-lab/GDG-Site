@@ -106,7 +106,7 @@ async function loadProjects() {
       : `<svg class="w-16 h-16 text-gray-300 group-hover:text-gray-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>`;
 
     grid.insertAdjacentHTML('beforeend', `
-      <a href="blog.html?project=${project.id}" class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow block">
+      <a href="project.html?id=${project.id}" class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow block card-hover">
         <div class="h-48 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden">
           ${imageHtml}
         </div>
@@ -259,7 +259,7 @@ async function loadEvents() {
     const day = eventDate.getDate().toString().padStart(2, '0');
 
     grid.insertAdjacentHTML('beforeend', `
-      <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+      <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow card-hover">
         <div class="h-3 bg-gradient-to-r ${accent.bar}"></div>
         <div class="p-6">
           <div class="flex items-center gap-3 mb-4">

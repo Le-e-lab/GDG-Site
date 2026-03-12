@@ -42,6 +42,9 @@
       rel="stylesheet"
     />
 
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <script>
       tailwind.config = {
         theme: {
@@ -150,7 +153,7 @@
         ></div>
       </div>
 
-      <div class="relative z-10 text-center px-6 py-24 max-w-5xl mx-auto">
+      <div class="relative z-10 text-center px-6 py-24 max-w-5xl mx-auto" data-aos="fade-up">
         <!-- Main Headline -->
         <h1
           class="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight"
@@ -191,6 +194,7 @@
         <!-- Stats Row -->
         <div
           class="flex flex-wrap justify-center gap-8 md:gap-16 mt-16 pt-8 border-t border-gray-200"
+          data-aos="fade-up" data-aos-delay="200"
         >
           <div class="text-center">
             <div class="text-3xl md:text-4xl font-bold text-google-blue">
@@ -257,7 +261,7 @@
        ABOUT SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
     <section id="about" class="py-24 px-6 bg-gray-50">
-      <div class="max-w-6xl mx-auto">
+      <div class="max-w-6xl mx-auto" data-aos="fade-up">
         <!-- Section Header -->
         <div class="text-center mb-12">
           <div class="flex items-center justify-center gap-3 mb-4">
@@ -357,6 +361,7 @@
           <!-- Pillar 1: Leadership Transformation -->
           <div
             class="bg-white border border-gray-200 rounded-2xl p-8 text-center shadow-sm"
+            data-aos="fade-up"
           >
             <div
               class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-google-blue/20 flex items-center justify-center"
@@ -393,6 +398,7 @@
           <!-- Pillar 2: Ubuntu in Tech -->
           <div
             class="bg-white border border-gray-200 rounded-2xl p-8 text-center shadow-sm"
+            data-aos="fade-up" data-aos-delay="100"
           >
             <div
               class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-google-red/20 flex items-center justify-center"
@@ -473,6 +479,7 @@
         <!-- Section Header -->
         <div
           class="flex flex-col md:flex-row md:items-end md:justify-between mb-16"
+          data-aos="fade-up"
         >
           <div>
             <div class="flex items-center gap-3 mb-4">
@@ -517,6 +524,7 @@
           <!-- Project 1: Chef's Muse -->
           <div
             class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
+            data-aos="fade-up" data-aos-delay="100"
           >
             <div
               class="h-48 bg-gradient-to-br from-google-red/30 to-google-yellow/20 flex items-center justify-center"
@@ -578,6 +586,7 @@
           <!-- Project 2: SecureScan -->
           <div
             class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
+            data-aos="fade-up" data-aos-delay="200"
           >
             <div
               class="h-48 bg-gradient-to-br from-google-blue/30 to-google-green/20 flex items-center justify-center"
@@ -886,7 +895,7 @@
         </div>
 
         <!-- Team Grid (Dynamically loaded from Supabase) -->
-        <div id="team-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div id="team-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8" data-aos="fade-up">
           <!-- Team Member 1: GDSC Lead -->
           <div class="text-center group">
             <div class="relative w-32 h-32 mx-auto mb-6">
@@ -1790,6 +1799,17 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
       </svg>
     </button>
+
+    <!-- AOS Animation JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 800,
+        once: true,
+        offset: 100,
+        easing: 'ease-out-cubic'
+      });
+    </script>
 
     <!-- External JavaScript (module for Supabase) -->
     <script type="module" src="site.js"></script>

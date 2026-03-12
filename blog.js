@@ -172,6 +172,19 @@ async function fetchSinglePost(id) {
             </div>
         </article>`;
         document.title = `${post.title} | GDSC Africa University`;
+        
+        const pureTextDesc = post.content.replace(/<[^>]+>/g, '').substring(0, 160) + '...';
+        const metaDesc = document.getElementById('meta-description');
+        const ogTitle = document.getElementById('meta-og-title');
+        const ogDesc = document.getElementById('meta-og-description');
+        const ogImage = document.getElementById('meta-og-image');
+        const ogUrl = document.getElementById('meta-og-url');
+
+        if(metaDesc) metaDesc.content = pureTextDesc;
+        if(ogTitle) ogTitle.content = document.title;
+        if(ogDesc) ogDesc.content = pureTextDesc;
+        if(ogImage && imageUrl) ogImage.content = imageUrl;
+        if(ogUrl) ogUrl.content = shareUrl;
     }
 }
 
@@ -256,6 +269,19 @@ async function fetchSingleProject(id) {
             </div>
         </article>`;
         document.title = `${project.title} | GDSC Africa University`;
+        
+        const pureTextDesc = project.description.replace(/<[^>]+>/g, '').substring(0, 160) + '...';
+        const metaDesc = document.getElementById('meta-description');
+        const ogTitle = document.getElementById('meta-og-title');
+        const ogDesc = document.getElementById('meta-og-description');
+        const ogImage = document.getElementById('meta-og-image');
+        const ogUrl = document.getElementById('meta-og-url');
+
+        if(metaDesc) metaDesc.content = pureTextDesc;
+        if(ogTitle) ogTitle.content = document.title;
+        if(ogDesc) ogDesc.content = pureTextDesc;
+        if(ogImage && imageUrl) ogImage.content = imageUrl;
+        if(ogUrl) ogUrl.content = shareUrl;
     }
 }
 

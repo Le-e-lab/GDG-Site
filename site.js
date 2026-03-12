@@ -43,6 +43,22 @@ async function loadProjects() {
   const grid = document.getElementById('projects-grid');
   if (!grid) return;
 
+  // Render skeleton loaders
+  grid.innerHTML = `
+    ${Array(3).fill(`
+      <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm animate-pulse">
+        <div class="h-48 bg-gray-200"></div>
+        <div class="p-6">
+          <div class="flex gap-2 mb-3"><div class="h-4 w-12 bg-gray-200 rounded"></div><div class="h-4 w-12 bg-gray-200 rounded"></div></div>
+          <div class="h-6 w-3/4 bg-gray-200 rounded mb-3"></div>
+          <div class="h-4 w-full bg-gray-200 rounded mb-2"></div>
+          <div class="h-4 w-5/6 bg-gray-200 rounded mb-4"></div>
+          <div class="h-4 w-24 bg-gray-200 rounded"></div>
+        </div>
+      </div>
+    `).join('')}
+  `;
+
   const { data, error } = await supabase
     .from('projects')
     .select('*')
@@ -118,6 +134,9 @@ async function loadProjects() {
 
   // Re-attach modal trigger for CTA card
   attachModalTriggers();
+
+  // Refresh AOS animations since new DOM elements were added
+  if (typeof AOS !== 'undefined') AOS.refresh();
 }
 
 const ROLE_BADGES = {
@@ -134,6 +153,19 @@ const ROLE_TEXT_COLORS = ['text-google-blue', 'text-google-red', 'text-google-ye
 async function loadTeam() {
   const grid = document.getElementById('team-grid');
   if (!grid) return;
+
+  // Render skeleton loaders
+  grid.innerHTML = `
+    ${Array(4).fill(`
+      <div class="text-center animate-pulse">
+        <div class="w-32 h-32 mx-auto mb-6 rounded-full bg-gray-200"></div>
+        <div class="h-5 w-3/4 bg-gray-200 rounded mx-auto mb-2"></div>
+        <div class="h-4 w-1/2 bg-gray-200 rounded mx-auto mb-2"></div>
+        <div class="h-4 w-full bg-gray-200 rounded mx-auto mb-4"></div>
+        <div class="flex justify-center gap-3"><div class="w-6 h-6 bg-gray-200 rounded-full"></div><div class="w-6 h-6 bg-gray-200 rounded-full"></div></div>
+      </div>
+    `).join('')}
+  `;
 
   const { data, error } = await supabase
     .from('team')
@@ -185,6 +217,24 @@ async function loadEvents() {
   const grid = document.getElementById('events-grid');
   if (!grid) return;
 
+  // Render skeleton loaders
+  grid.innerHTML = `
+    ${Array(3).fill(`
+      <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm animate-pulse">
+        <div class="h-3 bg-gray-200"></div>
+        <div class="p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-14 h-14 rounded-xl bg-gray-200"></div>
+            <div class="flex-1"><div class="h-5 w-3/4 bg-gray-200 rounded mb-2"></div></div>
+          </div>
+          <div class="h-4 w-full bg-gray-200 rounded mb-2"></div>
+          <div class="h-4 w-5/6 bg-gray-200 rounded mb-4"></div>
+          <div class="h-4 w-24 bg-gray-200 rounded"></div>
+        </div>
+      </div>
+    `).join('')}
+  `;
+
   const { data, error } = await supabase
     .from('events')
     .select('*')
@@ -235,6 +285,16 @@ async function loadEvents() {
 async function loadTestimonials() {
   const grid = document.getElementById('testimonials-grid');
   if (!grid) return;
+
+  // Render skeleton loaders (grid needs to parent elements directly, assuming flex layout inside)
+  grid.innerHTML = `
+    ${Array(2).fill(`
+      <div class="bg-gray-50 border border-gray-100 rounded-2xl p-8 shadow-sm flex flex-col justify-between hidden md:flex animate-pulse">
+        <div><div class="h-6 w-full bg-gray-200 rounded mb-2"></div><div class="h-6 w-5/6 bg-gray-200 rounded mb-6"></div></div>
+        <div class="flex items-center gap-4"><div class="w-12 h-12 rounded-full bg-gray-200"></div><div><div class="h-4 w-24 bg-gray-200 rounded mb-1"></div><div class="h-3 w-16 bg-gray-200 rounded"></div></div></div>
+      </div>
+    `).join('')}
+  `;
 
   const { data, error } = await supabase
     .from('testimonials')

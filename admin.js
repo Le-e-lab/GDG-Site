@@ -38,6 +38,7 @@ let currentTab = 'blog';
 let dataList = [];
 let editingId = null; // null if adding new
 let confirmResolve = null; // for custom confirm promise
+let quillInstances = {}; // to hold Quill editor instances
 
 // --- Configuration per Tab ---
 const tableConfigs = {
@@ -49,7 +50,7 @@ const tableConfigs = {
         fields: [
             { name: 'title', label: 'Title', type: 'text', required: true },
             { name: 'author', label: 'Author', type: 'text', required: true },
-            { name: 'content', label: 'Content (Markdown/Text)', type: 'textarea', required: true },
+            { name: 'content', label: 'Content (Rich Text)', type: 'textarea', required: true, isHtml: true },
             { name: 'image', label: 'Cover Image', type: 'file', required: false, isImage: true }
         ],
         displayCols: ['title', 'author', 'created_at']
@@ -385,6 +386,12 @@ function renderTable(data, config) {
                content = `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">${val}</span>`;
             } else if (col === 'created_at') {
                 content = new Date(val).toLocaleDateString();
+            } else if (col === 'image' || (typeof val === 'string' && val.match(/\\.(jpeg|jpg|gif|png|webp|svg)(\\?.*)?$/i))) {
+                if (val && val.trim() !== '') {
+                    content = `<div class="flex items-center"><img src="${val}" alt="Preview" class="h-10 w-10 rounded object-cover border border-gray-200 shadow-sm" loading="lazy"></div>`;
+                } else {
+                    content = `<span class="text-xs text-gray-400 italic">No image</span>`;
+                }
             } else {
                if (val && typeof val === 'string' && val.length > 50) val = val.substring(0, 50) + '...';
                content = val;
@@ -463,7 +470,11 @@ function openModal(id = null) {
         if (config.readonly) {
             html += `<div class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-gray-700 whitespace-pre-wrap">${val}</div>`;
         } else if (field.type === 'textarea') {
-            html += `<textarea name="${field.name}" ${field.required ? 'required' : ''} rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-google-blue outline-none transition-all">${val}</textarea>`;
+            if (field.isHtml) {
+                html += `<div id="quill-editor-${field.name}" class="bg-white rounded-b-lg border-x border-b border-gray-300" style="height: 250px;">${val}</div>`;
+            } else {
+                html += `<textarea name="${field.name}" ${field.required ? 'required' : ''} rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-google-blue outline-none transition-all">${val}</textarea>`;
+            }
         } else if (field.type === 'file') {
             html += `<input type="file" name="${field.name}" accept="image/*" class="w-full px-4 py-2 border border-gray-300 rounded-lg outline-none transition-all">`;
             if (val) {
@@ -484,6 +495,26 @@ function openModal(id = null) {
 
     formFields.innerHTML = html;
     
+    // Initialize Quill instances
+    quillInstances = {};
+    config.fields.forEach(field => {
+        if (field.isHtml && !config.readonly) {
+            quillInstances[field.name] = new Quill(`#quill-editor-${field.name}`, {
+                theme: 'snow',
+                modules: {
+                    toolbar: [
+                        [{ 'header': [1, 2, 3, false] }],
+                        ['bold', 'italic', 'underline', 'strike'],
+                        ['blockquote', 'code-block'],
+                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                        ['link', 'image'],
+                        ['clean']
+                    ]
+                }
+            });
+        }
+    });
+
     // Show modal
     editModal.classList.remove('hidden');
     // slight delay for animation
@@ -518,7 +549,10 @@ editForm.addEventListener('submit', async (e) => {
 
     // Process fields
     for (const field of config.fields) {
-        if (field.type === 'file') {
+        if (field.isHtml && quillInstances[field.name]) {
+            const htmlContent = quillInstances[field.name].root.innerHTML;
+            saveObj[field.name] = htmlContent === '<p><br></p>' ? '' : htmlContent;
+        } else if (field.type === 'file') {
             const file = formData.get(field.name);
             if (file && file.size > 0) {
                 // Upload to Supabase Storage

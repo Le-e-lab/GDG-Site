@@ -9,6 +9,9 @@ async function fetchBlogPosts() {
         .select('*')
         .order('created_at', { ascending: false });
 
+    // Store globally for search filtering
+    window.allBlogPosts = data || [];
+
     // Hide loading skeleton in all cases
     if (loadingEl) loadingEl.classList.add('hidden');
     if (blogContainer) {
@@ -40,7 +43,25 @@ async function fetchBlogPosts() {
         'google-yellow': 'from-yellow-50 to-amber-100 text-google-yellow',
     };
 
-    blogContainer.innerHTML = data.map((post, i) => {
+    let currentPage = 1;
+    const postsPerPage = 6;
+    let currentFilteredPosts = window.allBlogPosts;
+    const loadMoreContainer = document.getElementById('load-more-container');
+    const loadMoreBtn = document.getElementById('load-more-btn');
+
+    window.renderPosts = (posts, append = false) => {
+        currentFilteredPosts = posts;
+        const postsToRender = currentFilteredPosts.slice(0, currentPage * postsPerPage);
+
+        if (!postsToRender || postsToRender.length === 0) {
+            blogContainer.innerHTML = `
+                <div class="col-span-full flex flex-col items-center justify-center py-24 text-center">
+                    <p class="text-gray-500 dark:text-gray-400 max-w-sm">No articles found matching your search.</p>
+                </div>`;
+            return;
+        }
+
+        const html = postsToRender.map((post, i) => {
         const dateString = new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
         const imageUrl = post.image || null;
         const excerpt = post.content.replace(/\n/g, ' ').substring(0, 140) + '…';
@@ -73,7 +94,43 @@ async function fetchBlogPosts() {
                 </div>
             </div>
         </a>`;
-    }).join('');
+        }).join('');
+
+        blogContainer.innerHTML = html;
+
+        // Toggle Load More button visibility
+        if (postsToRender.length < currentFilteredPosts.length) {
+            loadMoreContainer.classList.remove('hidden');
+        } else {
+            loadMoreContainer.classList.add('hidden');
+        }
+    };
+
+    // Handle Load More clicks
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', () => {
+            currentPage++;
+            window.renderPosts(currentFilteredPosts);
+        });
+    }
+
+    // Initial Render
+    window.renderPosts(window.allBlogPosts);
+
+    // Setup Search Event Listener
+    const searchInput = document.getElementById('blog-search-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            currentPage = 1; // Reset to first page on new search
+            const filtered = window.allBlogPosts.filter(p => 
+                p.title.toLowerCase().includes(query) || 
+                p.content.toLowerCase().includes(query) ||
+                p.author.toLowerCase().includes(query)
+            );
+            window.renderPosts(filtered);
+        });
+    }
 }
 
 async function fetchSinglePost(id) {

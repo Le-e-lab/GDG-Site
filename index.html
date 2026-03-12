@@ -27,6 +27,10 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="gdg-logo.jpg" />
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#4285F4" />
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -46,7 +50,15 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <script>
+      // Prevent FOUC (Flash of Unstyled Content) by checking theme early
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+
       tailwind.config = {
+        darkMode: 'class',
         theme: {
           extend: {
             colors: {
@@ -65,12 +77,12 @@
     </script>
   </head>
 
-  <body class="bg-white text-gray-900 font-sans antialiased">
+  <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-sans antialiased transition-colors duration-200">
     <!-- ═══════════════════════════════════════════════════════════════════════════
        NAVIGATION
   ═══════════════════════════════════════════════════════════════════════════ -->
     <nav
-      class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm"
+      class="fixed top-0 left-0 right-0 z-50 bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 shadow-sm transition-colors duration-200"
     >
       <div
         class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4"
@@ -80,7 +92,7 @@
           <div class="flex items-center gap-2">
             <!-- GDG Logo Mark -->
             <img src="gdg-logo.jpg" alt="GDG Logo" class="w-10 h-10 object-contain">
-            <span class="font-display font-bold text-lg text-gray-900">GDG</span>
+            <span class="font-display font-bold text-lg text-gray-900 dark:text-white">GDG</span>
           </div>
           <div class="h-8 w-[2px] bg-google-blue/40"></div>
           <span
@@ -91,14 +103,19 @@
 
         <!-- Desktop Navigation -->
         <div class="hidden md:flex items-center gap-8">
-          <a href="#about" class="nav-link text-sm uppercase font-semibold tracking-wide text-gray-600 hover:text-gray-900 transition-colors">About</a>
-          <a href="#projects" class="nav-link text-sm uppercase font-semibold tracking-wide text-gray-600 hover:text-gray-900 transition-colors">Projects</a>
-          <a href="#team" class="nav-link text-sm uppercase font-semibold tracking-wide text-gray-600 hover:text-gray-900 transition-colors">Team</a>
-          <a href="#events" class="nav-link text-sm uppercase font-semibold tracking-wide text-gray-600 hover:text-gray-900 transition-colors">Events</a>
-          <a href="blog.html" class="nav-link text-sm uppercase font-semibold tracking-wide text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-1">
+          <a href="#about" class="nav-link text-sm uppercase font-semibold tracking-wide text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white transition-colors">About</a>
+          <a href="#projects" class="nav-link text-sm uppercase font-semibold tracking-wide text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white transition-colors">Projects</a>
+          <a href="#team" class="nav-link text-sm uppercase font-semibold tracking-wide text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white transition-colors">Team</a>
+          <a href="#events" class="nav-link text-sm uppercase font-semibold tracking-wide text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white transition-colors">Events</a>
+          <a href="blog.html" class="nav-link text-sm uppercase font-semibold tracking-wide text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white dark:text-gray-300 dark:hover:text-white transition-colors flex items-center gap-1">
             Blog
             <span id="blog-badge" class="hidden bg-google-red text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[1.25rem] text-center shadow-sm"></span>
           </a>
+          <!-- Theme Toggle -->
+          <button id="theme-toggle" class="p-2 ml-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:text-white bg-gray-100 hover:bg-gray-200 dark:text-gray-400 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700 transition-colors rounded-full focus:outline-none" aria-label="Toggle Dark Mode">
+            <svg id="theme-toggle-light-icon" class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            <svg id="theme-toggle-dark-icon" class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+          </button>
         </div>
 
         <!-- Mobile Menu Button -->
@@ -122,22 +139,27 @@
       <!-- Mobile Menu -->
       <div
         id="mobile-menu"
-        class="hidden md:hidden bg-gray-50 border-t border-gray-200 px-6 py-4"
+        class="hidden md:hidden bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-800 px-6 py-4"
       >
         <div class="flex flex-col gap-4">
-          <a href="#about" class="text-gray-600 hover:text-gray-900 py-2">About</a>
-          <a href="#pillars" class="text-gray-600 hover:text-gray-900 py-2"
+          <a href="#about" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white py-2">About</a>
+          <a href="#pillars" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white py-2"
             >Our Pillars</a
           >
-          <a href="#projects" class="text-gray-600 hover:text-gray-900 py-2"
+          <a href="#projects" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white py-2"
             >Projects</a
           >
-          <a href="#team" class="text-gray-600 hover:text-gray-900 py-2">Team</a>
-          <a href="#events" class="text-gray-600 hover:text-gray-900 py-2">Events</a>
-          <a href="blog.html" class="text-gray-600 hover:text-gray-900 py-2 flex items-center justify-between">
+          <a href="#team" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white py-2">Team</a>
+          <a href="#events" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white py-2">Events</a>
+          <a href="blog.html" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:text-white py-2 flex items-center justify-between">
             <span>Blog</span>
             <span id="mobile-blog-badge" class="hidden bg-google-red text-white text-xs font-bold px-2 py-0.5 rounded-full text-center shadow-sm"></span>
           </a>
+          <div class="h-px bg-gray-200 dark:bg-gray-700 my-2"></div>
+          <button id="mobile-theme-toggle" class="flex items-center gap-3 text-gray-600 dark:text-gray-300 py-2 w-full text-left font-medium">
+            <span id="mobile-theme-text" class="block dark:hidden">Dark Mode</span>
+            <span id="mobile-theme-text-dark" class="hidden dark:block">Light Mode</span>
+          </button>
         </div>
       </div>
     </nav>
@@ -146,7 +168,7 @@
        HERO SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
     <section
-      class="min-h-screen flex items-center justify-center pt-20 bg-gradient-to-b from-white via-gray-50 to-gray-100 relative overflow-hidden"
+      class="min-h-screen flex items-center justify-center pt-20 bg-gradient-to-b from-white dark:from-gray-900 via-gray-50 dark:via-gray-800 to-gray-100 dark:to-gray-900 relative overflow-hidden"
     >
       <!-- Background Pattern -->
       <div class="absolute inset-0 opacity-10">
@@ -174,10 +196,10 @@
 
         <!-- Subheadline -->
         <p
-          class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed"
+          class="text-xl md:text-2xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-10 leading-relaxed"
         >
           Join the premier community of developers at
-          <strong class="text-gray-900">Africa University</strong>. We bridge the
+          <strong class="text-gray-900 dark:text-white">Africa University</strong>. We bridge the
           gap between theory and practice using Google technologies.
         </p>
 
@@ -201,14 +223,14 @@
 
         <!-- Stats Row -->
         <div
-          class="flex flex-wrap justify-center gap-8 md:gap-16 mt-16 pt-8 border-t border-gray-200"
+          class="flex flex-wrap justify-center gap-8 md:gap-16 mt-16 pt-8 border-t border-gray-200 dark:border-gray-800"
           data-aos="fade-up" data-aos-delay="200"
         >
           <div class="text-center">
             <div class="text-3xl md:text-4xl font-bold text-google-blue">
               50+
             </div>
-            <div class="text-sm text-gray-500 uppercase tracking-wide mt-1">
+            <div class="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide mt-1">
               Active Members
             </div>
           </div>
@@ -216,7 +238,7 @@
             <div class="text-3xl md:text-4xl font-bold text-google-red">
               12+
             </div>
-            <div class="text-sm text-gray-500 uppercase tracking-wide mt-1">
+            <div class="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide mt-1">
               Projects Shipped
             </div>
           </div>
@@ -224,7 +246,7 @@
             <div class="text-3xl md:text-4xl font-bold text-google-yellow">
               20+
             </div>
-            <div class="text-sm text-gray-500 uppercase tracking-wide mt-1">
+            <div class="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide mt-1">
               Events Hosted
             </div>
           </div>
@@ -232,7 +254,7 @@
             <div class="text-3xl md:text-4xl font-bold text-google-green">
               5
             </div>
-            <div class="text-sm text-gray-500 uppercase tracking-wide mt-1">
+            <div class="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wide mt-1">
               Countries Represented
             </div>
           </div>
@@ -268,7 +290,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        ABOUT SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="about" class="py-24 px-6 bg-gray-50">
+    <section id="about" class="py-24 px-6 bg-gray-50 dark:bg-gray-800/50">
       <div class="max-w-6xl mx-auto" data-aos="fade-up">
         <!-- Section Header -->
         <div class="text-center mb-12">
@@ -280,11 +302,11 @@
             >
             <div class="h-[2px] w-12 bg-google-blue"></div>
           </div>
-          <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
             GDG Africa University
           </h2>
           <div class="grid md:grid-cols-2 gap-12 items-center mb-12">
-            <p class="text-gray-600 text-lg leading-relaxed text-left">
+            <p class="text-gray-600 dark:text-gray-300 text-lg leading-relaxed text-left">
               We are a <strong class="text-google-blue">pan-African tech community</strong> 
               at Africa University, equipping students with Google technologies and 
               the skills to build Africa's digital future. Through peer-driven learning 
@@ -303,25 +325,25 @@
         <!-- Feature Tags -->
         <div class="mt-16 flex flex-wrap gap-4 justify-center">
           <div
-            class="flex items-center gap-2 bg-white border border-gray-200 rounded-full px-5 py-2 shadow-sm"
+            class="flex items-center gap-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-full px-5 py-2 shadow-sm"
           >
             <span class="w-3 h-3 rounded-full bg-google-blue"></span>
             <span class="text-gray-700 text-sm">Google Certified Programs</span>
           </div>
           <div
-            class="flex items-center gap-2 bg-white border border-gray-200 rounded-full px-5 py-2 shadow-sm"
+            class="flex items-center gap-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-full px-5 py-2 shadow-sm"
           >
             <span class="w-3 h-3 rounded-full bg-google-green"></span>
             <span class="text-gray-700 text-sm">50+ Active Members</span>
           </div>
           <div
-            class="flex items-center gap-2 bg-white border border-gray-200 rounded-full px-5 py-2 shadow-sm"
+            class="flex items-center gap-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-full px-5 py-2 shadow-sm"
           >
             <span class="w-3 h-3 rounded-full bg-google-red"></span>
             <span class="text-gray-700 text-sm">Pan-African Network</span>
           </div>
           <div
-            class="flex items-center gap-2 bg-white border border-gray-200 rounded-full px-5 py-2 shadow-sm"
+            class="flex items-center gap-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-full px-5 py-2 shadow-sm"
           >
             <span class="w-3 h-3 rounded-full bg-google-yellow"></span>
             <span class="text-gray-700 text-sm">Real-World Projects</span>
@@ -333,7 +355,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        CORE PILLARS SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="pillars" class="py-24 px-6 bg-white">
+    <section id="pillars" class="py-24 px-6 bg-white dark:bg-gray-900">
       <div class="max-w-6xl mx-auto">
         <!-- Section Header -->
         <div class="text-center mb-16">
@@ -345,7 +367,7 @@
             >
             <div class="h-[2px] w-8 bg-google-red"></div>
           </div>
-          <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900">
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
             Our Core Pillars
           </h2>
           <div class="grid md:grid-cols-2 gap-12 items-center">
@@ -358,7 +380,7 @@
               >
             </div>
 
-            <p class="text-gray-600 text-lg max-w-xl mx-auto md:mx-0 text-left md:text-right order-1 md:order-2 leading-relaxed">
+            <p class="text-gray-600 dark:text-gray-300 text-lg max-w-xl mx-auto md:mx-0 text-left md:text-right order-1 md:order-2 leading-relaxed">
               Our mission is deeply rooted in Africa University's vision of a hunger-free, poverty-free, and peaceful continent. We align our technical training with this purpose, ensuring every line of code we write contributes to identifying and solving the most pressing challenges facing our communities.
             </p>
           </div>
@@ -368,7 +390,7 @@
         <div class="grid md:grid-cols-3 gap-8">
           <!-- Pillar 1: Leadership Transformation -->
           <div
-            class="bg-white border border-gray-200 rounded-2xl p-8 text-center shadow-sm"
+            class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-2xl p-8 text-center shadow-sm"
             data-aos="fade-up"
           >
             <div
@@ -388,15 +410,15 @@
                 ></path>
               </svg>
             </div>
-            <h3 class="font-display text-2xl font-bold mb-4 text-gray-900">
+            <h3 class="font-display text-2xl font-bold mb-4 text-gray-900 dark:text-white">
               Leadership Transformation
             </h3>
-            <p class="text-gray-600 leading-relaxed">
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
               Developing tech leads who think
               <strong class="text-google-blue">"Africa-first"</strong>. We cultivate
               leaders who can bridge technical excellence with social impact.
             </p>
-            <div class="mt-6 pt-6 border-t border-gray-200">
+            <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
               <span class="text-google-blue text-sm font-semibold"
                 >Study Jams • Tech Talks • Mentorship</span
               >
@@ -405,7 +427,7 @@
 
           <!-- Pillar 2: Ubuntu in Tech -->
           <div
-            class="bg-white border border-gray-200 rounded-2xl p-8 text-center shadow-sm"
+            class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-2xl p-8 text-center shadow-sm"
             data-aos="fade-up" data-aos-delay="100"
           >
             <div
@@ -425,15 +447,15 @@
                 ></path>
               </svg>
             </div>
-            <h3 class="font-display text-2xl font-bold mb-4 text-gray-900">
+            <h3 class="font-display text-2xl font-bold mb-4 text-gray-900 dark:text-white">
               Ubuntu in Tech
             </h3>
-            <p class="text-gray-600 leading-relaxed">
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
               Peer-to-peer learning and community-driven coding.
               <strong class="text-google-red">"I am because we are"</strong>
               guides how we build, learn, and grow together.
             </p>
-            <div class="mt-6 pt-6 border-t border-gray-200">
+            <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
               <span class="text-google-red text-sm font-semibold"
                 >Pair Programming • Code Reviews • Open Source</span
               >
@@ -442,7 +464,7 @@
 
           <!-- Pillar 3: Pan-African Innovation -->
           <div
-            class="bg-white border border-gray-200 rounded-2xl p-8 text-center shadow-sm"
+            class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-2xl p-8 text-center shadow-sm"
           >
             <div
               class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-google-green/20 flex items-center justify-center"
@@ -461,15 +483,15 @@
                 ></path>
               </svg>
             </div>
-            <h3 class="font-display text-2xl font-bold mb-4 text-gray-900">
+            <h3 class="font-display text-2xl font-bold mb-4 text-gray-900 dark:text-white">
               Pan-African Innovation
             </h3>
-            <p class="text-gray-600 leading-relaxed">
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
               Building solutions for local and continental challenges. From
               fintech to agritech, we solve
               <strong class="text-google-green">real African problems</strong>.
             </p>
-            <div class="mt-6 pt-6 border-t border-gray-200">
+            <div class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-800">
               <span class="text-google-green text-sm font-semibold"
                 >Hackathons • Solution Challenges • Startups</span
               >
@@ -482,7 +504,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        PROJECT GALLERY SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="projects" class="py-24 px-6 bg-gray-50">
+    <section id="projects" class="py-24 px-6 bg-gray-50 dark:bg-gray-800/50">
       <div class="max-w-6xl mx-auto">
         <!-- Section Header -->
         <div
@@ -497,10 +519,10 @@
                 >What We Build</span
               >
             </div>
-            <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900">
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
               Project Showcase
             </h2>
-            <p class="text-gray-600 text-lg mt-4 max-w-xl">
+            <p class="text-gray-600 dark:text-gray-300 text-lg mt-4 max-w-xl">
               AU students aren't just learning—they're shipping real products
               that solve real problems.
             </p>
@@ -508,7 +530,7 @@
           <a
             href="https://github.com/gdsc-africau"
             target="_blank"
-            class="mt-6 md:mt-0 inline-flex items-center gap-2 text-google-blue hover:text-gray-900 transition-colors font-semibold"
+            class="mt-6 md:mt-0 inline-flex items-center gap-2 text-google-blue hover:text-gray-900 dark:text-white transition-colors font-semibold"
           >
             View All on GitHub
             <svg
@@ -531,14 +553,14 @@
         <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <!-- Project 1: Chef's Muse -->
           <div
-            class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
+            class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm"
             data-aos="fade-up" data-aos-delay="100"
           >
             <div
               class="h-48 bg-gradient-to-br from-google-red/30 to-google-yellow/20 flex items-center justify-center"
             >
               <svg
-                class="w-16 h-16 text-gray-400 group-hover:text-gray-600 transition-colors"
+                class="w-16 h-16 text-gray-400 group-hover:text-gray-600 dark:text-gray-300 transition-colors"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -562,16 +584,16 @@
                   >Flutter</span
                 >
               </div>
-              <h3 class="font-display text-xl font-bold mb-2 text-gray-900">
+              <h3 class="font-display text-xl font-bold mb-2 text-gray-900 dark:text-white">
                 Chef's Muse
               </h3>
-              <p class="text-gray-600 text-sm leading-relaxed mb-4">
+              <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
                 AI-powered recipe generator that creates personalized meal plans
                 based on available ingredients and dietary preferences.
               </p>
               <a
                 href="https://le-e-lab.github.io/chefs-muse/"
-                class="text-google-blue text-sm font-semibold hover:text-gray-900 transition-colors inline-flex items-center gap-1"
+                class="text-google-blue text-sm font-semibold hover:text-gray-900 dark:text-white transition-colors inline-flex items-center gap-1"
               >
                 View Project
                 <svg
@@ -593,14 +615,14 @@
 
           <!-- Project 2: SecureScan -->
           <div
-            class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
+            class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm"
             data-aos="fade-up" data-aos-delay="200"
           >
             <div
               class="h-48 bg-gradient-to-br from-google-blue/30 to-google-green/20 flex items-center justify-center"
             >
               <svg
-                class="w-16 h-16 text-gray-400 group-hover:text-gray-600 transition-colors"
+                class="w-16 h-16 text-gray-400 group-hover:text-gray-600 dark:text-gray-300 transition-colors"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -624,16 +646,16 @@
                   >Android</span
                 >
               </div>
-              <h3 class="font-display text-xl font-bold mb-2 text-gray-900">
+              <h3 class="font-display text-xl font-bold mb-2 text-gray-900 dark:text-white">
                 SecureScan
               </h3>
-              <p class="text-gray-600 text-sm leading-relaxed mb-4">
+              <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
                 Mobile security app that scans QR codes and links for phishing
                 attempts, protecting users from digital fraud.
               </p>
               <a
                 href="#"
-                class="text-google-blue text-sm font-semibold hover:text-gray-900 transition-colors inline-flex items-center gap-1"
+                class="text-google-blue text-sm font-semibold hover:text-gray-900 dark:text-white transition-colors inline-flex items-center gap-1"
               >
                 View Project
                 <svg
@@ -655,13 +677,13 @@
 
           <!-- Project 3: AgriConnect -->
           <div
-            class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
+            class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm"
           >
             <div
               class="h-48 bg-gradient-to-br from-google-green/30 to-google-yellow/20 flex items-center justify-center"
             >
               <svg
-                class="w-16 h-16 text-gray-400 group-hover:text-gray-600 transition-colors"
+                class="w-16 h-16 text-gray-400 group-hover:text-gray-600 dark:text-gray-300 transition-colors"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -685,16 +707,16 @@
                   >Firebase</span
                 >
               </div>
-              <h3 class="font-display text-xl font-bold mb-2 text-gray-900">
+              <h3 class="font-display text-xl font-bold mb-2 text-gray-900 dark:text-white">
                 AgriConnect
               </h3>
-              <p class="text-gray-600 text-sm leading-relaxed mb-4">
+              <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
                 Platform connecting smallholder farmers to markets, providing
                 real-time pricing and logistics coordination.
               </p>
               <a
                 href="#"
-                class="text-google-blue text-sm font-semibold hover:text-gray-900 transition-colors inline-flex items-center gap-1"
+                class="text-google-blue text-sm font-semibold hover:text-gray-900 dark:text-white transition-colors inline-flex items-center gap-1"
               >
                 View Project
                 <svg
@@ -715,13 +737,13 @@
           </div>
 
           <div
-            class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
+            class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm"
           >
             <div
               class="h-48 bg-gradient-to-br from-google-red/30 to-google-blue/20 flex items-center justify-center"
             >
               <svg
-                class="w-16 h-16 text-gray-400 group-hover:text-gray-600 transition-colors"
+                class="w-16 h-16 text-gray-400 group-hover:text-gray-600 dark:text-gray-300 transition-colors"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -745,16 +767,16 @@
                   >Cloud</span
                 >
               </div>
-              <h3 class="font-display text-xl font-bold mb-2 text-gray-900">
+              <h3 class="font-display text-xl font-bold mb-2 text-gray-900 dark:text-white">
                 HealthHub ZW
               </h3>
-              <p class="text-gray-600 text-sm leading-relaxed mb-4">
+              <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
                 Telemedicine platform enabling rural Zimbabweans to access
                 healthcare consultations via mobile devices.
               </p>
               <a
                 href="#"
-                class="text-google-blue text-sm font-semibold hover:text-gray-900 transition-colors inline-flex items-center gap-1"
+                class="text-google-blue text-sm font-semibold hover:text-gray-900 dark:text-white transition-colors inline-flex items-center gap-1"
               >
                 View Project
                 <svg
@@ -776,13 +798,13 @@
 
           <!-- Project 5: EduTrack -->
           <div
-            class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
+            class="group bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm"
           >
             <div
               class="h-48 bg-gradient-to-br from-google-yellow/30 to-google-green/20 flex items-center justify-center"
             >
               <svg
-                class="w-16 h-16 text-gray-400 group-hover:text-gray-600 transition-colors"
+                class="w-16 h-16 text-gray-400 group-hover:text-gray-600 dark:text-gray-300 transition-colors"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -812,16 +834,16 @@
                   >Web</span
                 >
               </div>
-              <h3 class="font-display text-xl font-bold mb-2 text-gray-900">
+              <h3 class="font-display text-xl font-bold mb-2 text-gray-900 dark:text-white">
                 EduTrack
               </h3>
-              <p class="text-gray-600 text-sm leading-relaxed mb-4">
+              <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-4">
                 Student progress tracking system for AU, helping advisors
                 monitor academic performance and provide timely support.
               </p>
               <a
                 href="#"
-                class="text-google-blue text-sm font-semibold hover:text-gray-900 transition-colors inline-flex items-center gap-1"
+                class="text-google-blue text-sm font-semibold hover:text-gray-900 dark:text-white transition-colors inline-flex items-center gap-1"
               >
                 View Project
                 <svg
@@ -862,10 +884,10 @@
                 ></path>
               </svg>
             </div>
-            <h3 class="font-display text-xl font-bold mb-2 text-gray-900">
+            <h3 class="font-display text-xl font-bold mb-2 text-gray-900 dark:text-white">
               Build With Us
             </h3>
-            <p class="text-gray-600 text-sm mb-6">
+            <p class="text-gray-600 dark:text-gray-300 text-sm mb-6">
               Have an idea? Join our chapter and turn it into reality.
             </p>
             <button
@@ -882,7 +904,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        TEAM SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="team" class="py-24 px-6 bg-white">
+    <section id="team" class="py-24 px-6 bg-white dark:bg-gray-900">
       <div class="max-w-6xl mx-auto">
         <!-- Section Header -->
         <div class="text-center mb-16">
@@ -894,10 +916,10 @@
             >
             <div class="h-[2px] w-8 bg-google-yellow"></div>
           </div>
-          <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900">
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
             Core Team 2025-26
           </h2>
-          <p class="text-gray-600 text-lg mt-4 max-w-2xl mx-auto">
+          <p class="text-gray-600 dark:text-gray-300 text-lg mt-4 max-w-2xl mx-auto">
             Meet the passionate developers leading our chapter forward.
           </p>
         </div>
@@ -922,17 +944,17 @@
                 LEAD
               </div>
             </div>
-            <h3 class="font-display text-xl font-bold text-gray-900 mb-1">
+            <h3 class="font-display text-xl font-bold text-gray-900 dark:text-white mb-1">
               GDSC Lead
             </h3>
             <p class="text-google-blue text-sm mb-3">Chapter Lead</p>
-            <p class="text-gray-600 text-sm">
+            <p class="text-gray-600 dark:text-gray-300 text-sm">
               Computer Science • Class of 2026
             </p>
             <div class="flex justify-center gap-3 mt-4">
               <a
                 href="#"
-                class="text-gray-500 hover:text-google-blue transition-colors"
+                class="text-gray-500 dark:text-gray-400 hover:text-google-blue transition-colors"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -942,7 +964,7 @@
               </a>
               <a
                 href="#"
-                class="text-gray-500 hover:text-gray-900 transition-colors"
+                class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:text-white transition-colors"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -972,17 +994,17 @@
                 TECH
               </div>
             </div>
-            <h3 class="font-display text-xl font-bold text-gray-900 mb-1">
+            <h3 class="font-display text-xl font-bold text-gray-900 dark:text-white mb-1">
               Tech Lead
             </h3>
             <p class="text-google-blue text-sm mb-3">Technical Lead</p>
-            <p class="text-gray-600 text-sm">
+            <p class="text-gray-600 dark:text-gray-300 text-sm">
               Software Engineering • Class of 2026
             </p>
             <div class="flex justify-center gap-3 mt-4">
               <a
                 href="#"
-                class="text-gray-500 hover:text-google-blue transition-colors"
+                class="text-gray-500 dark:text-gray-400 hover:text-google-blue transition-colors"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -992,7 +1014,7 @@
               </a>
               <a
                 href="#"
-                class="text-gray-500 hover:text-gray-900 transition-colors"
+                class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:text-white transition-colors"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -1021,17 +1043,17 @@
                 DESIGN
               </div>
             </div>
-            <h3 class="font-display text-xl font-bold text-gray-900 mb-1">
+            <h3 class="font-display text-xl font-bold text-gray-900 dark:text-white mb-1">
               Design Lead
             </h3>
             <p class="text-google-blue text-sm mb-3">Design Lead</p>
-            <p class="text-gray-600 text-sm">
+            <p class="text-gray-600 dark:text-gray-300 text-sm">
               Information Systems • Class of 2027
             </p>
             <div class="flex justify-center gap-3 mt-4">
               <a
                 href="#"
-                class="text-gray-500 hover:text-google-blue transition-colors"
+                class="text-gray-500 dark:text-gray-400 hover:text-google-blue transition-colors"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -1041,7 +1063,7 @@
               </a>
               <a
                 href="#"
-                class="text-gray-500 hover:text-gray-900 transition-colors"
+                class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:text-white transition-colors"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -1070,17 +1092,17 @@
                 COMMUNITY
               </div>
             </div>
-            <h3 class="font-display text-xl font-bold text-gray-900 mb-1">
+            <h3 class="font-display text-xl font-bold text-gray-900 dark:text-white mb-1">
               Community Lead
             </h3>
             <p class="text-google-blue text-sm mb-3">Community Lead</p>
-            <p class="text-gray-600 text-sm">
+            <p class="text-gray-600 dark:text-gray-300 text-sm">
               Business Informatics • Class of 2027
             </p>
             <div class="flex justify-center gap-3 mt-4">
               <a
                 href="#"
-                class="text-gray-500 hover:text-google-blue transition-colors"
+                class="text-gray-500 dark:text-gray-400 hover:text-google-blue transition-colors"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -1090,7 +1112,7 @@
               </a>
               <a
                 href="#"
-                class="text-gray-500 hover:text-gray-900 transition-colors"
+                class="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:text-white transition-colors"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -1104,7 +1126,7 @@
 
         <!-- Join Team CTA -->
         <div class="mt-16 text-center">
-          <p class="text-gray-600 mb-4">Want to join the core team?</p>
+          <p class="text-gray-600 dark:text-gray-300 mb-4">Want to join the core team?</p>
           <button id="show-apply-btn" class="bg-google-blue text-white px-8 py-3 rounded-full font-bold text-sm hover:bg-google-blue/90 hover:scale-105 transition-all shadow-lg shadow-google-blue/25 inline-flex items-center gap-2">
             Apply for a Lead Role
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
@@ -1116,7 +1138,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        EVENTS SECTION (UPCOMING)
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="events" class="py-24 px-6 bg-gray-50">
+    <section id="events" class="py-24 px-6 bg-gray-50 dark:bg-gray-800/50">
       <div class="max-w-6xl mx-auto">
         <!-- Section Header -->
         <div
@@ -1130,14 +1152,14 @@
                 >Events</span
               >
             </div>
-            <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900">
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 dark:text-white">
               Upcoming Events
             </h2>
           </div>
           <a
             href="https://gdsc.community.dev/"
             target="_blank"
-            class="mt-6 md:mt-0 inline-flex items-center gap-2 text-google-blue hover:text-gray-900 transition-colors font-semibold"
+            class="mt-6 md:mt-0 inline-flex items-center gap-2 text-google-blue hover:text-gray-900 dark:text-white transition-colors font-semibold"
           >
             View All Events on Bevy
             <svg
@@ -1172,17 +1194,17 @@
                   class="w-14 h-14 rounded-xl bg-google-blue/20 flex flex-col items-center justify-center"
                 >
                   <span class="text-xs text-google-blue font-bold">FEB</span>
-                  <span class="text-xl text-gray-900 font-bold">15</span>
+                  <span class="text-xl text-gray-900 dark:text-white font-bold">15</span>
                 </div>
                 <div>
                   <span class="text-xs text-gray-400 uppercase">Workshop</span>
-                  <h4 class="text-gray-900 font-bold">Flutter Kickstart</h4>
+                  <h4 class="text-gray-900 dark:text-white font-bold">Flutter Kickstart</h4>
                 </div>
               </div>
-              <p class="text-gray-600 text-sm mb-4">
+              <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
                 Build your first cross-platform mobile app in 3 hours.
               </p>
-              <div class="flex items-center gap-2 text-xs text-gray-500">
+              <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                 <svg
                   class="w-4 h-4"
                   fill="none"
@@ -1209,7 +1231,7 @@
 
           <!-- Event 2 -->
           <div
-            class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
+            class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm"
           >
             <div
               class="h-3 bg-gradient-to-r from-google-red to-google-yellow"
@@ -1220,18 +1242,18 @@
                   class="w-14 h-14 rounded-xl bg-google-red/20 flex flex-col items-center justify-center"
                 >
                   <span class="text-xs text-google-red font-bold">MAR</span>
-                  <span class="text-xl text-gray-900 font-bold">08</span>
+                  <span class="text-xl text-gray-900 dark:text-white font-bold">08</span>
                 </div>
                 <div>
                   <span class="text-xs text-gray-400 uppercase">Hackathon</span>
-                  <h4 class="text-gray-900 font-bold">Solution Challenge Prep</h4>
+                  <h4 class="text-gray-900 dark:text-white font-bold">Solution Challenge Prep</h4>
                 </div>
               </div>
-              <p class="text-gray-600 text-sm mb-4">
+              <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
                 Team formation and ideation session for Google's annual
                 competition.
               </p>
-              <div class="flex items-center gap-2 text-xs text-gray-500">
+              <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                 <svg
                   class="w-4 h-4"
                   fill="none"
@@ -1258,7 +1280,7 @@
 
           <!-- Event 3 -->
           <div
-            class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm"
+            class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-800 rounded-2xl overflow-hidden shadow-sm"
           >
             <div
               class="h-3 bg-gradient-to-r from-google-yellow to-google-green"
@@ -1269,17 +1291,17 @@
                   class="w-14 h-14 rounded-xl bg-google-yellow/20 flex flex-col items-center justify-center"
                 >
                   <span class="text-xs text-google-yellow font-bold">MAR</span>
-                  <span class="text-xl text-gray-900 font-bold">22</span>
+                  <span class="text-xl text-gray-900 dark:text-white font-bold">22</span>
                 </div>
                 <div>
                   <span class="text-xs text-gray-400 uppercase">Study Jam</span>
-                  <h4 class="text-gray-900 font-bold">Cloud Skills Boost</h4>
+                  <h4 class="text-gray-900 dark:text-white font-bold">Cloud Skills Boost</h4>
                 </div>
               </div>
-              <p class="text-gray-600 text-sm mb-4">
+              <p class="text-gray-600 dark:text-gray-300 text-sm mb-4">
                 Guided learning path through Google Cloud fundamentals.
               </p>
-              <div class="flex items-center gap-2 text-xs text-gray-500">
+              <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                 <svg
                   class="w-4 h-4"
                   fill="none"
@@ -1304,7 +1326,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        ALUMNI TESTIMONIALS SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="testimonials" class="py-24 px-6 bg-white">
+    <section id="testimonials" class="py-24 px-6 bg-white dark:bg-gray-900">
       <div class="max-w-6xl mx-auto">
         <!-- Section Header -->
         <div class="text-center mb-16">
@@ -1316,10 +1338,10 @@
             >
             <div class="h-[2px] w-12 bg-google-green"></div>
           </div>
-          <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             What Our Alumni Say
           </h2>
-          <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+          <p class="text-gray-600 dark:text-gray-300 text-lg max-w-2xl mx-auto">
             Hear from previous GDG members about their experiences and how the community helped shape their careers.
           </p>
         </div>
@@ -1347,7 +1369,7 @@
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
               </svg>
             </div>
-            <p class="text-gray-600 leading-relaxed mb-6">
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
               "GDG AU completely transformed my career trajectory. The hands-on workshops and supportive community gave me the confidence to pursue a career in tech. I landed my first developer role just 6 months after joining!"
             </p>
             <div class="flex items-center gap-4">
@@ -1355,14 +1377,14 @@
                 TM
               </div>
               <div>
-                <h4 class="font-bold text-gray-900">Tatenda Moyo</h4>
-                <p class="text-gray-500 text-sm">Class of 2023 • Software Engineer at TechCorp</p>
+                <h4 class="font-bold text-gray-900 dark:text-white">Tatenda Moyo</h4>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">Class of 2023 • Software Engineer at TechCorp</p>
               </div>
             </div>
           </div>
 
           <!-- Testimonial 2 -->
-          <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100">
+          <div class="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-8 border border-gray-100 dark:border-gray-800">
             <div class="flex items-center gap-1 mb-4">
               <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
@@ -1380,7 +1402,7 @@
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
               </svg>
             </div>
-            <p class="text-gray-600 leading-relaxed mb-6">
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
               "The Solution Challenge project we worked on opened so many doors. Working with a team on a real-world problem taught me more than any classroom could. Plus, the Google certifications helped me stand out in job applications."
             </p>
             <div class="flex items-center gap-4">
@@ -1388,14 +1410,14 @@
                 CN
               </div>
               <div>
-                <h4 class="font-bold text-gray-900">Chiedza Nyamukapa</h4>
-                <p class="text-gray-500 text-sm">Class of 2024 • Cloud Engineer at Google</p>
+                <h4 class="font-bold text-gray-900 dark:text-white">Chiedza Nyamukapa</h4>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">Class of 2024 • Cloud Engineer at Google</p>
               </div>
             </div>
           </div>
 
           <!-- Testimonial 3 -->
-          <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100">
+          <div class="bg-gray-50 dark:bg-gray-800/50 rounded-2xl p-8 border border-gray-100 dark:border-gray-800">
             <div class="flex items-center gap-1 mb-4">
               <svg class="w-5 h-5 text-google-yellow" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
@@ -1413,7 +1435,7 @@
                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
               </svg>
             </div>
-            <p class="text-gray-600 leading-relaxed mb-6">
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
               "As someone from a non-technical background, I was nervous about joining. But the welcoming atmosphere and beginner-friendly workshops made all the difference. Now I'm a full-stack developer and I mentor new members!"
             </p>
             <div class="flex items-center gap-4">
@@ -1421,8 +1443,8 @@
                 KM
               </div>
               <div>
-                <h4 class="font-bold text-gray-900">Kudakwashe Mupfumira</h4>
-                <p class="text-gray-500 text-sm">Class of 2022 • Full-Stack Developer</p>
+                <h4 class="font-bold text-gray-900 dark:text-white">Kudakwashe Mupfumira</h4>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">Class of 2022 • Full-Stack Developer</p>
               </div>
             </div>
           </div>
@@ -1433,7 +1455,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        LEAD ROLE APPLICATION SECTION
    ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="apply" class="py-24 px-6 bg-gray-50 hidden">
+    <section id="apply" class="py-24 px-6 bg-gray-50 dark:bg-gray-800/50 hidden">
       <div class="max-w-3xl mx-auto">
         <div class="text-center mb-12">
           <div class="flex items-center justify-center gap-3 mb-4">
@@ -1441,11 +1463,11 @@
             <span class="text-google-blue uppercase tracking-widest text-sm font-semibold">Join the Team</span>
             <div class="h-[2px] w-12 bg-google-blue"></div>
           </div>
-          <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-4">Apply for a Lead Role</h2>
-          <p class="text-gray-600 text-lg">Think you have what it takes? Tell us about yourself and the role you're passionate about.</p>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Apply for a Lead Role</h2>
+          <p class="text-gray-600 dark:text-gray-300 text-lg">Think you have what it takes? Tell us about yourself and the role you're passionate about.</p>
         </div>
 
-        <div class="bg-white rounded-2xl p-4 sm:p-8 md:p-10 shadow-sm border border-gray-200">
+        <div class="bg-white rounded-2xl p-4 sm:p-8 md:p-10 shadow-sm border border-gray-200 dark:border-gray-800">
           <form id="apply-form" class="space-y-6">
             <div class="grid sm:grid-cols-2 gap-6">
               <div>
@@ -1510,7 +1532,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        NEWSLETTER SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="newsletter" class="py-24 px-6 bg-gray-50">
+    <section id="newsletter" class="py-24 px-6 bg-gray-50 dark:bg-gray-800/50">
       <div class="max-w-6xl mx-auto">
         <div class="grid md:grid-cols-2 gap-12 items-center">
           <!-- Illustration -->
@@ -1532,10 +1554,10 @@
                 >Stay Updated</span
               >
             </div>
-            <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 class="font-display text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
               Subscribe to Our Newsletter
             </h2>
-            <p class="text-gray-600 text-lg mb-8">
+            <p class="text-gray-600 dark:text-gray-300 text-lg mb-8">
               Get the latest updates on workshops, hackathons, and community events directly in your inbox.
             </p>
 
@@ -1570,7 +1592,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        FOOTER
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <footer class="bg-gray-50 border-t border-gray-200">
+    <footer class="bg-gray-50 dark:bg-gray-800/50 border-t border-gray-200 dark:border-gray-800">
       <!-- Main Footer -->
       <div class="max-w-6xl mx-auto px-6 py-16">
         <div class="grid md:grid-cols-4 gap-12">
@@ -1578,11 +1600,11 @@
           <div class="md:col-span-2">
             <div class="flex items-center gap-3 mb-6">
               <img src="gdg-logo.jpg" alt="GDG Logo" class="w-10 h-10 object-contain">
-              <span class="font-display font-bold text-xl text-gray-900"
+              <span class="font-display font-bold text-xl text-gray-900 dark:text-white"
                 >GDG Africa University</span
               >
             </div>
-            <p class="text-gray-600 leading-relaxed mb-6 max-w-md">
+            <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6 max-w-md">
               Google Developer Groups on Campus at Africa University. Building
               pan-African tech talent through peer learning, hands-on projects,
               and community.
@@ -1592,7 +1614,7 @@
               <a
                 href="https://www.tiktok.com/@au_gdsc?_r=1&_t=ZS-93ne6ATIdGP"
                 target="_blank"
-                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-black hover:text-white transition-all"
+                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-black hover:text-white transition-all"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -1604,7 +1626,7 @@
               <a
                 href="https://www.instagram.com/au_gdsc?igsh=OW9vaXlseDM4Y2dw"
                 target="_blank"
-                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-google-red hover:text-white transition-all"
+                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-google-red hover:text-white transition-all"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -1616,7 +1638,7 @@
               <a
                 href="https://github.com/gdg-au"
                 target="_blank"
-                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-900 hover:text-white transition-all"
+                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-gray-900 hover:text-white transition-all"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -1628,7 +1650,7 @@
               <a
                 href="https://www.linkedin.com/in/google-developer-group-on-campus-au-50317828b?utm_source=share_via&utm_content=profile&utm_medium=member_ios"
                 target="_blank"
-                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-google-blue hover:text-white transition-all"
+                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 dark:text-gray-400 hover:bg-google-blue hover:text-white transition-all"
               >
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path
@@ -1641,57 +1663,57 @@
 
           <!-- Quick Links -->
           <div>
-            <h4 class="font-bold text-gray-900 mb-6">Quick Links</h4>
+            <h4 class="font-bold text-gray-900 dark:text-white mb-6">Quick Links</h4>
             <ul class="space-y-3">
               <li>
                 <a
                   href="#about"
-                  class="text-gray-600 hover:text-google-blue transition-colors"
+                  class="text-gray-600 dark:text-gray-300 hover:text-google-blue transition-colors"
                   >About Us</a
                 >
               </li>
               <li>
                 <a
                   href="#pillars"
-                  class="text-gray-600 hover:text-google-blue transition-colors"
+                  class="text-gray-600 dark:text-gray-300 hover:text-google-blue transition-colors"
                   >Our Pillars</a
                 >
               </li>
               <li>
                 <a
                   href="#projects"
-                  class="text-gray-600 hover:text-google-blue transition-colors"
+                  class="text-gray-600 dark:text-gray-300 hover:text-google-blue transition-colors"
                   >Projects</a
                 >
               </li>
               <li>
                 <a
                   href="#team"
-                  class="text-gray-600 hover:text-google-blue transition-colors"
+                  class="text-gray-600 dark:text-gray-300 hover:text-google-blue transition-colors"
                   >Core Team</a
                 >
               </li>
               <li>
-                <a href="#events" class="text-gray-600 hover:text-google-blue transition-colors">Events</a>
+                <a href="#events" class="text-gray-600 dark:text-gray-300 hover:text-google-blue transition-colors">Events</a>
               </li>
               <li>
-                <a href="blog.html" class="text-gray-600 hover:text-google-blue transition-colors">Blog</a>
+                <a href="blog.html" class="text-gray-600 dark:text-gray-300 hover:text-google-blue transition-colors">Blog</a>
               </li>
               <li>
-                <a href="#apply" class="text-gray-600 hover:text-google-blue transition-colors">Apply for Lead</a>
+                <a href="#apply" class="text-gray-600 dark:text-gray-300 hover:text-google-blue transition-colors">Apply for Lead</a>
               </li>
             </ul>
           </div>
 
           <!-- Resources -->
           <div>
-            <h4 class="font-bold text-gray-900 mb-6">Resources</h4>
+            <h4 class="font-bold text-gray-900 dark:text-white mb-6">Resources</h4>
             <ul class="space-y-3">
               <li>
                 <a
                   href="https://gdsc.community.dev/"
                   target="_blank"
-                  class="text-gray-600 hover:text-google-blue transition-colors"
+                  class="text-gray-600 dark:text-gray-300 hover:text-google-blue transition-colors"
                   >GDG Global</a
                 >
               </li>
@@ -1699,7 +1721,7 @@
                 <a
                   href="https://developers.google.com/"
                   target="_blank"
-                  class="text-gray-600 hover:text-google-blue transition-colors"
+                  class="text-gray-600 dark:text-gray-300 hover:text-google-blue transition-colors"
                   >Google Developers</a
                 >
               </li>
@@ -1707,7 +1729,7 @@
                 <a
                   href="https://www.africau.edu/"
                   target="_blank"
-                  class="text-gray-600 hover:text-google-blue transition-colors"
+                  class="text-gray-600 dark:text-gray-300 hover:text-google-blue transition-colors"
                   >Africa University</a
                 >
               </li>
@@ -1715,7 +1737,7 @@
                 <a
                   href="https://skillshop.withgoogle.com/"
                   target="_blank"
-                  class="text-gray-600 hover:text-google-blue transition-colors"
+                  class="text-gray-600 dark:text-gray-300 hover:text-google-blue transition-colors"
                   >Google Skillshop</a
                 >
               </li>
@@ -1725,20 +1747,20 @@
       </div>
 
       <!-- Bottom Bar -->
-      <div class="border-t border-gray-200">
+      <div class="border-t border-gray-200 dark:border-gray-800">
         <div class="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p class="text-gray-500 text-sm text-center md:text-left">
+          <p class="text-gray-500 dark:text-gray-400 text-sm text-center md:text-left">
             &copy; 2026 GDG Africa University. Part of the global
             <a href="https://gdsc.community.dev/" target="_blank" class="text-google-blue hover:underline">Google Developer Groups</a>
             program.
           </p>
           <div class="flex items-center gap-4">
-            <span class="text-gray-500 text-sm">Made with</span>
+            <span class="text-gray-500 dark:text-gray-400 text-sm">Made with</span>
             <span class="text-google-red">❤</span>
-            <span class="text-gray-500 text-sm">in Mutare, Zimbabwe</span>
+            <span class="text-gray-500 dark:text-gray-400 text-sm">in Mutare, Zimbabwe</span>
           </div>
           <!-- Admin Login Link (enhanced pill button) -->
-          <a href="admin.html" class="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-200 border border-gray-300 text-xs font-semibold text-gray-500 hover:bg-white hover:text-google-blue hover:border-google-blue/30 hover:shadow-md transition-all duration-300">
+          <a href="admin.html" class="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-200 border border-gray-300 text-xs font-semibold text-gray-500 dark:text-gray-400 hover:bg-white hover:text-google-blue hover:border-google-blue/30 hover:shadow-md transition-all duration-300">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
             </svg>
@@ -1774,8 +1796,8 @@
             <div class="w-3 h-3 rounded-full bg-google-yellow"></div>
             <div class="w-3 h-3 rounded-full bg-google-green"></div>
           </div>
-          <h3 class="text-2xl font-bold text-gray-900 mb-2">Join Our Community</h3>
-          <p class="text-gray-600">Connect with GDSC Africa University on your favorite platform</p>
+          <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Join Our Community</h3>
+          <p class="text-gray-600 dark:text-gray-300">Connect with GDSC Africa University on your favorite platform</p>
         </div>
         
         <div class="space-y-4">
@@ -1821,6 +1843,34 @@
 
     <!-- External JavaScript (module for Supabase) -->
     <script type="module" src="site.js"></script>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('sw.js')
+            .then(registration => console.log('ServiceWorker registered with scope:', registration.scope))
+            .catch(error => console.log('ServiceWorker registration failed:', error));
+        });
+      }
+    </script>
+
+    <!-- Theme Toggle Script -->
+    <script>
+      const themeToggleBtn = document.getElementById('theme-toggle');
+      const mobileThemeToggleBtn = document.getElementById('mobile-theme-toggle');
+      const toggleTheme = () => {
+        if (document.documentElement.classList.contains('dark')) {
+          document.documentElement.classList.remove('dark');
+          localStorage.theme = 'light';
+        } else {
+          document.documentElement.classList.add('dark');
+          localStorage.theme = 'dark';
+        }
+      };
+      if (themeToggleBtn) themeToggleBtn.addEventListener('click', toggleTheme);
+      if (mobileThemeToggleBtn) mobileThemeToggleBtn.addEventListener('click', toggleTheme);
+    </script>
   </body>
 </html>
 

@@ -160,8 +160,8 @@ async function fetchSinglePost(id) {
     if (divider) divider.classList.add('hidden');
     const searchBar = document.getElementById('blog-search-bar');
     if (searchBar) searchBar.classList.add('hidden');
-    const loadMoreContainer = document.getElementById('load-more-container');
-    if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
+    const loadMoreEl = document.getElementById('load-more-container');
+    if (loadMoreEl) loadMoreEl.classList.add('hidden');
 
     if (blogContainer) {
         blogContainer.classList.remove('hidden');
@@ -193,7 +193,7 @@ async function fetchSinglePost(id) {
                 </div>
             </div>
 
-            ${imageUrl ? `<img src="${imageUrl}" alt="${post.title}" class="w-full rounded-2xl mb-12 object-cover max-h-[500px]">` : ''}
+            ${imageUrl ? `<img src="${imageUrl}" alt="${post.title}" class="w-full rounded-2xl mb-12 object-cover max-h-[500px] mix-blend-multiply">` : ''}
 
             <div class="prose prose-lg max-w-none text-gray-800 leading-relaxed font-sans text-lg">
                 ${formattedContent}
@@ -273,10 +273,10 @@ async function fetchSingleProject(id) {
 
     if (header) header.classList.add('hidden');
     if (divider) divider.classList.add('hidden');
-    const searchBar = document.getElementById('blog-search-bar');
-    if (searchBar) searchBar.classList.add('hidden');
-    const loadMoreContainer = document.getElementById('load-more-container');
-    if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
+    const searchBar2 = document.getElementById('blog-search-bar');
+    if (searchBar2) searchBar2.classList.add('hidden');
+    const loadMoreEl2 = document.getElementById('load-more-container');
+    if (loadMoreEl2) loadMoreEl2.classList.add('hidden');
 
     if (blogContainer) {
         blogContainer.classList.remove('hidden');

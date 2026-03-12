@@ -2,20 +2,41 @@
   publish = "."
   command = "echo 'Static HTML site, no build command needed'"
 
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
+# HTML pages - never cache, always revalidate
 [[headers]]
   for = "/*.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
+# Service worker - never cache
 [[headers]]
-  for = "/_api/*"
+  for = "/sw.js"
   [headers.values]
-    Cache-Control = "no-cache"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+# JS files - cache for 1 hour then revalidate
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
+# CSS files - cache for 1 hour
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, must-revalidate"
+
+# Images - cache for 1 week (they rarely change)
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# Root - revalidate
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[plugins]]
   package = "@netlify/plugin-sitemap"

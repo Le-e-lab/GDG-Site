@@ -19,7 +19,6 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-    
     <style>
         .hero-blob { position: absolute; border-radius: 9999px; filter: blur(80px); opacity: 0.12; pointer-events: none; }
     </style>
@@ -37,7 +36,7 @@
                 </a>
                 <div class="h-8 w-[1px] bg-gray-200 hidden md:block"></div>
                 <a href="blog.html" class="flex items-center gap-2">
-                    <img src="images/gdg-logo.jpg" alt="GDG Logo" class="w-10 h-10 object-contain rounded">
+                    <img src="images/gdg-logo.jpg" alt="GDG Logo" class="w-10 h-10 object-contain rounded mix-blend-multiply">
                     <span class="font-display font-bold text-lg text-gray-900 hidden sm:inline">GDG</span>
                 </a>
             </div>
@@ -46,8 +45,8 @@
                 <a href="index.html#projects" class="text-sm font-semibold uppercase tracking-wide text-google-blue transition-colors">Projects</a>
                 <a href="index.html#events" class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-gray-900 transition-colors">Events</a>
                 <a href="blog.html" class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-gray-900 transition-colors flex items-center gap-1">
-                
-            </div>
+                <!-- Theme Toggle -->
+                </div>
             <!-- Mobile menu button -->
             <button id="mobile-blog-menu-btn" class="md:hidden p-2 text-gray-700">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -60,7 +59,11 @@
                 <a href="index.html#events" class="text-gray-600 hover:text-gray-900 py-2">Events</a>
                 <a href="blog.html" class="text-google-blue font-semibold py-2">Blog</a>
                 <div class="h-px bg-gray-200 my-2"></div>
-                
+                <!-- Mobile Theme Toggle -->
+                <button id="mobile-theme-toggle" class="flex items-center gap-3 text-gray-600 py-2 w-full text-left font-medium">
+                    <span id="mobile-theme-text" class="block">Dark Mode</span>
+                    <span id="mobile-theme-text-dark" class="hidden">Light Mode</span>
+                </button>
             </div>
         </div>
     </nav>
@@ -107,12 +110,12 @@
         <div class="max-w-6xl mx-auto">
             
             <!-- Search & Filter Bar -->
-            <div id="blog-search-bar" class="mb-10 flex flex-col md:flex-row gap-4 items-center justify-between bg-transparent p-0 rounded-none border-0 shadow-none" data-aos="fade-up">
+            <div class="mb-10 flex flex-col md:flex-row gap-4 items-center justify-between bg-transparent p-0 rounded-none border-0 shadow-none" data-aos="fade-up">
                 <div class="relative w-full md:w-96">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
-                    <input type="text" id="blog-search-input" placeholder="Search projects, technologies, or tags..." class="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-google-blue transition-all text-sm">
+                    <input type="text" id="blog-search-input" placeholder="Search articles, keywords, or topics..." class="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-google-blue transition-all text-sm">
                 </div>
             </div>
             <!-- Loading skeleton -->
@@ -167,7 +170,7 @@
     <footer class="bg-gray-900 text-white py-12 px-6">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
-                <img src="images/gdg-logo.jpg" alt="GDG Logo" class="w-8 h-8 object-contain rounded">
+                <img src="images/gdg-logo.jpg" alt="GDG Logo" class="w-8 h-8 object-contain rounded mix-blend-multiply">
                 <span class="font-display font-bold text-white">GDG Africa University</span>
             </div>
             <p class="text-gray-400 text-sm">© 2026 GDG Africa University. Developed with <span class="text-google-red">♥</span> in Mutare, Zimbabwe.</p>
@@ -188,8 +191,5 @@
             });
         }
     </script>
-
-
-
 </body>
 </html>

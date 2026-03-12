@@ -1,14 +1,17 @@
-const CACHE_NAME = 'gdg-cache-v1';
+const CACHE_NAME = 'gdg-cache-v2';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
     '/blog.html',
+    '/project.html',
     '/admin.html',
-    '/site.js',
-    '/blog.js',
-    '/admin.js',
-    '/supabase-config.js',
-    '/images/gdg-logo.jpg'
+    '/js/site.js',
+    '/js/blog.js',
+    '/js/project.js',
+    '/js/admin.js',
+    '/js/supabase-config.js',
+    '/images/gdg-logo.jpg',
+    '/manifest.json'
 ];
 
 // Install event: cache core assets
@@ -20,6 +23,8 @@ self.addEventListener('install', (event) => {
                 return cache.addAll(ASSETS_TO_CACHE);
             })
     );
+    // Force the waiting service worker to become the active service worker
+    self.skipWaiting();
 });
 
 // Activate event: clean up old caches
@@ -35,35 +40,30 @@ self.addEventListener('activate', (event) => {
             );
         })
     );
+    // Take control of all pages immediately
+    self.clients.claim();
 });
 
-// Fetch event: serve from cache, fallback to network
+// Fetch event: NETWORK-FIRST strategy (always get latest, fallback to cache)
 self.addEventListener('fetch', (event) => {
-    // Only handle GET requests
     if (event.request.method !== 'GET') return;
-    
-    // Skip cross-origin requests (e.g., Supabase API, CDNs)
     if (!event.request.url.startsWith(self.location.origin)) return;
 
     event.respondWith(
-        caches.match(event.request)
-            .then((response) => {
-                // Return cached response if found
-                if (response) {
-                    return response;
+        fetch(event.request)
+            .then((networkResponse) => {
+                // Update cache with the fresh response
+                if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
+                    const responseToCache = networkResponse.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseToCache);
+                    });
                 }
-                
-                // Otherwise, fetch from network
-                return fetch(event.request).then((networkResponse) => {
-                    // Cache the new response for future use
-                    if (networkResponse && networkResponse.status === 200 && networkResponse.type === 'basic') {
-                        const responseToCache = networkResponse.clone();
-                        caches.open(CACHE_NAME).then((cache) => {
-                            cache.put(event.request, responseToCache);
-                        });
-                    }
-                    return networkResponse;
-                });
+                return networkResponse;
+            })
+            .catch(() => {
+                // Network failed, try cache as fallback
+                return caches.match(event.request);
             })
     );
 });

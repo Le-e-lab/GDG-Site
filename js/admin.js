@@ -192,10 +192,10 @@ function switchTab(tabId) {
     tabBtns.forEach(btn => {
         if (btn.dataset.tab === tabId) {
             btn.classList.add('text-google-blue', 'bg-blue-50');
-            btn.classList.remove('text-gray-600', 'hover:bg-gray-50');
+            btn.classList.remove('text-gray-600 dark:text-gray-300', 'hover:bg-gray-50 dark:bg-gray-800/50');
         } else {
             btn.classList.remove('text-google-blue', 'bg-blue-50');
-            btn.classList.add('text-gray-600', 'hover:bg-gray-50');
+            btn.classList.add('text-gray-600 dark:text-gray-300', 'hover:bg-gray-50 dark:bg-gray-800/50');
         }
     });
     
@@ -263,7 +263,7 @@ async function loadDashboardStats() {
 function showToast(message, type = 'success') {
     const toast = document.createElement('div');
     const isError = type === 'error';
-    toast.className = `flexitems-center p-4 rounded-lg shadow-lg border-l-4 transform transition-all translate-y-full opacity-0 duration-300 ${isError ? 'bg-white border-red-500 text-red-700' : 'bg-white border-google-green text-gray-800'}`;
+    toast.className = `flexitems-center p-4 rounded-lg shadow-lg border-l-4 transform transition-all translate-y-full opacity-0 duration-300 ${isError ? 'bg-white dark:bg-gray-800 border-red-500 text-red-700' : 'bg-white dark:bg-gray-800 border-google-green text-gray-800 dark:text-gray-100'}`;
     toast.innerHTML = `
         <div class="flex items-center gap-3">
             ${isError ? 

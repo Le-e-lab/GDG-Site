@@ -518,7 +518,7 @@ editForm.addEventListener('submit', async (e) => {
                     .from('gdg-images')
                     .getPublicUrl(filePath);
                 
-                saveObj.image_url = publicUrl; // Use standard column name
+                saveObj.image = publicUrl;
             }
         } else {
             saveObj[field.name] = formData.get(field.name);
@@ -539,6 +539,7 @@ editForm.addEventListener('submit', async (e) => {
     saveModalBtn.disabled = false;
     closeModal();
     loadTabData(currentTab);
+    loadDashboardStats();
 });
 
 async function deleteItem(id) {

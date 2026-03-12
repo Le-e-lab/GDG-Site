@@ -119,3 +119,34 @@ CREATE POLICY "Public Insert Access" ON applications FOR INSERT WITH CHECK (true
 
 DROP POLICY IF EXISTS "Public Insert Access" ON newsletter_subscribers;
 CREATE POLICY "Public Insert Access" ON newsletter_subscribers FOR INSERT WITH CHECK (true);
+
+-- ═══════════════════════════════════════════════════════════════════════════
+-- STORAGE BUCKET FOR IMAGES
+-- ═══════════════════════════════════════════════════════════════════════════
+-- Create the 'gdg-images' bucket (public, so images can be viewed by anyone)
+INSERT INTO storage.buckets (id, name, public)
+VALUES ('gdg-images', 'gdg-images', true)
+ON CONFLICT (id) DO NOTHING;
+
+-- Allow authenticated users (admins) to upload files
+DROP POLICY IF EXISTS "Authenticated Upload" ON storage.objects;
+CREATE POLICY "Authenticated Upload" ON storage.objects
+  FOR INSERT TO authenticated
+  WITH CHECK (bucket_id = 'gdg-images');
+
+-- Allow authenticated users (admins) to update/delete their uploads
+DROP POLICY IF EXISTS "Authenticated Manage" ON storage.objects;
+CREATE POLICY "Authenticated Manage" ON storage.objects
+  FOR UPDATE TO authenticated
+  USING (bucket_id = 'gdg-images');
+
+DROP POLICY IF EXISTS "Authenticated Delete" ON storage.objects;
+CREATE POLICY "Authenticated Delete" ON storage.objects
+  FOR DELETE TO authenticated
+  USING (bucket_id = 'gdg-images');
+
+-- Allow public read access to all images (so they show on the website)
+DROP POLICY IF EXISTS "Public Read Images" ON storage.objects;
+CREATE POLICY "Public Read Images" ON storage.objects
+  FOR SELECT
+  USING (bucket_id = 'gdg-images');

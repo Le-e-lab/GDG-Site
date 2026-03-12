@@ -42,14 +42,14 @@ async function fetchBlogPosts() {
 
     blogContainer.innerHTML = data.map((post, i) => {
         const dateString = new Date(post.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        const imageUrl = post.image_url || null;
+        const imageUrl = post.image || null;
         const excerpt = post.content.replace(/\n/g, ' ').substring(0, 140) + '…';
         const initial = post.author.charAt(0).toUpperCase();
         const accent = accents[i % accents.length];
         const [gradFrom, gradTo, textClass] = gradientMap[accent].split(' ');
 
         return `
-        <article class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col group cursor-pointer">
+        <a href="blog.html?id=${post.id}" class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col group cursor-pointer block">
             <div class="h-52 w-full relative overflow-hidden ${!imageUrl ? `bg-gradient-to-br ${gradFrom} ${gradTo} flex items-center justify-center` : ''}">
                 ${imageUrl
                     ? `<img src="${imageUrl}" alt="${post.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">`
@@ -72,8 +72,91 @@ async function fetchBlogPosts() {
                     <span class="${textClass} text-xs font-bold uppercase tracking-wide">Read →</span>
                 </div>
             </div>
-        </article>`;
+        </a>`;
     }).join('');
 }
 
-document.addEventListener('DOMContentLoaded', fetchBlogPosts);
+async function fetchSinglePost(id) {
+    const loadingEl = document.getElementById('blog-loading');
+    const blogContainer = document.getElementById('blog-container');
+    const header = document.getElementById('blog-header');
+    const divider = document.getElementById('blog-divider');
+
+    const { data: post, error } = await supabase
+        .from('blog')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+    if (loadingEl) loadingEl.classList.add('hidden');
+    
+    if (error || !post) {
+      if (blogContainer) {
+        blogContainer.classList.remove('hidden');
+        blogContainer.innerHTML = `<div class="text-center py-20 text-red-500 font-bold">Post not found. <br><br><a href="blog.html" class="px-6 py-2 bg-google-blue text-white rounded-full">Go back</a></div>`;
+      }
+      return;
+    }
+
+    // Hide hero for a cleaner reading experience
+    if (header) header.classList.add('hidden');
+    if (divider) divider.classList.add('hidden');
+
+    if (blogContainer) {
+        blogContainer.classList.remove('hidden');
+        blogContainer.className = 'max-w-3xl mx-auto w-full';
+
+        const dateString = new Date(post.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        const imageUrl = post.image || null;
+        
+        // Simple markdown parsing for paragraphs and bold text
+        let formattedContent = post.content
+          .replace(/\n\n/g, '</p><p class="mb-6">')
+          .replace(/\n/g, '<br>')
+          .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+          
+        if (!formattedContent.startsWith('<p>')) formattedContent = `<p class="mb-6">${formattedContent}</p>`;
+
+        blogContainer.innerHTML = `
+        <article class="bg-white rounded-2xl md:p-12 p-6 shadow-sm border border-gray-100 mt-8 mb-16">
+            <h1 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-8 leading-tight">${post.title}</h1>
+            
+            <div class="flex items-center gap-4 mb-10 pb-10 border-b border-gray-100">
+                <div class="w-14 h-14 rounded-full bg-google-blue/10 flex items-center justify-center text-google-blue font-bold text-xl">
+                    ${post.author.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                    <div class="font-bold text-gray-900 text-lg">${post.author}</div>
+                    <div class="text-gray-500 text-sm tracking-wide uppercase">${dateString}</div>
+                </div>
+            </div>
+
+            ${imageUrl ? `<img src="${imageUrl}" alt="${post.title}" class="w-full rounded-2xl mb-12 object-cover max-h-[500px]">` : ''}
+
+            <div class="prose prose-lg max-w-none text-gray-800 leading-relaxed font-sans text-lg">
+                ${formattedContent}
+            </div>
+            
+            <div class="mt-16 pt-8 border-t border-gray-100">
+                <a href="blog.html" class="inline-flex items-center gap-2 text-google-blue font-semibold hover:bg-blue-50 px-4 py-2 rounded-lg transition-colors">
+                    ← Back to all posts
+                </a>
+            </div>
+        </article>`;
+        // Update document title for SEO/UX
+        document.title = `${post.title} | GDSC Africa University`;
+    }
+}
+
+async function fetchBlogData() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('id');
+
+    if (postId) {
+        await fetchSinglePost(postId);
+    } else {
+        await fetchBlogPosts();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', fetchBlogData);

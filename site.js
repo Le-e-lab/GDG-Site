@@ -449,4 +449,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   await Promise.all([loadProjects(), loadTeam(), loadEvents(), loadTestimonials()]);
   handleApplicationForm();
   handleNewsletterForm();
+
+  const showApplyBtn = document.getElementById('show-apply-btn');
+  const applySection = document.getElementById('apply');
+  if (showApplyBtn && applySection) {
+    showApplyBtn.addEventListener('click', () => {
+      applySection.classList.remove('hidden');
+      applySection.scrollIntoView({ behavior: 'smooth' });
+    });
+  }
 });

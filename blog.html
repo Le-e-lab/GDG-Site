@@ -48,9 +48,6 @@
                 <a href="index.html#events" class="text-sm font-semibold uppercase tracking-wide text-gray-600 hover:text-gray-900 transition-colors">Events</a>
                 <a href="blog.html" class="text-sm font-semibold uppercase tracking-wide text-google-blue transition-colors">Blog</a>
             </div>
-            <a href="index.html#apply" class="hidden md:inline-flex bg-google-blue text-white px-5 py-2 rounded-full font-bold text-sm hover:bg-google-blue/90 hover:scale-105 transition-all shadow-sm">
-                Apply for Lead
-            </a>
             <!-- Mobile menu button -->
             <button id="mobile-blog-menu-btn" class="md:hidden p-2 text-gray-700">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -61,13 +58,20 @@
                 <a href="index.html" class="text-gray-600 hover:text-gray-900 py-2">Home</a>
                 <a href="index.html#projects" class="text-gray-600 hover:text-gray-900 py-2">Projects</a>
                 <a href="index.html#events" class="text-gray-600 hover:text-gray-900 py-2">Events</a>
-                <a href="index.html#apply" class="bg-google-blue text-white px-5 py-3 rounded-full font-bold text-sm text-center mt-2">Apply for Lead</a>
             </div>
         </div>
     </nav>
 
+    <!-- Sub Navigation / Breadcrumbs -->
+    <div class="pt-24 pb-4 px-6 max-w-7xl mx-auto flex items-center">
+        <a href="index.html" class="inline-flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-google-blue transition-colors group">
+            <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            Back to Home
+        </a>
+    </div>
+
     <!-- Hero Section -->
-    <header class="relative pt-32 pb-20 px-6 bg-white overflow-hidden">
+    <header class="relative pt-12 pb-20 px-6 bg-white overflow-hidden" id="blog-header">
         <!-- Decorative blobs -->
         <div class="hero-blob w-96 h-96 bg-google-blue top-0 -left-20"></div>
         <div class="hero-blob w-80 h-80 bg-google-red top-10 right-0"></div>
@@ -102,7 +106,7 @@
     </header>
 
     <!-- Divider bar -->
-    <div class="flex h-1.5">
+    <div class="flex h-1.5" id="blog-divider">
         <div class="w-1/4 bg-google-blue"></div>
         <div class="w-1/4 bg-google-red"></div>
         <div class="w-1/4 bg-google-yellow"></div>
@@ -140,7 +144,6 @@
                 <span class="font-display font-bold text-white">GDG Africa University</span>
             </div>
             <p class="text-gray-400 text-sm">© 2026 GDG Africa University. Developed with <span class="text-google-red">♥</span> in Mutare, Zimbabwe.</p>
-            <a href="index.html" class="text-gray-400 hover:text-white text-sm transition-colors">← Back to Home</a>
         </div>
     </footer>
 

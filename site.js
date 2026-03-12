@@ -85,23 +85,23 @@ async function loadProjects() {
     const gradient = GRADIENTS[i % GRADIENTS.length];
     const tags = project.tags ? project.tags.split(',').map(t => t.trim()) : [];
     const tagsHtml = tags.map((tag, j) => `<span class="px-2 py-1 rounded text-xs font-semibold ${TAG_COLORS[j % TAG_COLORS.length]}">${tag}</span>`).join('');
-    const imageHtml = project.image_url
-      ? `<img src="${project.image_url}" alt="${project.title}" class="w-full h-full object-cover">`
+    const imageHtml = project.image
+      ? `<img src="${project.image}" alt="${project.title}" class="w-full h-full object-cover">`
       : `<svg class="w-16 h-16 text-gray-300 group-hover:text-gray-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>`;
 
     grid.insertAdjacentHTML('beforeend', `
-      <div class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+      <a href="blog.html?project=${project.id}" class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow block">
         <div class="h-48 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden">
           ${imageHtml}
         </div>
         <div class="p-6">
           <div class="flex items-center gap-2 mb-3">${tagsHtml}</div>
           <h3 class="font-display text-xl font-bold mb-2 text-gray-900">${project.title}</h3>
-          <p class="text-gray-600 text-sm leading-relaxed mb-4">${project.description}</p>
-          ${project.link ? `<a href="${project.link}" target="_blank" class="text-google-blue text-sm font-semibold hover:text-gray-900 transition-colors inline-flex items-center gap-1">View Project <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>` : ''}
+          <p class="text-gray-600 text-sm leading-relaxed mb-4">${project.description.substring(0, 120)}${project.description.length > 120 ? '...' : ''}</p>
+          <span class="text-google-blue text-sm font-semibold group-hover:text-gray-900 transition-colors inline-flex items-center gap-1">View Project <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></span>
         </div>
-      </div>
-    `);
+      </a>
+    `);;
   });
 
   // Re-add the "Build With Us" CTA card
@@ -120,9 +120,17 @@ async function loadProjects() {
   attachModalTriggers();
 }
 
-// ==========================================
-//  TEAM
-// ==========================================
+const ROLE_BADGES = {
+  'Chapter Lead': { label: 'LEAD', color: 'bg-google-blue' },
+  'Technical Lead': { label: 'TECH', color: 'bg-google-red' },
+  'Design Lead': { label: 'DESIGN', color: 'bg-google-yellow' },
+  'Community Lead': { label: 'COMMUNITY', color: 'bg-google-green' },
+  'Events Lead': { label: 'EVENTS', color: 'bg-google-red' },
+  'Content Lead': { label: 'CONTENT', color: 'bg-google-blue' },
+  'Member': { label: 'MEMBER', color: 'bg-gray-600' },
+};
+const ROLE_TEXT_COLORS = ['text-google-blue', 'text-google-red', 'text-google-yellow', 'text-google-green'];
+
 async function loadTeam() {
   const grid = document.getElementById('team-grid');
   if (!grid) return;
@@ -130,7 +138,7 @@ async function loadTeam() {
   const { data, error } = await supabase
     .from('team')
     .select('*')
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: true });
 
   if (error || !data || data.length === 0) return;
 
@@ -139,22 +147,30 @@ async function loadTeam() {
   data.forEach((member, i) => {
     const gradient = AVATAR_GRADIENTS[i % AVATAR_GRADIENTS.length];
     const initials = member.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
-    const avatarHtml = member.image_url
-      ? `<img src="${member.image_url}" alt="${member.name}" class="w-full h-full object-cover rounded-full">`
-      : `<span class="text-white font-bold text-2xl">${initials}</span>`;
+    const badge = ROLE_BADGES[member.role] || { label: member.role.split(' ')[0].toUpperCase(), color: 'bg-gray-600' };
+    const initialsColor = ROLE_TEXT_COLORS[i % ROLE_TEXT_COLORS.length];
+
+    const avatarHtml = member.image
+      ? `<img src="${member.image}" alt="${member.name}" class="w-full h-full object-cover rounded-full">`
+      : `<div class="w-full h-full rounded-full bg-white flex items-center justify-center">
+            <span class="text-4xl font-bold ${initialsColor}">${initials}</span>
+          </div>`;
 
     grid.insertAdjacentHTML('beforeend', `
       <div class="text-center group">
         <div class="relative w-32 h-32 mx-auto mb-6">
-          <div class="w-full h-full rounded-full bg-gradient-to-br ${gradient} p-1 flex items-center justify-center">
+          <div class="w-full h-full rounded-full bg-gradient-to-br ${gradient} p-1">
             ${avatarHtml}
+          </div>
+          <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 ${badge.color} text-white text-xs font-bold px-3 py-1 rounded-full">
+            ${badge.label}
           </div>
         </div>
         <h3 class="font-display text-xl font-bold text-gray-900 mb-1">${member.name}</h3>
         <p class="text-google-blue text-sm mb-3">${member.role}</p>
         <div class="flex justify-center gap-3 mt-4">
           ${member.linkedin ? `<a href="${member.linkedin}" target="_blank" class="text-gray-500 hover:text-google-blue transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>` : ''}
-          ${member.twitter ? `<a href="${member.twitter}" target="_blank" class="text-gray-500 hover:text-gray-900 transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.259 5.63L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg></a>` : ''}
+          ${member.github ? `<a href="${member.github}" target="_blank" class="text-gray-500 hover:text-gray-900 transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg></a>` : ''}
         </div>
       </div>
     `);

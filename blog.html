@@ -40,6 +40,28 @@
     <style>
         .hero-blob { position: absolute; border-radius: 9999px; filter: blur(80px); opacity: 0.12; pointer-events: none; }
     </style>
+    <script>
+      /* URGENT CACHE BUSTER */
+      try {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(regs => {
+            for (const reg of regs) {
+              reg.unregister().then(success => {
+                if (success) {
+                  console.log('Successfully unregistered sticky service worker');
+                  window.location.reload(true);
+                }
+              }).catch(e => console.error(e));
+            }
+          }).catch(e => console.error(e));
+          caches.keys().then(keys => {
+            keys.forEach(key => caches.delete(key));
+          }).catch(e => console.error(e));
+        }
+      } catch (e) {
+        console.error('Cache buster error', e);
+      }
+    </script>
 </head>
 <body class="bg-white text-gray-900 font-sans antialiased transition-colors duration-200">
 

@@ -192,10 +192,10 @@ function switchTab(tabId) {
     tabBtns.forEach(btn => {
         if (btn.dataset.tab === tabId) {
             btn.classList.add('text-google-blue', 'bg-blue-50');
-            btn.classList.remove('text-gray-600 dark:text-gray-300', 'hover:bg-gray-50 dark:bg-gray-800/50');
+            btn.classList.remove('text-gray-600', 'hover:bg-gray-50');
         } else {
             btn.classList.remove('text-google-blue', 'bg-blue-50');
-            btn.classList.add('text-gray-600 dark:text-gray-300', 'hover:bg-gray-50 dark:bg-gray-800/50');
+            btn.classList.add('text-gray-600', 'hover:bg-gray-50');
         }
     });
     

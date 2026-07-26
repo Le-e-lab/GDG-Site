@@ -44,6 +44,11 @@
               "google-red": "#EA4335",
               "google-yellow": "#FBBC05",
               "google-green": "#34A853",
+              brandBgPrimary: "hsl(var(--bg-primary) / <alpha-value>)",
+              brandBgSecondary: "hsl(var(--bg-secondary) / <alpha-value>)",
+              brandBgTertiary: "hsl(var(--bg-tertiary) / <alpha-value>)",
+              brandTextPrimary: "hsl(var(--text-primary) / <alpha-value>)",
+              brandTextSecondary: "hsl(var(--text-secondary) / <alpha-value>)",
             },
             fontFamily: {
               sans: ["Inter", "sans-serif"],
@@ -154,7 +159,7 @@
       <!-- Mobile Menu -->
       <div
         id="mobile-menu"
-        class="hidden md:hidden bg-gray-50 border-t border-gray-200 px-6 py-4 dark:bg-slate-900 dark:border-slate-800"
+        class="hidden md:hidden bg-brandBgSecondary border-t border-gray-200 dark:border-slate-800 px-6 py-4"
       >
         <div class="flex flex-col gap-4">
           <a href="#about" class="text-gray-600 hover:text-gray-900 py-2">About</a>
@@ -184,7 +189,7 @@
        HERO SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
     <section
-      class="min-h-screen flex items-center justify-center pt-20 bg-gradient-to-b from-white via-gray-50 to-gray-100 relative overflow-hidden"
+      class="min-h-screen flex items-center justify-center pt-20 bg-gradient-to-b from-brandBgPrimary via-brandBgSecondary to-brandBgPrimary relative overflow-hidden"
     >
       <!-- Background Pattern -->
       <div class="absolute inset-0 opacity-10">
@@ -306,7 +311,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        ABOUT SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="about" class="py-24 px-6 bg-gray-50 dark:bg-slate-900 transition-colors duration-200">
+    <section id="about" class="py-24 px-6 bg-brandBgSecondary transition-colors duration-200">
       <div class="max-w-6xl mx-auto" data-aos="fade-up">
         <!-- Section Header -->
         <div class="text-center mb-12">
@@ -371,7 +376,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        CORE PILLARS SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="pillars" class="py-24 px-6 bg-white dark:bg-slate-950 transition-colors duration-200">
+    <section id="pillars" class="py-24 px-6 bg-brandBgPrimary transition-colors duration-200">
       <div class="max-w-6xl mx-auto">
         <!-- Section Header -->
         <div class="text-center mb-16">
@@ -406,7 +411,7 @@
         <div class="grid md:grid-cols-3 gap-8">
           <!-- Pillar 1: Leadership Transformation -->
           <div
-            class="bg-white border border-gray-200 rounded-2xl p-8 text-center shadow-sm dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200"
+            class="bg-brandBgTertiary border border-gray-200 dark:border-slate-800 rounded-2xl p-8 text-center shadow-sm transition-colors duration-200"
             data-aos="fade-up"
           >
             <div
@@ -443,7 +448,7 @@
 
           <!-- Pillar 2: Ubuntu in Tech -->
           <div
-            class="bg-white border border-gray-200 rounded-2xl p-8 text-center shadow-sm dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200"
+            class="bg-brandBgTertiary border border-gray-200 dark:border-slate-800 rounded-2xl p-8 text-center shadow-sm transition-colors duration-200"
             data-aos="fade-up" data-aos-delay="100"
           >
             <div
@@ -480,7 +485,7 @@
 
           <!-- Pillar 3: Pan-African Innovation -->
           <div
-            class="bg-white border border-gray-200 rounded-2xl p-8 text-center shadow-sm dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200"
+            class="bg-brandBgTertiary border border-gray-200 dark:border-slate-800 rounded-2xl p-8 text-center shadow-sm transition-colors duration-200"
           >
             <div
               class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-google-green/20 flex items-center justify-center"
@@ -520,7 +525,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        PROJECT GALLERY SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="projects" class="py-24 px-6 bg-gray-50 dark:bg-slate-900 transition-colors duration-200">
+    <section id="projects" class="py-24 px-6 bg-brandBgSecondary transition-colors duration-200">
       <div class="max-w-6xl mx-auto">
         <!-- Section Header -->
         <div
@@ -569,7 +574,7 @@
         <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <!-- Project 1: Chef's Muse -->
           <div
-            class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200"
+            class="group bg-brandBgTertiary border border-gray-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm transition-colors duration-200"
             data-aos="fade-up" data-aos-delay="100"
           >
             <div
@@ -631,7 +636,7 @@
 
           <!-- Project 2: SecureScan -->
           <div
-            class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200"
+            class="group bg-brandBgTertiary border border-gray-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm transition-colors duration-200"
             data-aos="fade-up" data-aos-delay="200"
           >
             <div
@@ -693,7 +698,7 @@
 
           <!-- Project 3: AgriConnect -->
           <div
-            class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200"
+            class="group bg-brandBgTertiary border border-gray-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm transition-colors duration-200"
           >
             <div
               class="h-48 bg-gradient-to-br from-google-green/30 to-google-yellow/20 flex items-center justify-center"
@@ -753,7 +758,7 @@
           </div>
 
           <div
-            class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200"
+            class="group bg-brandBgTertiary border border-gray-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm transition-colors duration-200"
           >
             <div
               class="h-48 bg-gradient-to-br from-google-red/30 to-google-blue/20 flex items-center justify-center"
@@ -814,7 +819,7 @@
 
           <!-- Project 5: EduTrack -->
           <div
-            class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200"
+            class="group bg-brandBgTertiary border border-gray-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm transition-colors duration-200"
           >
             <div
               class="h-48 bg-gradient-to-br from-google-yellow/30 to-google-green/20 flex items-center justify-center"
@@ -920,7 +925,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        TEAM SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="team" class="py-24 px-6 bg-white dark:bg-slate-950 transition-colors duration-200">
+    <section id="team" class="py-24 px-6 bg-brandBgPrimary transition-colors duration-200">
       <div class="max-w-6xl mx-auto">
         <!-- Section Header -->
         <div class="text-center mb-16">
@@ -1154,7 +1159,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        EVENTS SECTION (UPCOMING)
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="events" class="py-24 px-6 bg-gray-50 dark:bg-slate-900 transition-colors duration-200">
+    <section id="events" class="py-24 px-6 bg-brandBgSecondary transition-colors duration-200">
       <div class="max-w-6xl mx-auto">
         <!-- Section Header -->
         <div
@@ -1247,7 +1252,7 @@
 
           <!-- Event 2 -->
           <div
-            class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200"
+            class="bg-brandBgTertiary border border-gray-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm transition-colors duration-200"
           >
             <div
               class="h-3 bg-gradient-to-r from-google-red to-google-yellow"
@@ -1296,7 +1301,7 @@
 
           <!-- Event 3 -->
           <div
-            class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm dark:bg-slate-900 dark:border-slate-800 transition-colors duration-200"
+            class="bg-brandBgTertiary border border-gray-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm transition-colors duration-200"
           >
             <div
               class="h-3 bg-gradient-to-r from-google-yellow to-google-green"
@@ -1342,7 +1347,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        ALUMNI TESTIMONIALS SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="testimonials" class="py-24 px-6 bg-white dark:bg-slate-950 transition-colors duration-200">
+    <section id="testimonials" class="py-24 px-6 bg-brandBgPrimary transition-colors duration-200">
       <div class="max-w-6xl mx-auto">
         <!-- Section Header -->
         <div class="text-center mb-16">
@@ -1471,7 +1476,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        LEAD ROLE APPLICATION SECTION
    ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="apply" class="py-24 px-6 bg-gray-50 hidden">
+    <section id="apply" class="py-24 px-6 bg-brandBgSecondary transition-colors duration-200 hidden">
       <div class="max-w-3xl mx-auto">
         <div class="text-center mb-12">
           <div class="flex items-center justify-center gap-3 mb-4">
@@ -1548,7 +1553,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        NEWSLETTER SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="newsletter" class="py-24 px-6 bg-gray-50 dark:bg-slate-900 transition-colors duration-200">
+    <section id="newsletter" class="py-24 px-6 bg-brandBgSecondary transition-colors duration-200">
       <div class="max-w-6xl mx-auto">
         <div class="grid md:grid-cols-2 gap-12 items-center">
           <!-- Illustration -->
@@ -1871,8 +1876,7 @@
       }
     </script>
 
-    <!-- Theme Switcher Controller Script -->
-    <script src="js/theme-toggle.js"></script>
+    <script type="module" src="js/theme-toggle.js"></script>
   </body>
 </html>
 

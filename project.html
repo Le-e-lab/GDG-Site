@@ -28,6 +28,11 @@
               "google-red": "#EA4335",
               "google-yellow": "#FBBC05",
               "google-green": "#34A853",
+              brandBgPrimary: "hsl(var(--bg-primary) / <alpha-value>)",
+              brandBgSecondary: "hsl(var(--bg-secondary) / <alpha-value>)",
+              brandBgTertiary: "hsl(var(--bg-tertiary) / <alpha-value>)",
+              brandTextPrimary: "hsl(var(--text-primary) / <alpha-value>)",
+              brandTextSecondary: "hsl(var(--text-secondary) / <alpha-value>)",
             },
             fontFamily: {
               sans: ["Inter", "sans-serif"],
@@ -140,7 +145,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="relative pt-24 pb-6 px-6 bg-white overflow-hidden transition-colors duration-200" id="blog-header">
+    <header class="relative pt-24 pb-6 px-6 bg-brandBgPrimary overflow-hidden transition-colors duration-200" id="blog-header">
         <div class="relative max-w-4xl mx-auto text-center">
             <!-- Label -->
             <div class="inline-flex items-center gap-2 bg-google-green/10 text-google-green px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
@@ -177,7 +182,7 @@
     </div>
 
     <!-- Blog Posts Grid -->
-    <main class="py-12 px-6 bg-gray-50 min-h-screen">
+    <main class="py-12 px-6 bg-brandBgSecondary min-h-screen">
         <div class="max-w-6xl mx-auto">
             
 
@@ -230,7 +235,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-12 px-6 dark:bg-slate-950 transition-colors duration-200">
+    <footer class="bg-gray-900 text-white py-12 px-6 dark:bg-brandBgPrimary transition-colors duration-200">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-3">
                 <img src="images/gdg-logo.jpg" alt="GDG Logo" class="w-8 h-8 object-contain rounded mix-blend-multiply dark:bg-white dark:p-1 dark:rounded-md">
@@ -254,7 +259,6 @@
             });
         }
 
-        // Theme Switcher Controller Script
-        <script src="js/theme-toggle.js"></script>
+        <script type="module" src="js/theme-toggle.js"></script>
 </body>
 </html>

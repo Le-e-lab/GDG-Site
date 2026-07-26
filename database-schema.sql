@@ -157,3 +157,86 @@ DROP POLICY IF EXISTS "Public Read Images" ON storage.objects;
 CREATE POLICY "Public Read Images" ON storage.objects
   FOR SELECT
   USING (bucket_id = 'gdg-images');
+
+-- Update Blog Table: Add draft state review
+ALTER TABLE blog ADD COLUMN IF NOT EXISTS status VARCHAR DEFAULT 'pending';
+
+-- Update Projects Table: Add collaboration features and showcase flags
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS status VARCHAR DEFAULT 'pending';
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS is_spotlight BOOLEAN DEFAULT false;
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS needs_help BOOLEAN DEFAULT false;
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS help_description TEXT;
+
+-- Semester Plan / Activities Timeline Table
+CREATE TABLE IF NOT EXISTS semester_plan (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    title VARCHAR NOT NULL,
+    date DATE NOT NULL,
+    week_number INT,
+    activity_type VARCHAR NOT NULL, 
+    description TEXT,
+    status VARCHAR DEFAULT 'upcoming', 
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Newsletters Table
+CREATE TABLE IF NOT EXISTS newsletters (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    title VARCHAR NOT NULL,
+    edition_number VARCHAR,
+    published_date DATE NOT NULL,
+    file_url VARCHAR NOT NULL, 
+    description TEXT,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Dedicated General Membership Applications Table
+CREATE TABLE IF NOT EXISTS membership_applications (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR NOT NULL,
+    email VARCHAR NOT NULL,
+    academic_year VARCHAR NOT NULL, 
+    department VARCHAR NOT NULL, 
+    motivation TEXT NOT NULL,
+    interests TEXT NOT NULL, 
+    status VARCHAR DEFAULT 'pending', 
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Enable RLS
+ALTER TABLE semester_plan ENABLE ROW LEVEL SECURITY;
+ALTER TABLE newsletters ENABLE ROW LEVEL SECURITY;
+ALTER TABLE membership_applications ENABLE ROW LEVEL SECURITY;
+
+-- RLS Read Policies
+DROP POLICY IF EXISTS "Public Read Access" ON semester_plan;
+CREATE POLICY "Public Read Access" ON semester_plan FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public Read Access" ON newsletters;
+CREATE POLICY "Public Read Access" ON newsletters FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public Read Access" ON blog;
+CREATE POLICY "Public Read Access" ON blog FOR SELECT USING (status = 'published');
+
+DROP POLICY IF EXISTS "Public Read Access" ON projects;
+CREATE POLICY "Public Read Access" ON projects FOR SELECT USING (status = 'approved');
+
+-- Public Inserts Policies
+DROP POLICY IF EXISTS "Public Insert Access" ON blog;
+CREATE POLICY "Public Insert Access" ON blog FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Public Insert Access" ON projects;
+CREATE POLICY "Public Insert Access" ON projects FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Public Insert Access" ON membership_applications;
+CREATE POLICY "Public Insert Access" ON membership_applications FOR INSERT WITH CHECK (true);
+
+-- Admin Full Access Policies
+DROP POLICY IF EXISTS "Authenticated Admin All Access" ON semester_plan;
+CREATE POLICY "Authenticated Admin All Access" ON semester_plan FOR ALL USING (auth.uid() IS NOT NULL);
+
+DROP POLICY IF EXISTS "Authenticated Admin All Access" ON newsletters;
+CREATE POLICY "Authenticated Admin All Access" ON newsletters FOR ALL USING (auth.uid() IS NOT NULL);
+
+DROP POLICY IF EXISTS "Authenticated Admin All Access" ON membership_applications;
+CREATE POLICY "Authenticated Admin All Access" ON membership_applications FOR ALL USING (auth.uid() IS NOT NULL);

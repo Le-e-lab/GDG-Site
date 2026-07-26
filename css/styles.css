@@ -7,25 +7,6 @@
   --google-yellow: 44, 98%, 50%;
   --google-green: 136, 53%, 43%;
 
-  --bg-primary: 220, 25%, 4%;
-  --bg-secondary: 220, 20%, 8%;
-  --bg-tertiary: 220, 15%, 12%;
-
-  --text-primary: 210, 20%, 98%;
-  --text-secondary: 215, 15%, 70%;
-  --text-muted: 215, 10%, 50%;
-
-  --border-color: 220, 15%, 18%;
-  --border-highlight: 217, 89%, 61%;
-
-  --radius-sm: 8px;
-  --radius-md: 16px;
-  --radius-lg: 24px;
-  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
-}
-
-html.light {
   --bg-primary: 220, 15%, 98%;
   --bg-secondary: 220, 15%, 95%;
   --bg-tertiary: 0, 0%, 100%;
@@ -35,7 +16,26 @@ html.light {
   --text-muted: 220, 10%, 55%;
 
   --border-color: 220, 15%, 90%;
+  --border-highlight: 217, 89%, 61%;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --shadow-premium: 0 10px 30px -10px rgba(66, 133, 244, 0.08);
+}
+
+html.dark {
+  --bg-primary: 220, 25%, 4%;
+  --bg-secondary: 220, 20%, 8%;
+  --bg-tertiary: 220, 15%, 12%;
+
+  --text-primary: 210, 20%, 98%;
+  --text-secondary: 215, 15%, 70%;
+  --text-muted: 215, 10%, 50%;
+
+  --border-color: 220, 15%, 18%;
+  --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
 }
 
 html {
@@ -83,25 +83,11 @@ body {
   opacity: 0.15;
   z-index: 0;
   pointer-events: none;
-  animation: float-blob 20s infinite alternate;
+  animation: float 20s infinite alternate;
 }
-@keyframes float-blob {
+@keyframes float {
   0% { transform: translate(0, 0) scale(1); }
   100% { transform: translate(50px, 30px) scale(1.2); }
-}
-
-/* Sun/Moon toggle visibility depending on light mode class */
-html.light .dark\:block {
-  display: none !important;
-}
-html.light .dark\:hidden {
-  display: block !important;
-}
-html:not(.light) .dark\:block {
-  display: block !important;
-}
-html:not(.light) .dark\:hidden {
-  display: none !important;
 }
 
 /* Global transitions for background-color, color, border-color */
@@ -110,60 +96,19 @@ body, nav, section, .glass-card, .modal-content, button, input, select, textarea
 }
 
 /* Modal Dark Mode Theme Override */
-html:not(.light) .modal-content {
+html.dark .modal-content {
   background-color: hsl(var(--bg-tertiary)) !important;
   color: hsl(var(--text-primary)) !important;
   border: 1px solid hsl(var(--border-color)) !important;
 }
-html:not(.light) .modal-close {
+html.dark .modal-close {
   background-color: hsl(var(--bg-secondary)) !important;
   color: hsl(var(--text-primary)) !important;
 }
-html:not(.light) .modal-close:hover {
+html.dark .modal-close:hover {
   background-color: hsl(var(--border-color)) !important;
 }
 
-/* Tailwind custom dark mode helper overrides */
-html:not(.light) body {
-  background-color: hsl(var(--bg-primary)) !important;
-  color: hsl(var(--text-primary)) !important;
-}
-html:not(.light) nav,
-html:not(.light) footer {
-  background-color: hsl(var(--bg-secondary) / 0.95) !important;
-  border-color: hsl(var(--border-color)) !important;
-}
-html:not(.light) .bg-white {
-  background-color: hsl(var(--bg-tertiary)) !important;
-}
-html:not(.light) .bg-gray-50 {
-  background-color: hsl(var(--bg-secondary)) !important;
-}
-html:not(.light) .bg-gray-100 {
-  background-color: hsl(var(--bg-primary)) !important;
-}
-html:not(.light) .bg-gradient-to-b {
-  background-image: linear-gradient(to bottom, hsl(var(--bg-primary)), hsl(var(--bg-secondary)), hsl(var(--bg-tertiary))) !important;
-}
-html:not(.light) .text-gray-900,
-html:not(.light) .text-gray-800 {
-  color: hsl(var(--text-primary)) !important;
-}
-html:not(.light) .text-gray-700,
-html:not(.light) .text-gray-600 {
-  color: hsl(var(--text-secondary)) !important;
-}
-html:not(.light) .text-gray-500,
-html:not(.light) .text-gray-400 {
-  color: hsl(var(--text-muted)) !important;
-}
-html:not(.light) .border-gray-200,
-html:not(.light) .border-gray-300 {
-  border-color: hsl(var(--border-color)) !important;
-}
-html:not(.light) .shadow-sm {
-  box-shadow: var(--shadow-premium) !important;
-}
 
 
 /* Gradient Text - Google Colors */
@@ -322,12 +267,12 @@ html:not(.light) .shadow-sm {
 }
 
 /* Gentle floating for illustrations */
-@keyframes float {
+@keyframes float-y {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-8px); }
 }
 .float-animation {
-  animation: float 4s ease-in-out infinite;
+  animation: float-y 4s ease-in-out infinite;
 }
 
 /* Button press feedback */

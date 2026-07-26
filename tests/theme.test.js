@@ -45,17 +45,19 @@ function createTestDOM(initialTheme = null, prefersDark = false) {
     dispatchEvent: vi.fn(),
   }));
 
-  // Manually parse and run the inline theme scripts in index.html to guarantee
+  // Manually parse and run the inline theme initialization scripts and external controller script to guarantee
   // execution inside the test JSDOM window context.
   const scripts = window.document.querySelectorAll('script');
   scripts.forEach(script => {
-    if (!script.src && script.textContent) {
+    const src = script.getAttribute('src');
+    if (src && (src.includes('theme-toggle.js') || src === 'js/theme-toggle.js')) {
+      const jsPath = path.resolve(__dirname, '../js/theme-toggle.js');
+      const jsContent = fs.readFileSync(jsPath, 'utf8');
+      window.eval(jsContent);
+    } else if (!src && script.textContent) {
       const code = script.textContent;
       if (code.includes('localStorage') && (code.includes('matchMedia') || code.includes('prefers-color-scheme'))) {
         // Run Initialization Script
-        window.eval(code);
-      } else if (code.includes('theme-toggle') || code.includes('mobile-theme-toggle')) {
-        // Run Controller Script
         window.eval(code);
       }
     }

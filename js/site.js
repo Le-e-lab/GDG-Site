@@ -571,11 +571,55 @@ async function checkBlogUpdates() {
   }
 }
 
+function initHeroRotator() {
+  const slides = document.querySelectorAll('.rotator-slide');
+  const dots = document.querySelectorAll('#rotator-dots span');
+  if (!slides.length) return;
+  
+  let currentIdx = 0;
+  let intervalId;
+  
+  const showSlide = (idx) => {
+    slides.forEach((slide, i) => {
+      slide.style.opacity = i === idx ? '1' : '0';
+    });
+    dots.forEach((dot, i) => {
+      if (i === idx) {
+        dot.classList.add('bg-white', 'scale-125');
+        dot.classList.remove('bg-white/40');
+      } else {
+        dot.classList.remove('bg-white', 'scale-125');
+        dot.classList.add('bg-white/40');
+      }
+    });
+    currentIdx = idx;
+  };
+  
+  const nextSlide = () => {
+    showSlide((currentIdx + 1) % slides.length);
+  };
+  
+  const startInterval = () => {
+    intervalId = setInterval(nextSlide, 5000);
+  };
+  
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      clearInterval(intervalId);
+      showSlide(i);
+      startInterval();
+    });
+  });
+  
+  startInterval();
+}
+
 // ==========================================
 //  INIT
 // ==========================================
 document.addEventListener('DOMContentLoaded', async () => {
   initUI();
+  initHeroRotator();
   await Promise.all([loadProjects(), loadTeam(), loadEvents(), loadTestimonials(), checkBlogUpdates()]);
   handleApplicationForm();
   handleNewsletterForm();

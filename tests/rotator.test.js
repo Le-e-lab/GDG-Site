@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 describe('Hero Image Rotator', () => {
   it('should increment slide index and roll over at end of images list', () => {

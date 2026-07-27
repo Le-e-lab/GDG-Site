@@ -611,6 +611,7 @@ function initHeroRotator() {
     });
   });
   
+  showSlide(0);
   startInterval();
 }
 

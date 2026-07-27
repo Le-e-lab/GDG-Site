@@ -27,8 +27,8 @@ async function fetchProjects() {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                     </svg>
                 </div>
-                <h3 class="font-display text-2xl font-bold text-gray-900 mb-3">No Projects Yet</h3>
-                <p class="text-gray-500 max-w-sm">Our students are busy building. Check back soon for amazing solutions.</p>
+                <h3 class="font-display text-2xl font-bold text-brandTextPrimary mb-3">No Projects Yet</h3>
+                <p class="text-brandTextSecondary max-w-sm">Our students are busy building. Check back soon for amazing solutions.</p>
             </div>`;
         return;
     }
@@ -46,21 +46,21 @@ async function fetchProjects() {
         if (!postsToRender || postsToRender.length === 0) {
             blogContainer.innerHTML = `
                 <div class="col-span-full flex flex-col items-center justify-center py-24 text-center">
-                    <p class="text-gray-500 max-w-sm">No projects found matching your search.</p>
+                    <p class="text-brandTextSecondary max-w-sm">No projects found matching your search.</p>
                 </div>`;
             return;
         }
 
         const html = postsToRender.map((project) => {
-            const tagsHtml = project.tags ? project.tags.split(',').map(tag => `<span class="px-2 py-1 bg-gray-100 text-gray-600 text-xs font-semibold rounded-md">${tag.trim()}</span>`).join('') : '';
+            const tagsHtml = project.tags ? project.tags.split(',').map(tag => `<span class="px-2 py-1 bg-brandBgSecondary text-brandTextSecondary text-xs font-semibold rounded-md">${tag.trim()}</span>`).join('') : '';
             return `
             <a href="project.html?v=v2&id=${project.id}" class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow block">
-                <div class="h-48 w-full bg-gray-100 relative overflow-hidden">
+                <div class="h-48 w-full bg-brandBgSecondary relative overflow-hidden">
                     ${project.image ? `<img src="${project.image}" alt="${project.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">` : '<div class="w-full h-full flex items-center justify-center text-gray-400">No Image</div>'}
                 </div>
                 <div class="p-6">
-                    <h3 class="font-display text-xl font-bold text-gray-900 mb-2">${project.title}</h3>
-                    <p class="text-gray-500 text-sm mb-4 line-clamp-2">${project.description || ''}</p>
+                    <h3 class="font-display text-xl font-bold text-brandTextPrimary mb-2">${project.title}</h3>
+                    <p class="text-brandTextSecondary text-sm mb-4 line-clamp-2">${project.description || ''}</p>
                     <div class="flex flex-wrap gap-2">
                         ${tagsHtml}
                     </div>
@@ -143,14 +143,14 @@ async function fetchSingleProject(id) {
 
         blogContainer.innerHTML = `
         <article class="bg-white rounded-2xl md:p-12 p-6 shadow-sm border border-gray-100 mt-8 mb-16">
-            <h1 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">${project.title}</h1>
+            <h1 class="font-display text-4xl md:text-5xl font-bold text-brandTextPrimary mb-6 leading-tight">${project.title}</h1>
             
             <div class="flex flex-wrap gap-2 mb-6">${tags}</div>
-            <div class="text-gray-500 text-sm mb-8">Added ${dateString}</div>
+            <div class="text-brandTextSecondary text-sm mb-8">Added ${dateString}</div>
 
             ${imageUrl ? `<img src="${imageUrl}" alt="${project.title}" class="w-full rounded-2xl mb-12 object-cover max-h-[500px] mix-blend-multiply">` : ''}
 
-            <div class="prose prose-lg max-w-none text-gray-800 leading-relaxed font-sans text-lg">
+            <div class="prose prose-lg max-w-none text-brandTextPrimary leading-relaxed font-sans text-lg">
                 ${formattedDesc}
             </div>
             
@@ -166,7 +166,7 @@ async function fetchSingleProject(id) {
             </div>
             
             <div class="mt-10 pt-8 border-t border-gray-100">
-                <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Share this project</p>
+                <p class="text-sm font-semibold text-brandTextSecondary uppercase tracking-wide mb-4">Share this project</p>
                 <div class="flex flex-wrap gap-3">
                     <a href="https://wa.me/?text=${encodeURIComponent(project.title + ' — Check it out: ' + shareUrl)}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#25D366] text-white font-semibold text-sm hover:opacity-90 transition-opacity">WhatsApp</a>
                     <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0A66C2] text-white font-semibold text-sm hover:opacity-90 transition-opacity">LinkedIn</a>

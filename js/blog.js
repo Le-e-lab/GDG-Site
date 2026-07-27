@@ -29,8 +29,8 @@ async function fetchBlogPosts() {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                     </svg>
                 </div>
-                <h3 class="font-display text-2xl font-bold text-gray-900 mb-3">No Posts Yet</h3>
-                <p class="text-gray-500 max-w-sm">The first article is still being written. Check back soon for the latest tech news and club stories!</p>
+                <h3 class="font-display text-2xl font-bold text-brandTextPrimary mb-3">No Posts Yet</h3>
+                <p class="text-brandTextSecondary max-w-sm">The first article is still being written. Check back soon for the latest tech news and club stories!</p>
             </div>`;
         return;
     }
@@ -56,7 +56,7 @@ async function fetchBlogPosts() {
         if (!postsToRender || postsToRender.length === 0) {
             blogContainer.innerHTML = `
                 <div class="col-span-full flex flex-col items-center justify-center py-24 text-center">
-                    <p class="text-gray-500 max-w-sm">No articles found matching your search.</p>
+                    <p class="text-brandTextSecondary max-w-sm">No articles found matching your search.</p>
                 </div>`;
             return;
         }
@@ -76,19 +76,19 @@ async function fetchBlogPosts() {
                     ? `<img src="${imageUrl}" alt="${post.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">`
                     : `<svg class="w-16 h-16 ${textClass} opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>`
                 }
-                <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-600 text-xs font-semibold px-3 py-1 rounded-full shadow-sm">${dateString}</span>
+                <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-brandTextSecondary text-xs font-semibold px-3 py-1 rounded-full shadow-sm">${dateString}</span>
             </div>
 
             <div class="p-6 flex-1 flex flex-col">
-                <h2 class="font-display text-xl font-bold mb-3 text-gray-900 leading-tight group-hover:${textClass} transition-colors">${post.title}</h2>
-                <p class="text-gray-500 text-sm leading-relaxed flex-1 mb-5">${excerpt}</p>
+                <h2 class="font-display text-xl font-bold mb-3 text-brandTextPrimary leading-tight group-hover:${textClass} transition-colors">${post.title}</h2>
+                <p class="text-brandTextSecondary text-sm leading-relaxed flex-1 mb-5">${excerpt}</p>
 
                 <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div class="w-9 h-9 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 text-white flex items-center justify-center font-bold text-sm">
                             ${initial}
                         </div>
-                        <span class="text-sm font-semibold text-gray-700">${post.author}</span>
+                        <span class="text-sm font-semibold text-brandTextSecondary">${post.author}</span>
                     </div>
                     <span class="${textClass} text-xs font-bold uppercase tracking-wide">Read →</span>
                 </div>
@@ -181,27 +181,27 @@ async function fetchSinglePost(id) {
 
         blogContainer.innerHTML = `
         <article class="bg-white rounded-2xl md:p-12 p-6 shadow-sm border border-gray-100 mt-8 mb-16">
-            <h1 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-8 leading-tight">${post.title}</h1>
+            <h1 class="font-display text-4xl md:text-5xl font-bold text-brandTextPrimary mb-8 leading-tight">${post.title}</h1>
             
             <div class="flex items-center gap-4 mb-10 pb-10 border-b border-gray-100">
                 <div class="w-14 h-14 rounded-full bg-google-blue/10 flex items-center justify-center text-google-blue font-bold text-xl">
                     ${post.author.charAt(0).toUpperCase()}
                 </div>
                 <div>
-                    <div class="font-bold text-gray-900 text-lg">${post.author}</div>
-                    <div class="text-gray-500 text-sm tracking-wide uppercase">${dateString}</div>
+                    <div class="font-bold text-brandTextPrimary text-lg">${post.author}</div>
+                    <div class="text-brandTextSecondary text-sm tracking-wide uppercase">${dateString}</div>
                 </div>
             </div>
 
             ${imageUrl ? `<img src="${imageUrl}" alt="${post.title}" class="w-full rounded-2xl mb-12 object-cover max-h-[500px] mix-blend-multiply">` : ''}
 
-            <div class="prose prose-lg max-w-none text-gray-800 leading-relaxed font-sans text-lg">
+            <div class="prose prose-lg max-w-none text-brandTextPrimary leading-relaxed font-sans text-lg">
                 ${formattedContent}
             </div>
             
             <!-- Social Sharing -->
             <div class="mt-12 pt-8 border-t border-gray-100">
-                <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Share this post</p>
+                <p class="text-sm font-semibold text-brandTextSecondary uppercase tracking-wide mb-4">Share this post</p>
                 <div class="flex flex-wrap gap-3">
                     <a href="https://wa.me/?text=${encodeURIComponent(post.title + ' — Read it here: ' + shareUrl)}" target="_blank" rel="noopener"
                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#25D366] text-white font-semibold text-sm hover:opacity-90 transition-opacity shadow-sm">
@@ -295,14 +295,14 @@ async function fetchSingleProject(id) {
 
         blogContainer.innerHTML = `
         <article class="bg-white rounded-2xl md:p-12 p-6 shadow-sm border border-gray-100 mt-8 mb-16">
-            <h1 class="font-display text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">${project.title}</h1>
+            <h1 class="font-display text-4xl md:text-5xl font-bold text-brandTextPrimary mb-6 leading-tight">${project.title}</h1>
             
             <div class="flex flex-wrap gap-2 mb-6">${tags}</div>
-            <div class="text-gray-500 text-sm mb-8">Added ${dateString}</div>
+            <div class="text-brandTextSecondary text-sm mb-8">Added ${dateString}</div>
 
             ${imageUrl ? `<img src="${imageUrl}" alt="${project.title}" class="w-full rounded-2xl mb-12 object-cover max-h-[500px]">` : ''}
 
-            <div class="prose prose-lg max-w-none text-gray-800 leading-relaxed font-sans text-lg">
+            <div class="prose prose-lg max-w-none text-brandTextPrimary leading-relaxed font-sans text-lg">
                 ${formattedDesc}
             </div>
             
@@ -319,7 +319,7 @@ async function fetchSingleProject(id) {
 
             <!-- Share -->
             <div class="mt-10 pt-8 border-t border-gray-100">
-                <p class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Share this project</p>
+                <p class="text-sm font-semibold text-brandTextSecondary uppercase tracking-wide mb-4">Share this project</p>
                 <div class="flex flex-wrap gap-3">
                     <a href="https://wa.me/?text=${encodeURIComponent(project.title + ' — Check it out: ' + shareUrl)}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#25D366] text-white font-semibold text-sm hover:opacity-90 transition-opacity">WhatsApp</a>
                     <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0A66C2] text-white font-semibold text-sm hover:opacity-90 transition-opacity">LinkedIn</a>

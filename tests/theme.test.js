@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 
 // Helper to construct a JSDOM window utilizing the actual production index.html
-function createTestDOM(initialTheme = null, prefersDark = false) {
+function createTestDOM(initialTheme = null, prefersLight = false) {
   const store = {};
   if (initialTheme) {
     store['theme'] = initialTheme;
@@ -33,9 +33,9 @@ function createTestDOM(initialTheme = null, prefersDark = false) {
     configurable: true
   });
 
-  // Mock matchMedia
+  // Mock matchMedia for light mode query
   window.matchMedia = vi.fn().mockImplementation(query => ({
-    matches: prefersDark && query.includes('dark'),
+    matches: prefersLight && query.includes('light'),
     media: query,
     onchange: null,
     addListener: vi.fn(),
@@ -45,8 +45,7 @@ function createTestDOM(initialTheme = null, prefersDark = false) {
     dispatchEvent: vi.fn(),
   }));
 
-  // Manually parse and run the inline theme initialization scripts and external controller script to guarantee
-  // execution inside the test JSDOM window context.
+  // Manually parse and run the inline theme initialization scripts and external controller script inside JSDOM context.
   const scripts = window.document.querySelectorAll('script');
   scripts.forEach(script => {
     const src = script.getAttribute('src');
@@ -74,39 +73,37 @@ function createTestDOM(initialTheme = null, prefersDark = false) {
 }
 
 describe('Theme Controller', () => {
-  // Keep the signature requested by Step 1 of task plan (tests classList on JSDOM instance)
-  it('should toggle light and dark class on html tag', () => {
+  it('should toggle light class on html tag', () => {
     const dom = new JSDOM('<!DOCTYPE html><html><body class="bg-white"><button id="theme-toggle"></button></body></html>');
     const html = dom.window.document.documentElement;
-    expect(html.classList.contains('dark')).toBe(false);
+    expect(html.classList.contains('light')).toBe(false);
     
-    // Toggle logic function (to be implemented)
     const toggleTheme = () => {
-      html.classList.toggle('dark');
+      html.classList.toggle('light');
     };
     
     toggleTheme();
-    expect(html.classList.contains('dark')).toBe(true);
+    expect(html.classList.contains('light')).toBe(true);
   });
 
-  it('should initialize theme to dark when localStorage is dark', () => {
+  it('should initialize theme to dark (no light class) when localStorage is dark', () => {
     const { dom } = createTestDOM('dark');
-    expect(dom.window.document.documentElement.classList.contains('dark')).toBe(true);
+    expect(dom.window.document.documentElement.classList.contains('light')).toBe(false);
   });
 
   it('should initialize theme to light when localStorage is light', () => {
     const { dom } = createTestDOM('light');
-    expect(dom.window.document.documentElement.classList.contains('dark')).toBe(false);
+    expect(dom.window.document.documentElement.classList.contains('light')).toBe(true);
   });
 
-  it('should default to dark if prefers-color-scheme is dark', () => {
-    const { dom } = createTestDOM(null, true);
-    expect(dom.window.document.documentElement.classList.contains('dark')).toBe(true);
+  it('should default to dark (no light class) if prefers-color-scheme is dark', () => {
+    const { dom } = createTestDOM(null, false);
+    expect(dom.window.document.documentElement.classList.contains('light')).toBe(false);
   });
 
   it('should default to light if prefers-color-scheme is light', () => {
-    const { dom } = createTestDOM(null, false);
-    expect(dom.window.document.documentElement.classList.contains('dark')).toBe(false);
+    const { dom } = createTestDOM(null, true);
+    expect(dom.window.document.documentElement.classList.contains('light')).toBe(true);
   });
 
   it('should toggle theme from light to dark on theme button click', () => {
@@ -114,13 +111,13 @@ describe('Theme Controller', () => {
     const doc = dom.window.document;
     const btn = doc.getElementById('theme-toggle');
 
-    expect(doc.documentElement.classList.contains('dark')).toBe(false);
+    expect(doc.documentElement.classList.contains('light')).toBe(true);
     btn.click();
-    expect(doc.documentElement.classList.contains('dark')).toBe(true);
+    expect(doc.documentElement.classList.contains('light')).toBe(false);
     expect(store['theme']).toBe('dark');
 
     btn.click();
-    expect(doc.documentElement.classList.contains('dark')).toBe(false);
+    expect(doc.documentElement.classList.contains('light')).toBe(true);
     expect(store['theme']).toBe('light');
   });
 

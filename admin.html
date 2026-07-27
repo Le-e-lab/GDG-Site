@@ -13,6 +13,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
+        darkMode: ['class', ':not(.light)'],
         theme: {
           extend: {
             colors: {
@@ -20,6 +21,12 @@
               "google-red": "#EA4335",
               "google-yellow": "#FBBC05",
               "google-green": "#34A853",
+              brandBgPrimary: "hsl(var(--bg-primary) / <alpha-value>)",
+              brandBgSecondary: "hsl(var(--bg-secondary) / <alpha-value>)",
+              brandBgTertiary: "hsl(var(--bg-tertiary) / <alpha-value>)",
+              brandTextPrimary: "hsl(var(--text-primary) / <alpha-value>)",
+              brandTextSecondary: "hsl(var(--text-secondary) / <alpha-value>)",
+              brandBorder: "hsl(var(--border-color) / <alpha-value>)",
             },
             fontFamily: {
               sans: ["Inter", "sans-serif"],

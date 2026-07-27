@@ -54,7 +54,7 @@ async function fetchProjects() {
         const html = postsToRender.map((project) => {
             const tagsHtml = project.tags ? project.tags.split(',').map(tag => `<span class="px-2 py-1 bg-brandBgSecondary text-brandTextSecondary text-xs font-semibold rounded-md">${tag.trim()}</span>`).join('') : '';
             return `
-            <a href="project.html?v=v2&id=${project.id}" class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow block">
+            <a href="project.html?v=v2&id=${project.id}" class="group bg-brandBgTertiary border border-brandBorder rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow block">
                 <div class="h-48 w-full bg-brandBgSecondary relative overflow-hidden">
                     ${project.image ? `<img src="${project.image}" alt="${project.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">` : '<div class="w-full h-full flex items-center justify-center text-gray-400">No Image</div>'}
                 </div>
@@ -142,7 +142,7 @@ async function fetchSingleProject(id) {
         if (!formattedDesc.startsWith('<p>')) formattedDesc = `<p class="mb-6">${formattedDesc}</p>`;
 
         blogContainer.innerHTML = `
-        <article class="bg-white rounded-2xl md:p-12 p-6 shadow-sm border border-gray-100 mt-8 mb-16">
+        <article class="bg-brandBgTertiary rounded-2xl md:p-12 p-6 shadow-sm border border-brandBorder mt-8 mb-16">
             <h1 class="font-display text-4xl md:text-5xl font-bold text-brandTextPrimary mb-6 leading-tight">${project.title}</h1>
             
             <div class="flex flex-wrap gap-2 mb-6">${tags}</div>
@@ -175,7 +175,7 @@ async function fetchSingleProject(id) {
             </div>
 
             <div class="mt-8 pt-6 border-t border-gray-100">
-                <a href="project.html?v=v2" class="inline-flex items-center gap-2 text-google-green font-semibold hover:bg-green-50 px-4 py-2 rounded-lg transition-colors">
+                <a href="project.html?v=v2" class="inline-flex items-center gap-2 text-google-green font-semibold hover:bg-brandBgSecondary px-4 py-2 rounded-lg transition-colors">
                     ← Back to all projects
                 </a>
             </div>

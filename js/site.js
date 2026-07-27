@@ -71,7 +71,7 @@ async function loadProjects() {
   // Render skeleton loaders
   grid.innerHTML = `
     ${Array(3).fill(`
-      <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm animate-pulse">
+      <div class="bg-brandBgTertiary border border-brandBorder rounded-2xl overflow-hidden shadow-sm animate-pulse">
         <div class="h-48 bg-gray-200"></div>
         <div class="p-6">
           <div class="flex gap-2 mb-3"><div class="h-4 w-12 bg-gray-200 rounded"></div><div class="h-4 w-12 bg-gray-200 rounded"></div></div>
@@ -131,15 +131,15 @@ async function loadProjects() {
       : `<svg class="w-16 h-16 text-gray-300 group-hover:text-gray-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>`;
 
     grid.insertAdjacentHTML('beforeend', `
-      <a href="project.html?v=v2&id=${project.id}" class="group bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow block card-hover">
+      <a href="project.html?v=v2&id=${project.id}" class="group bg-brandBgTertiary border border-brandBorder rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow block card-hover">
         <div class="h-48 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden">
           ${imageHtml}
         </div>
         <div class="p-6">
           <div class="flex items-center gap-2 mb-3">${tagsHtml}</div>
-          <h3 class="font-display text-xl font-bold mb-2 text-gray-900">${project.title}</h3>
-          <p class="text-gray-600 text-sm leading-relaxed mb-4">${project.description.substring(0, 120)}${project.description.length > 120 ? '...' : ''}</p>
-          <span class="text-google-blue text-sm font-semibold group-hover:text-gray-900 transition-colors inline-flex items-center gap-1">View Project <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></span>
+          <h3 class="font-display text-xl font-bold mb-2 text-brandTextPrimary">${project.title}</h3>
+          <p class="text-brandTextSecondary text-sm leading-relaxed mb-4">${project.description.substring(0, 120)}${project.description.length > 120 ? '...' : ''}</p>
+          <span class="text-google-blue text-sm font-semibold group-hover:text-brandTextPrimary transition-colors inline-flex items-center gap-1">View Project <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></span>
         </div>
       </a>
     `);;
@@ -245,7 +245,7 @@ async function loadEvents() {
   // Render skeleton loaders
   grid.innerHTML = `
     ${Array(3).fill(`
-      <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm animate-pulse">
+      <div class="bg-brandBgTertiary border border-brandBorder rounded-2xl overflow-hidden shadow-sm animate-pulse">
         <div class="h-3 bg-gray-200"></div>
         <div class="p-6">
           <div class="flex items-center gap-3 mb-4">
@@ -284,19 +284,19 @@ async function loadEvents() {
     const day = eventDate.getDate().toString().padStart(2, '0');
 
     grid.insertAdjacentHTML('beforeend', `
-      <div class="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow card-hover">
+      <div class="bg-brandBgTertiary border border-brandBorder rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow card-hover">
         <div class="h-3 bg-gradient-to-r ${accent.bar}"></div>
         <div class="p-6">
           <div class="flex items-center gap-3 mb-4">
             <div class="w-14 h-14 rounded-xl ${accent.box} flex flex-col items-center justify-center">
               <span class="text-xs ${accent.text} font-bold">${month}</span>
-              <span class="text-xl text-gray-900 font-bold">${day}</span>
+              <span class="text-xl text-brandTextPrimary font-bold">${day}</span>
             </div>
             <div>
-              <h4 class="text-gray-900 font-bold">${event.title}</h4>
+              <h4 class="text-brandTextPrimary font-bold">${event.title}</h4>
             </div>
           </div>
-          <p class="text-gray-600 text-sm mb-4">${event.description}</p>
+          <p class="text-brandTextSecondary text-sm mb-4">${event.description}</p>
           ${event.link ? `<a href="${event.link}" target="_blank" class="text-google-blue text-xs font-semibold hover:underline">Register on Bevy →</a>` : ''}
         </div>
       </div>
@@ -314,7 +314,7 @@ async function loadTestimonials() {
   // Render skeleton loaders (grid needs to parent elements directly, assuming flex layout inside)
   grid.innerHTML = `
     ${Array(2).fill(`
-      <div class="bg-gray-50 border border-gray-100 rounded-2xl p-8 shadow-sm flex flex-col justify-between hidden md:flex animate-pulse">
+      <div class="bg-brandBgSecondary border border-brandBorder rounded-2xl p-8 shadow-sm flex flex-col justify-between hidden md:flex animate-pulse">
         <div><div class="h-6 w-full bg-gray-200 rounded mb-2"></div><div class="h-6 w-5/6 bg-gray-200 rounded mb-6"></div></div>
         <div class="flex items-center gap-4"><div class="w-12 h-12 rounded-full bg-gray-200"></div><div><div class="h-4 w-24 bg-gray-200 rounded mb-1"></div><div class="h-3 w-16 bg-gray-200 rounded"></div></div></div>
       </div>
@@ -348,16 +348,16 @@ async function loadTestimonials() {
       : initials;
 
     grid.insertAdjacentHTML('beforeend', `
-      <div class="bg-gray-50 rounded-2xl p-8 border border-gray-100">
+      <div class="bg-brandBgSecondary rounded-2xl p-8 border border-brandBorder">
         ${stars}
-        <p class="text-gray-600 leading-relaxed mb-6">"${t.content}"</p>
+        <p class="text-brandTextSecondary leading-relaxed mb-6">"${t.content}"</p>
         <div class="flex items-center gap-4">
           <div class="w-12 h-12 rounded-full bg-gradient-to-br ${gradient} flex items-center justify-center text-white font-bold overflow-hidden">
             ${avatarHtml}
           </div>
           <div>
-            <h4 class="font-bold text-gray-900">${t.name}</h4>
-            <p class="text-gray-500 text-sm">${t.role}</p>
+            <h4 class="font-bold text-brandTextPrimary">${t.name}</h4>
+            <p class="text-brandTextSecondary/80 text-sm">${t.role}</p>
           </div>
         </div>
       </div>

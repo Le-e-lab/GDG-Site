@@ -262,7 +262,11 @@ function renderProjectCards(filter) {
     ? projectsCache.filter(p => p.needs_help)
     : projectsCache;
 
-  if (list.length === 0) {
+  // Homepage shows 2 rows (6); archive pages (data-full) show everything
+  const isFull = grid.dataset.full === 'true';
+  const visible = isFull ? list : list.slice(0, 6);
+
+  if (visible.length === 0) {
     grid.innerHTML = `
       <div class="flex flex-col items-center justify-center py-16 text-center">
         <div class="w-16 h-16 mb-5 rounded-2xl bg-google-yellow/10 flex items-center justify-center">
@@ -275,9 +279,10 @@ function renderProjectCards(filter) {
     return;
   }
 
-  grid.innerHTML = list.map(projectCardHtml).join('') + buildWithUsCard();
+  grid.innerHTML = visible.map(projectCardHtml).join('') + buildWithUsCard();
   attachModalTriggers();
-  // Delegate collaborate button clicks (cards are re-rendered on filter change)
+
+  // Delegate collaborate button clicks (cards re-render on filter change)
   grid.querySelectorAll('[data-collab-project]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -425,7 +430,11 @@ async function loadEvents() {
 
   grid.innerHTML = '';
 
-  data.forEach((event, i) => {
+  // Homepage shows 2 rows (6); archive pages (data-full) show everything
+  const isFull = grid.dataset.full === 'true';
+  const visible = isFull ? data : data.slice(0, 6);
+
+  visible.forEach((event, i) => {
     const accent = EVENT_ACCENT_CLASSES[i % EVENT_ACCENT_CLASSES.length];
     const eventDate = new Date(event.date);
     const month = eventDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
@@ -543,7 +552,11 @@ async function loadSemesterPlan() {
 
   container.innerHTML = '';
 
-  data.forEach((plan, i) => {
+  // Homepage shows 2 rows (6); archive pages (data-full) show everything
+  const isFull = container.dataset.full === 'true';
+  const visible = isFull ? data : data.slice(0, 6);
+
+  visible.forEach((plan, i) => {
     const isCompleted = plan.status === 'completed';
     const isLive = plan.status === 'live' || plan.status === 'ongoing';
     const topBar = isCompleted ? 'bg-google-green' : isLive ? 'bg-google-yellow' : 'bg-google-blue';

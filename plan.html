@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semester Plan | GDG Africa University</title>
+    <meta name="description" content="The full semester plan and activities roadmap for GDG Africa University — workshops, community events, and hackathons.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://gdg-africa-university.netlify.app/plan.html">
+    <meta name="geo.region" content="ZW">
+    <meta name="geo.placename" content="Mutare, Zimbabwe">
+    <meta property="og:site_name" content="GDG Africa University">
+    <meta property="og:title" content="Semester Plan | GDG Africa University">
+    <meta property="og:description" content="The full semester plan and activities roadmap for GDG Africa University — workshops, community events, and hackathons.">
+    <meta property="og:image" content="https://gdg-africa-university.netlify.app/images/gdg-logo.jpg">
+    <meta property="og:url" content="https://gdg-africa-university.netlify.app/plan.html">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" type="image/jpeg" href="images/gdg-logo.jpg" />
+    <link rel="apple-touch-icon" href="images/gdg-logo.jpg" />
+    <meta name="theme-color" content="#4285F4" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: ['class', ':not(.light)'],
+        theme: {
+          extend: {
+            colors: {
+              "google-blue": "#4285F4",
+              "google-red": "#EA4335",
+              "google-yellow": "#FBBC05",
+              "google-green": "#34A853",
+              brandBgPrimary: "hsl(var(--bg-primary) / <alpha-value>)",
+              brandBgSecondary: "hsl(var(--bg-secondary) / <alpha-value>)",
+              brandBgTertiary: "hsl(var(--bg-tertiary) / <alpha-value>)",
+              brandTextPrimary: "hsl(var(--text-primary) / <alpha-value>)",
+              brandTextSecondary: "hsl(var(--text-secondary) / <alpha-value>)",
+              brandBorder: "hsl(var(--border-color) / <alpha-value>)",
+            },
+            fontFamily: {
+              sans: ["Outfit", "system-ui", "sans-serif"],
+              display: ["Space Grotesk", "system-ui", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="font-sans antialiased transition-colors duration-200">
+
+    <!-- Navigation - Floating Glass Pill -->
+    <nav class="fixed top-3 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] max-w-5xl" id="main-nav">
+        <div class="nav-pill flex justify-between items-center px-3 md:px-5 py-2.5 rounded-full bg-white/92 backdrop-blur-xl border border-white/30 shadow-lg shadow-black/5">
+            <a href="index.html" class="flex items-center gap-2 group flex-shrink-0">
+                <div class="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center">
+                    <img src="images/gdg-logo.jpg" alt="GDG" class="w-full h-full object-cover rounded-full">
+                </div>
+                <span class="font-display font-bold text-sm text-gray-900 tracking-tight hidden sm:inline">GDG <span class="font-normal text-gray-400">Plan</span></span>
+            </a>
+            <div class="hidden md:flex items-center gap-0.5">
+                <a href="index.html" class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all">Home</a>
+                <a href="index.html#projects" class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all">Projects</a>
+                <a href="index.html#events" class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all">Events</a>
+                <a href="index.html#semester-plan" class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all">Semester Plan</a>
+                <a href="blog.html?v=v2" class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all">Blog</a>
+                <a href="plan.html?v=v2" class="px-3 py-1.5 text-xs font-medium text-google-green bg-google-green/10 rounded-full transition-all">Full Plan</a>
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden p-2 text-gray-500 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden mt-2 mx-2 bg-white/95 backdrop-blur-xl rounded-2xl border border-gray-200 shadow-2xl px-4 py-4">
+            <div class="flex flex-col gap-1">
+                <a href="index.html" class="text-gray-600 hover:text-gray-900 py-3 px-3 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium">Home</a>
+                <a href="index.html#projects" class="text-gray-600 hover:text-gray-900 py-3 px-3 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium">Projects</a>
+                <a href="index.html#events" class="text-gray-600 hover:text-gray-900 py-3 px-3 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium">Events</a>
+                <a href="index.html#semester-plan" class="text-gray-600 hover:text-gray-900 py-3 px-3 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium">Semester Plan</a>
+                <a href="blog.html?v=v2" class="text-gray-600 hover:text-gray-900 py-3 px-3 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium">Blog</a>
+                <a href="plan.html?v=v2" class="text-google-green font-semibold py-3 px-3 rounded-xl bg-google-green/5 transition-colors text-sm">Full Plan</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative pt-28 pb-6 px-6 bg-brandBgPrimary overflow-hidden transition-colors duration-200">
+        <div class="relative max-w-4xl mx-auto text-center scroll-reveal">
+            <div class="inline-flex items-center gap-2 bg-google-green/10 text-google-green px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                <span class="w-2 h-2 rounded-full bg-google-green animate-pulse"></span>
+                Our Roadmap
+            </div>
+            <h1 class="font-display text-3xl md:text-5xl font-bold mb-3 leading-tight">
+                Full <span class="text-google-green">Semester Plan</span>
+            </h1>
+            <p class="text-brandTextSecondary text-base md:text-lg max-w-2xl mx-auto">
+                The complete chronological roadmap of our workshops, events, and community activities for the current semester.
+            </p>
+        </div>
+    </header>
+
+    <!-- All Activities -->
+    <section class="py-14 px-6 bg-brandBgPrimary transition-colors duration-200">
+        <div class="max-w-6xl mx-auto">
+            <div id="timeline-container" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" data-full="true">
+                <div class="col-span-full py-10 text-center text-gray-400">Loading semester plan...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 px-6 dark:bg-brandBgPrimary transition-colors duration-200">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <img src="images/gdg-logo.jpg" alt="GDG Logo" class="w-8 h-8 object-contain rounded mix-blend-multiply logo-capsule">
+                <span class="font-display font-bold text-white">GDG Africa University</span>
+            </div>
+            <p class="text-gray-400 text-sm">© 2026 GDG Africa University. Developed with <span class="text-google-red">♥</span> in Mutare, Zimbabwe.</p>
+        </div>
+    </footer>
+
+    <script type="module" src="js/site.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

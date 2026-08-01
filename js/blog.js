@@ -249,116 +249,12 @@ async function fetchSinglePost(id) {
     }
 }
 
-async function fetchSingleProject(id) {
-    const loadingEl = document.getElementById('blog-loading');
-    const blogContainer = document.getElementById('blog-container');
-    const header = document.getElementById('blog-header');
-    const divider = document.getElementById('blog-divider');
-
-    const { data: project, error } = await supabase
-        .from('projects')
-        .select('*')
-        .eq('id', id)
-        .single();
-
-    if (loadingEl) loadingEl.classList.add('hidden');
-    
-    if (error || !project) {
-        if (blogContainer) {
-            blogContainer.classList.remove('hidden');
-            blogContainer.innerHTML = `<div class="text-center py-20 text-red-500 font-bold">Project not found. <br><br><a href="blog.html?v=v2" class="px-6 py-2 bg-google-blue text-white rounded-full">Go back</a></div>`;
-        }
-        return;
-    }
-
-    if (header) header.classList.add('hidden');
-    if (divider) divider.classList.add('hidden');
-    const searchBar2 = document.getElementById('blog-search-bar');
-    if (searchBar2) searchBar2.classList.add('hidden');
-    const loadMoreEl2 = document.getElementById('load-more-container');
-    if (loadMoreEl2) loadMoreEl2.classList.add('hidden');
-
-    if (blogContainer) {
-        blogContainer.classList.remove('hidden');
-        blogContainer.className = 'max-w-3xl mx-auto w-full';
-
-        const dateString = new Date(project.created_at).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-        const imageUrl = project.image || null;
-        const tags = project.tags ? project.tags.split(',').map(t => `<span class="px-3 py-1 bg-google-blue/10 text-google-blue text-xs font-semibold rounded-full">${t.trim()}</span>`).join('') : '';
-        const shareUrl = window.location.href;
-
-        let formattedDesc = project.description
-            .replace(/\n\n/g, '</p><p class="mb-6">')
-            .replace(/\n/g, '<br>')
-            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        if (!formattedDesc.startsWith('<p>')) formattedDesc = `<p class="mb-6">${formattedDesc}</p>`;
-
-        blogContainer.innerHTML = `
-        <article class="bg-brandBgTertiary rounded-2xl md:p-12 p-6 shadow-sm border border-brandBorder mt-8 mb-16">
-            <h1 class="font-display text-4xl md:text-5xl font-bold text-brandTextPrimary mb-6 leading-tight">${project.title}</h1>
-            
-            <div class="flex flex-wrap gap-2 mb-6">${tags}</div>
-            <div class="text-brandTextSecondary text-sm mb-8">Added ${dateString}</div>
-
-            ${imageUrl ? `<img src="${imageUrl}" alt="${project.title}" class="w-full rounded-2xl mb-12 object-cover max-h-[500px]">` : ''}
-
-            <div class="prose prose-lg max-w-none text-brandTextPrimary leading-relaxed font-sans text-lg">
-                ${formattedDesc}
-            </div>
-            
-            <div class="mt-10 flex flex-wrap gap-3">
-                ${project.link ? `<a href="${project.link}" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-google-blue text-white font-bold text-sm hover:bg-google-blue/90 transition-colors shadow-sm">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                    Live Demo
-                </a>` : ''}
-                ${project.github ? `<a href="${project.github}" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-gray-900 text-white font-bold text-sm hover:bg-gray-800 transition-colors shadow-sm">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    View on GitHub
-                </a>` : ''}
-            </div>
-
-            <!-- Share -->
-            <div class="mt-10 pt-8 border-t border-gray-100">
-                <p class="text-sm font-semibold text-brandTextSecondary uppercase tracking-wide mb-4">Share this project</p>
-                <div class="flex flex-wrap gap-3">
-                    <a href="https://wa.me/?text=${encodeURIComponent(project.title + ' — Check it out: ' + shareUrl)}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#25D366] text-white font-semibold text-sm hover:opacity-90 transition-opacity">WhatsApp</a>
-                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0A66C2] text-white font-semibold text-sm hover:opacity-90 transition-opacity">LinkedIn</a>
-                    <a href="mailto:?subject=${encodeURIComponent(project.title + ' — GDSC Africa University')}&body=${encodeURIComponent('Check out this project from GDSC Africa University:\n\n' + project.title + '\n\n' + shareUrl)}" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-google-red text-white font-semibold text-sm hover:opacity-90 transition-opacity">Email</a>
-                </div>
-            </div>
-
-            <div class="mt-8 pt-6 border-t border-gray-100">
-                <a href="index.html#projects" class="inline-flex items-center gap-2 text-google-blue font-semibold hover:bg-blue-50 px-4 py-2 rounded-lg transition-colors">
-                    ← Back to projects
-                </a>
-            </div>
-        </article>`;
-        document.title = `${project.title} | GDSC Africa University`;
-        
-        const pureTextDesc = project.description.replace(/<[^>]+>/g, '').substring(0, 160) + '...';
-        const metaDesc = document.getElementById('meta-description');
-        const ogTitle = document.getElementById('meta-og-title');
-        const ogDesc = document.getElementById('meta-og-description');
-        const ogImage = document.getElementById('meta-og-image');
-        const ogUrl = document.getElementById('meta-og-url');
-
-        if(metaDesc) metaDesc.content = pureTextDesc;
-        if(ogTitle) ogTitle.content = document.title;
-        if(ogDesc) ogDesc.content = pureTextDesc;
-        if(ogImage && imageUrl) ogImage.content = imageUrl;
-        if(ogUrl) ogUrl.content = shareUrl;
-    }
-}
-
 async function fetchBlogData() {
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
-    const projectId = urlParams.get('project');
 
     if (postId) {
         await fetchSinglePost(postId);
-    } else if (projectId) {
-        await fetchSingleProject(projectId);
     } else {
         await fetchBlogPosts();
     }
@@ -376,4 +272,84 @@ async function markBlogAsSeen() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', fetchBlogData);
+// Blog Submission Modal
+function initBlogSubmission() {
+    const openBtn = document.getElementById('open-blog-submit-modal');
+    const closeBtn = document.getElementById('close-blog-submit-modal');
+    const modal = document.getElementById('blog-submit-modal');
+    const form = document.getElementById('blog-submit-form');
+
+    if (!openBtn || !modal) return;
+
+    openBtn.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+    });
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        });
+    }
+
+    // Close on backdrop click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    });
+
+    // Form submission
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="inline-flex items-center gap-2"><svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Submitting...</span>';
+
+            const payload = {
+                title: formData.get('title'),
+                author: formData.get('author'),
+                content: formData.get('content'),
+                image: formData.get('image') || null,
+                status: 'pending'
+            };
+
+            const { error } = await supabase.from('blog').insert(payload);
+
+            if (error) {
+                alert('Failed to submit article. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            } else {
+                form.reset();
+                modal.classList.add('hidden');
+                document.body.style.overflow = '';
+                // Show success message
+                const successMsg = document.createElement('div');
+                successMsg.className = 'fixed top-4 right-4 z-50 bg-google-green text-white px-6 py-3 rounded-xl shadow-lg font-semibold';
+                successMsg.textContent = 'Article submitted! It will appear after admin review.';
+                document.body.appendChild(successMsg);
+                setTimeout(() => successMsg.remove(), 5000);
+            }
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchBlogData();
+    initBlogSubmission();
+});

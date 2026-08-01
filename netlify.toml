@@ -8,12 +8,6 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
 
-# Service worker - never cache
-[[headers]]
-  for = "/sw.js"
-  [headers.values]
-    Cache-Control = "no-cache, no-store, must-revalidate"
-
 # JS files - cache for 1 hour then revalidate
 [[headers]]
   for = "/js/*"

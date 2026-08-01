@@ -35,6 +35,12 @@ CREATE TABLE IF NOT EXISTS team (
 ALTER TABLE projects ADD COLUMN IF NOT EXISTS github VARCHAR;
 ALTER TABLE team ADD COLUMN IF NOT EXISTS github VARCHAR;
 ALTER TABLE team ADD COLUMN IF NOT EXISTS bio VARCHAR;
+
+-- Add spotlight columns to team table (safe to re-run)
+ALTER TABLE team ADD COLUMN IF NOT EXISTS is_spotlight BOOLEAN DEFAULT false;
+ALTER TABLE team ADD COLUMN IF NOT EXISTS spotlight_date DATE;
+ALTER TABLE team ADD COLUMN IF NOT EXISTS spotlight_quote TEXT;
+ALTER TABLE team ADD COLUMN IF NOT EXISTS spotlight_project VARCHAR;
 -- 4. Events Table
 CREATE TABLE IF NOT EXISTS events (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

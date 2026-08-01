@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,7 +29,7 @@
     <link rel="icon" type="image/jpeg" href="images/gdg-logo.jpg" />
     
     <!-- PWA Manifest -->
-    <link rel="manifest" href="manifest.json" />
+    <!-- Removed: no working service worker -->
     <meta name="theme-color" content="#4285F4" />
 
     <!-- Tailwind CSS CDN -->
@@ -52,8 +52,8 @@
               brandBorder: "hsl(var(--border-color) / <alpha-value>)",
             },
             fontFamily: {
-              sans: ["Inter", "sans-serif"],
-              display: ["Space Grotesk", "sans-serif"],
+              sans: ["Outfit", "system-ui", "sans-serif"],
+              display: ["Space Grotesk", "system-ui", "sans-serif"],
             },
           },
         },
@@ -63,275 +63,198 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="css/styles.css" />
 
-    <!-- Google Fonts -->
+    <!-- Google Fonts - Premium Combination -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
 
     <!-- AOS Animation CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
-    <!-- Theme Initialization Script -->
-    <script>
-      (function() {
-        let savedTheme = null;
-        try {
-          savedTheme = window.localStorage.getItem('theme');
-        } catch (e) {
-          console.warn('localStorage is not accessible:', e);
-        }
-        if (savedTheme === 'light' || (!savedTheme && window.matchMedia('(prefers-color-scheme: light)').matches)) {
-          document.documentElement.classList.add('light');
-        } else {
-          document.documentElement.classList.remove('light');
-        }
-      })();
-    </script>
-    </head>
+    <!-- Preload hero images for instant display -->
+    <link rel="preload" as="image" href="images/gdg-logo.jpg">
+    <link rel="preload" as="image" href="images/about-illustration.png">
+    <link rel="preload" as="image" href="images/newsletter-illustration.png">
+    <link rel="preload" as="image" href="images/pillars-illustration.png">
+</head>
 
   <body class="font-sans antialiased transition-colors duration-200">
-    <!-- ═══════════════════════════════════════════════════════════════════════════
-       NAVIGATION
-  ═══════════════════════════════════════════════════════════════════════════ -->
-    <nav
-      class="fixed top-0 left-0 right-0 z-50 bg-brandBgPrimary/95 backdrop-blur-md border-b border-brandBorder shadow-sm transition-colors duration-200"
-    >
-      <div
-        class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4"
-      >
-        <!-- Logo Section -->
-        <div class="flex items-center gap-4">
-          <div class="flex items-center gap-2">
-            <!-- GDG Logo Mark -->
-            <img src="images/gdg-logo.jpg" alt="GDG Logo" class="w-10 h-10 object-contain rounded mix-blend-multiply logo-capsule">
-            <span class="font-display font-bold text-lg text-brandTextPrimary">GDG</span>
+
+    <!-- LOADING SCREEN - Terminal/Coding Theme -->
+    <div id="preloader" class="fixed inset-0 z-[9999] bg-[#0a0a0f] flex items-center justify-center transition-opacity duration-500">
+      <div class="max-w-md w-full px-6">
+        <div class="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/50">
+          <div class="flex items-center gap-2 px-4 py-3 bg-white/5 border-b border-white/10">
+            <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+            <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+            <span class="ml-3 text-white/30 text-[10px] font-mono">gdg-au.dev</span>
           </div>
-          <div class="h-8 w-[2px] bg-google-blue/40"></div>
-          <span
-            class="font-semibold text-sm tracking-wide uppercase text-google-blue"
-            >Africa University</span
-          >
+          <div class="bg-[#0d1117] p-5 font-mono text-sm min-h-[200px]">
+            <div id="preloader-lines" class="space-y-2"></div>
+            <div class="flex items-center gap-2 mt-3">
+              <span class="text-google-green">$</span>
+              <span class="w-2.5 h-4 bg-white/70 animate-[blink_1s_step-end_infinite]"></span>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4 flex items-center gap-3">
+          <div class="flex-1 h-1 bg-white/10 rounded-full overflow-hidden">
+            <div id="preloader-progress" class="h-full bg-gradient-to-r from-google-blue via-google-green to-google-yellow rounded-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+          <span id="preloader-percent" class="text-white/40 text-xs font-mono">0%</span>
+        </div>
+        <p class="text-center text-white/20 text-[10px] font-mono mt-3 tracking-widest">GDG AFRICA UNIVERSITY</p>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+       NAVIGATION - Premium Minimal
+  ═══════════════════════════════════════════════════════════════════════════ -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+       NAVIGATION - Premium Floating Glass Pill
+    ═══════════════════════════════════════════════════════════════════════════ -->
+    <nav class="fixed top-3 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] max-w-5xl" id="main-nav">
+      <div class="nav-pill flex justify-between items-center px-3 md:px-5 py-2.5 rounded-full">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-2 group flex-shrink-0">
+          <div class="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center ring-2 ring-white/10 group-hover:ring-google-blue/30 transition-all duration-300">
+            <img src="images/gdg-logo.jpg" alt="GDG" class="w-full h-full object-cover rounded-full">
+          </div>
+          <span class="font-display font-bold text-sm nav-text-primary tracking-tight hidden sm:inline">GDG <span class="font-normal nav-text-muted">AU</span></span>
+        </a>
+
+        <!-- Desktop Nav Links -->
+        <div class="hidden lg:flex items-center gap-0.5">
+          <a href="#about" class="nav-pill-link nav-text-secondary">About</a>
+          <a href="#projects" class="nav-pill-link nav-text-secondary">Projects</a>
+          <a href="#team" class="nav-pill-link nav-text-secondary">Team</a>
+          <a href="#events" class="nav-pill-link nav-text-secondary">Events</a>
+          <a href="blog.html" class="nav-pill-link nav-text-secondary relative">
+            Blog
+            <span id="blog-badge" class="hidden absolute -top-1 -right-1 bg-google-red text-white text-[7px] font-bold w-3.5 h-3.5 rounded-full items-center justify-center"></span>
+          </a>
         </div>
 
-        <!-- Desktop Navigation -->
-        <div class="hidden md:flex items-center gap-8">
-          <a href="#about" class="nav-link text-sm uppercase font-semibold tracking-wide text-brandTextSecondary hover:text-brandTextPrimary transition-colors">About</a>
-          <a href="#projects" class="nav-link text-sm uppercase font-semibold tracking-wide text-brandTextSecondary hover:text-brandTextPrimary transition-colors">Projects</a>
-          <a href="#team" class="nav-link text-sm uppercase font-semibold tracking-wide text-brandTextSecondary hover:text-brandTextPrimary transition-colors">Team</a>
-          <a href="#events" class="nav-link text-sm uppercase font-semibold tracking-wide text-brandTextSecondary hover:text-brandTextPrimary transition-colors">Events</a>
-          <a href="blog.html?v=v2" class="nav-link text-sm uppercase font-semibold tracking-wide text-brandTextSecondary hover:text-brandTextPrimary transition-colors flex items-center gap-1">
-            Blog
-            <span id="blog-badge" class="hidden bg-google-red text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[1.25rem] text-center shadow-sm"></span>
-          </a>
-          <!-- Theme Toggle -->
-          <button id="theme-toggle" class="p-2 rounded-full hover:bg-brandBgSecondary transition-colors text-brandTextPrimary focus:outline-none" aria-label="Toggle Theme">
-            <!-- Sun Icon (visible in dark / default) -->
-            <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
-            </svg>
-            <!-- Moon Icon (visible in light) -->
-            <svg class="w-5 h-5 moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-            </svg>
+        <!-- CTA -->
+        <div class="hidden lg:flex items-center">
+          <button data-open-modal class="nav-cta bg-google-blue text-white px-5 py-2 rounded-full text-xs font-semibold hover:bg-google-blue/90 transition-all duration-200 active:scale-[0.97] shadow-sm shadow-google-blue/25">
+            Join Club
           </button>
-          </div>
+        </div>
 
-        <!-- Mobile Menu Button -->
-        <button id="mobile-menu-btn" class="md:hidden p-2 text-brandTextSecondary">
-          <svg
-            class="w-6 h-6"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 6h16M4 12h16M4 18h16"
-            ></path>
-          </svg>
+        <!-- Mobile Menu Button - Animated Hamburger -->
+        <button id="mobile-menu-btn" class="lg:hidden p-2 nav-text-secondary rounded-full hover:bg-white/10 transition-colors">
+          <div class="hamburger-icon w-5 h-5 relative flex flex-col justify-center items-center">
+            <span class="hamburger-line block w-5 h-[1.5px] bg-current rounded-full transition-all duration-300 absolute"></span>
+            <span class="hamburger-line block w-5 h-[1.5px] bg-current rounded-full transition-all duration-300 absolute"></span>
+          </div>
         </button>
       </div>
 
       <!-- Mobile Menu -->
-      <div
-        id="mobile-menu"
-        class="hidden md:hidden bg-brandBgSecondary border-t border-brandBorder dark:border-slate-800 px-6 py-4"
-      >
-        <div class="flex flex-col gap-4">
-          <a href="#about" class="text-brandTextSecondary hover:text-brandTextPrimary py-2">About</a>
-          <a href="#pillars" class="text-brandTextSecondary hover:text-brandTextPrimary py-2"
-            >Our Pillars</a
-          >
-          <a href="#projects" class="text-brandTextSecondary hover:text-brandTextPrimary py-2"
-            >Projects</a
-          >
-          <a href="#team" class="text-brandTextSecondary hover:text-brandTextPrimary py-2">Team</a>
-          <a href="#events" class="text-brandTextSecondary hover:text-brandTextPrimary py-2">Events</a>
-          <a href="blog.html?v=v2" class="text-brandTextSecondary hover:text-brandTextPrimary py-2 flex items-center justify-between">
-            <span>Blog</span>
-            <span id="mobile-blog-badge" class="hidden bg-google-red text-white text-xs font-bold px-2 py-0.5 rounded-full text-center shadow-sm"></span>
-          </a>
-          <div class="h-px bg-gray-200 my-2"></div>
-          <!-- Mobile Theme Toggle -->
-          <button id="mobile-theme-toggle" class="flex items-center gap-3 text-brandTextSecondary dark:text-slate-300 py-2 w-full text-left font-medium">
-              <span id="mobile-theme-text" class="block">Dark Mode</span>
-              <span id="mobile-theme-text-dark" class="hidden">Light Mode</span>
+      <div id="mobile-menu" class="hidden lg:hidden mt-2 mx-2 bg-brandBgPrimary/95 backdrop-blur-xl rounded-2xl border border-brandBorder shadow-2xl px-4 py-4">
+        <div class="flex flex-col gap-1">
+          <a href="#about" class="text-brandTextSecondary hover:text-brandTextPrimary py-3 px-3 rounded-xl hover:bg-brandTextPrimary/5 transition-colors text-sm font-medium">About</a>
+          <a href="#projects" class="text-brandTextSecondary hover:text-brandTextPrimary py-3 px-3 rounded-xl hover:bg-brandTextPrimary/5 transition-colors text-sm font-medium">Projects</a>
+          <a href="#team" class="text-brandTextSecondary hover:text-brandTextPrimary py-3 px-3 rounded-xl hover:bg-brandTextPrimary/5 transition-colors text-sm font-medium">Team</a>
+          <a href="#events" class="text-brandTextSecondary hover:text-brandTextPrimary py-3 px-3 rounded-xl hover:bg-brandTextPrimary/5 transition-colors text-sm font-medium">Events</a>
+          <a href="blog.html" class="text-brandTextSecondary hover:text-brandTextPrimary py-3 px-3 rounded-xl hover:bg-brandTextPrimary/5 transition-colors text-sm font-medium">Blog</a>
+          <div class="h-px bg-brandBorder my-2"></div>
+          <button data-open-modal class="w-full bg-google-blue text-white py-3 rounded-full text-sm font-semibold hover:bg-google-blue/90 transition-all active:scale-[0.97] shadow-sm shadow-google-blue/25">
+            Join Club
           </button>
         </div>
       </div>
     </nav>
 
-    <!-- ═══════════════════════════════════════════════════════════════════════════
-       HERO SECTION
-  ═══════════════════════════════════════════════════════════════════════════ -->
-    <section
-      class="min-h-screen flex items-center justify-center pt-20 bg-gradient-to-b from-brandBgPrimary via-brandBgSecondary to-brandBgPrimary relative overflow-hidden"
-    >
-      <!-- Background Pattern -->
-      <div class="absolute inset-0 opacity-10">
-        <div
-          class="absolute top-20 left-10 w-72 h-72 bg-google-blue rounded-full blur-3xl"
-        ></div>
-        <div
-          class="absolute top-40 right-20 w-96 h-96 bg-google-red rounded-full blur-3xl"
-        ></div>
-        <div
-          class="absolute bottom-20 left-1/3 w-80 h-80 bg-google-green rounded-full blur-3xl"
-        ></div>
-      </div>
-
-      <div class="relative z-10 max-w-6xl mx-auto px-6 py-24 w-full grid lg:grid-cols-12 gap-12 items-center" data-aos="fade-up">
-        <!-- Left Side: Copy & Stats (7 cols) -->
-        <div class="lg:col-span-7 text-left flex flex-col justify-center">
-          <!-- Main Headline -->
-          <h1
-            class="font-display text-4xl md:text-6xl font-bold mb-6 leading-tight"
-          >
-            <span class="text-google-blue">Ubuntu</span>
-            <span class="text-google-red"> Meets</span>
-            <br />
-            <span class="gradient-text">Innovation.</span>
-          </h1>
-
-          <!-- Subheadline -->
-          <p
-            class="text-lg md:text-xl text-brandTextSecondary mb-8 leading-relaxed"
-          >
-            Join the premier community of developers at
-            <strong class="text-brandTextPrimary">Africa University</strong>. We bridge the
-            gap between theory and practice using Google technologies.
-          </p>
-
-          <!-- CTA Buttons -->
-          <div
-            class="flex flex-col sm:flex-row gap-4 justify-start items-center mb-12"
-          >
-            <button
-              data-open-modal
-              class="w-full sm:w-auto bg-google-blue text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-google-blue/90 hover:scale-105 transition-all shadow-lg shadow-google-blue/25 btn-press pulse-cta"
-            >
-              Become a Member
-            </button>
-            <a
-              href="#projects"
-              class="w-full sm:w-auto border-2 border-brandBorder text-brandTextSecondary px-8 py-4 rounded-full font-bold text-lg hover:bg-brandBgSecondary hover:text-brandTextPrimary transition-all text-center"
-            >
-              View Our Work
-            </a>
-          </div>
-
-          <!-- Stats Row -->
-          <div
-            class="flex flex-wrap gap-8 md:gap-12 pt-8 border-t border-brandBorder"
-          >
-            <div class="text-center sm:text-left">
-              <div class="text-2xl md:text-3xl font-bold text-google-blue">
-                50+
-              </div>
-              <div class="text-xs text-brandTextSecondary uppercase tracking-wide mt-1">
-                Active Members
-              </div>
-            </div>
-            <div class="text-center sm:text-left">
-              <div class="text-2xl md:text-3xl font-bold text-google-red">
-                12+
-              </div>
-              <div class="text-xs text-brandTextSecondary uppercase tracking-wide mt-1">
-                Projects Shipped
-              </div>
-            </div>
-            <div class="text-center sm:text-left">
-              <div class="text-2xl md:text-3xl font-bold text-google-yellow">
-                20+
-              </div>
-              <div class="text-xs text-brandTextSecondary uppercase tracking-wide mt-1">
-                Events Hosted
-              </div>
-            </div>
-            <div class="text-center sm:text-left">
-              <div class="text-2xl md:text-3xl font-bold text-google-green">
-                5
-              </div>
-              <div class="text-xs text-brandTextSecondary uppercase tracking-wide mt-1">
-                Countries Represented
-              </div>
-            </div>
-          </div>
+    <!-- HERO SECTION - Infinite Scrolling Image Grid -->
+    <section class="hero relative min-h-screen flex flex-col justify-end overflow-hidden bg-[#0a0a0f]">
+      <!-- Scrolling Image Grid Background -->
+      <div class="hero-grid" id="hero-grid">
+        <!-- Row 1 — Scrolls Left -->
+        <div class="hero-grid-row">
+          <div class="hero-grid-track" id="grid-track-1"></div>
         </div>
-
-        <!-- Right Side: Rotator (5 cols) -->
-        <div class="lg:col-span-5 w-full flex justify-center">
-          <div class="relative w-full max-w-[420px] h-[360px] md:h-[400px] rounded-2xl overflow-hidden glass-card shadow-premium group">
-            <div id="rotator-slides" class="w-full h-full relative">
-              <img src="images/gdg-logo.jpg" class="rotator-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-700 opacity-100" />
-              <img src="images/about-illustration.png" class="rotator-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-700 opacity-0" />
-              <img src="images/newsletter-illustration.png" class="rotator-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-700 opacity-0" />
-            </div>
-            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2" id="rotator-dots">
-              <span class="w-2.5 h-2.5 rounded-full bg-white/40 cursor-pointer transition-all active-dot" data-slide="0"></span>
-              <span class="w-2.5 h-2.5 rounded-full bg-white/40 cursor-pointer transition-all" data-slide="1"></span>
-              <span class="w-2.5 h-2.5 rounded-full bg-white/40 cursor-pointer transition-all" data-slide="2"></span>
-            </div>
-          </div>
+        <!-- Row 2 — Scrolls Right -->
+        <div class="hero-grid-row">
+          <div class="hero-grid-track reverse" id="grid-track-2"></div>
+        </div>
+        <!-- Row 3 — Scrolls Left (slower) -->
+        <div class="hero-grid-row">
+          <div class="hero-grid-track" id="grid-track-3" style="animation-duration:55s"></div>
         </div>
       </div>
 
-      <!-- Scroll Indicator -->
-      <div class="absolute bottom-8 left-1/2 -translate-x-1/2">
-        <svg
-          class="w-6 h-6 text-google-blue"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M19 14l-7 7m0 0l-7-7m7 7V3"
-          ></path>
-        </svg>
+      <!-- Gradient Overlays for text readability -->
+      <div class="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/70 to-[#0a0a0f]/40 z-10"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-transparent to-transparent z-10"></div>
+
+      <!-- Hero Content -->
+      <div class="relative z-20 w-full max-w-7xl mx-auto px-6 lg:px-8 pb-24 lg:pb-32">
+        <!-- Headline — Bolder, More Impactful -->
+        <h1 class="hero-reveal font-display text-6xl md:text-8xl lg:text-[7.5rem] font-bold text-white leading-[0.88] tracking-[-0.05em] mb-8 max-w-5xl" style="animation-delay:0.2s">
+          Build the
+          <br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-google-blue via-google-green to-google-yellow bg-[length:200%_auto] animate-[gradient-shift_4s_ease_infinite]">future.</span>
+        </h1>
+
+        <!-- Subheadline -->
+        <p class="hero-reveal text-lg md:text-xl text-white/45 max-w-lg mb-12 leading-relaxed font-light" style="animation-delay:0.3s">A community of developers at Africa University building real projects with Google technologies.</p>
+
+        <!-- CTAs — Premium Buttons -->
+        <div class="hero-reveal flex flex-col sm:flex-row gap-4" style="animation-delay:0.4s">
+          <button data-open-modal class="group relative bg-white text-black px-8 py-4 rounded-full text-sm font-bold hover:shadow-xl hover:shadow-white/20 transition-all duration-300 flex items-center justify-center gap-2.5 active:scale-[0.96] overflow-hidden">
+            <span class="relative z-10">Join the Club</span>
+            <svg class="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            <div class="absolute inset-0 bg-gradient-to-r from-white via-gray-100 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </button>
+          <a href="#projects" class="group border border-white/20 text-white px-8 py-4 rounded-full text-sm font-semibold hover:bg-white/10 hover:border-white/30 transition-all duration-300 text-center active:scale-[0.96] backdrop-blur-sm flex items-center justify-center gap-2">
+            View Projects
+            <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+        </div>
       </div>
     </section>
 
-    <!-- Google Color Bar -->
-    <div class="flex h-2">
-      <div class="w-1/4 bg-google-blue"></div>
-      <div class="w-1/4 bg-google-red"></div>
-      <div class="w-1/4 bg-google-yellow"></div>
-      <div class="w-1/4 bg-google-green"></div>
+    <!-- STATS BAR -->
+    <div class="bg-white border-b border-brandBorder py-10 scroll-reveal">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div class="flex items-center justify-center gap-3 group cursor-default">
+          <div class="w-12 h-12 rounded-xl bg-google-blue/10 flex items-center justify-center flex-shrink-0 group-hover:bg-google-blue/20 transition-colors duration-300">
+            <span class="font-display text-lg font-bold text-google-blue stat-number" data-count="50">0</span><span class="font-display text-lg font-bold text-google-blue">+</span>
+          </div>
+          <p class="text-xs font-semibold text-brandTextPrimary leading-tight">Active<br>Members</p>
+        </div>
+        <div class="flex items-center justify-center gap-3 group cursor-default">
+          <div class="w-12 h-12 rounded-xl bg-google-green/10 flex items-center justify-center flex-shrink-0 group-hover:bg-google-green/20 transition-colors duration-300">
+            <span class="font-display text-lg font-bold text-google-green stat-number" data-count="12">0</span><span class="font-display text-lg font-bold text-google-green">+</span>
+          </div>
+          <p class="text-xs font-semibold text-brandTextPrimary leading-tight">Projects<br>Shipped</p>
+        </div>
+        <div class="flex items-center justify-center gap-3 group cursor-default">
+          <div class="w-12 h-12 rounded-xl bg-google-red/10 flex items-center justify-center flex-shrink-0 group-hover:bg-google-red/20 transition-colors duration-300">
+            <span class="font-display text-lg font-bold text-google-red stat-number" data-count="20">0</span><span class="font-display text-lg font-bold text-google-red">+</span>
+          </div>
+          <p class="text-xs font-semibold text-brandTextPrimary leading-tight">Events<br>Hosted</p>
+        </div>
+        <div class="flex items-center justify-center gap-3 group cursor-default">
+          <div class="w-12 h-12 rounded-xl bg-google-yellow/10 flex items-center justify-center flex-shrink-0 group-hover:bg-google-yellow/20 transition-colors duration-300">
+            <span class="font-display text-lg font-bold text-google-yellow stat-number" data-count="5">0</span>
+          </div>
+          <p class="text-xs font-semibold text-brandTextPrimary leading-tight">Countries<br>Represented</p>
+        </div>
+      </div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════════════
        ABOUT SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="about" class="py-24 px-6 bg-brandBgSecondary transition-colors duration-200">
-      <div class="max-w-6xl mx-auto" data-aos="fade-up">
+    <section id="about" class="py-24 px-6 bg-brandBgSecondary section-blue-accent transition-colors duration-200 scroll-mt-20">
+      <div class="max-w-6xl mx-auto scroll-reveal">
         <!-- Section Header -->
         <div class="text-center mb-12">
           <div class="flex items-center justify-center gap-3 mb-4">
@@ -356,34 +279,35 @@
               <img 
                 src="images/about-illustration.webp" 
                 alt="Team collaboration illustration" 
-                class="w-full max-w-sm h-auto mix-blend-multiply float-animation"
+                class="w-full max-w-sm h-auto drop-shadow-lg rounded-2xl float-animation hover:scale-105 transition-transform duration-500"
                 loading="lazy"
               >
             </div>
           </div>
+        </div>
 
         <!-- Feature Tags -->
-        <div class="mt-16 flex flex-wrap gap-4 justify-center">
+        <div class="mt-8 flex flex-wrap gap-4 justify-center">
           <div
-            class="flex items-center gap-2 bg-white border border-brandBorder rounded-full px-5 py-2 shadow-sm"
+            class="flex items-center gap-2 bg-brandBgPrimary border border-brandBorder rounded-full px-5 py-2 shadow-sm"
           >
             <span class="w-3 h-3 rounded-full bg-google-blue"></span>
             <span class="text-brandTextSecondary text-sm">Google Certified Programs</span>
           </div>
           <div
-            class="flex items-center gap-2 bg-white border border-brandBorder rounded-full px-5 py-2 shadow-sm"
+            class="flex items-center gap-2 bg-brandBgPrimary border border-brandBorder rounded-full px-5 py-2 shadow-sm"
           >
             <span class="w-3 h-3 rounded-full bg-google-green"></span>
             <span class="text-brandTextSecondary text-sm">50+ Active Members</span>
           </div>
           <div
-            class="flex items-center gap-2 bg-white border border-brandBorder rounded-full px-5 py-2 shadow-sm"
+            class="flex items-center gap-2 bg-brandBgPrimary border border-brandBorder rounded-full px-5 py-2 shadow-sm"
           >
             <span class="w-3 h-3 rounded-full bg-google-red"></span>
             <span class="text-brandTextSecondary text-sm">Pan-African Network</span>
           </div>
           <div
-            class="flex items-center gap-2 bg-white border border-brandBorder rounded-full px-5 py-2 shadow-sm"
+            class="flex items-center gap-2 bg-brandBgPrimary border border-brandBorder rounded-full px-5 py-2 shadow-sm"
           >
             <span class="w-3 h-3 rounded-full bg-google-yellow"></span>
             <span class="text-brandTextSecondary text-sm">Real-World Projects</span>
@@ -393,10 +317,37 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════════════════════
+       SEMESTER PLAN SECTION
+    ═══════════════════════════════════════════════════════════════════════════ -->
+    <section id="semester-plan" class="py-24 px-6 relative overflow-hidden bg-brandBgPrimary section-green-accent transition-colors duration-200 scroll-mt-20">
+      <div class="glow-blob bg-google-green/10 left-10 top-1/4"></div>
+      <div class="glow-blob bg-google-blue/10 right-10 bottom-1/4"></div>
+      <div class="max-w-6xl mx-auto relative scroll-reveal">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <div class="h-[2px] w-12 bg-google-green"></div>
+            <span class="text-google-green uppercase tracking-widest text-sm font-semibold">Our Roadmap</span>
+            <div class="h-[2px] w-12 bg-google-green"></div>
+          </div>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-brandTextPrimary mb-4">Semester Plan & Activities</h2>
+          <p class="text-brandTextSecondary text-lg max-w-2xl mx-auto">
+            Chronological roadmap of our workshops, events, and community activities planned for the current semester.
+          </p>
+        </div>
+        
+        <!-- Timeline Track -->
+        <div class="relative border-l border-brandBorder ml-4 md:ml-32 space-y-12" id="timeline-container">
+          <!-- Rendered timeline items injected here -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
        CORE PILLARS SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="pillars" class="py-24 px-6 bg-brandBgPrimary transition-colors duration-200">
-      <div class="max-w-6xl mx-auto">
+    <section id="pillars" class="py-24 px-6 bg-brandBgSecondary section-red-accent transition-colors duration-200 scroll-mt-20">
+      <div class="max-w-6xl mx-auto scroll-reveal">
         <!-- Section Header -->
         <div class="text-center mb-16">
           <div class="flex items-center justify-center gap-3 mb-4">
@@ -421,7 +372,7 @@
             </div>
 
             <p class="text-brandTextSecondary text-lg max-w-xl mx-auto md:mx-0 text-left md:text-right order-1 md:order-2 leading-relaxed">
-              Our mission is deeply rooted in Africa University's vision of a hunger-free, poverty-free, and peaceful continent. We align our technical training with this purpose, ensuring every line of code we write contributes to identifying and solving the most pressing challenges facing our communities.
+              We're building tech skills that matter — not just for grades, but for solving real problems in our communities across Africa.
             </p>
           </div>
         </div>
@@ -430,7 +381,7 @@
         <div class="grid md:grid-cols-3 gap-8">
           <!-- Pillar 1: Leadership Transformation -->
           <div
-            class="bg-brandBgTertiary border border-brandBorder dark:border-slate-800 rounded-2xl p-8 text-center shadow-sm transition-colors duration-200"
+            class="premium-card bg-brandBgTertiary rounded-2xl p-8 text-center"
             data-aos="fade-up"
           >
             <div
@@ -467,7 +418,7 @@
 
           <!-- Pillar 2: Ubuntu in Tech -->
           <div
-            class="bg-brandBgTertiary border border-brandBorder dark:border-slate-800 rounded-2xl p-8 text-center shadow-sm transition-colors duration-200"
+            class="premium-card bg-brandBgTertiary rounded-2xl p-8 text-center"
             data-aos="fade-up" data-aos-delay="100"
           >
             <div
@@ -504,7 +455,7 @@
 
           <!-- Pillar 3: Pan-African Innovation -->
           <div
-            class="bg-brandBgTertiary border border-brandBorder dark:border-slate-800 rounded-2xl p-8 text-center shadow-sm transition-colors duration-200"
+            class="premium-card bg-brandBgTertiary rounded-2xl p-8 text-center"
           >
             <div
               class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-google-green/20 flex items-center justify-center"
@@ -542,9 +493,66 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════════════════════
+       MEMBER SPOTLIGHT SECTION
+  ═══════════════════════════════════════════════════════════════════════════ -->
+    <section id="spotlight" class="py-24 px-6 relative overflow-hidden transition-colors duration-200 scroll-mt-20" style="background: linear-gradient(135deg, #fefce8 0%, #fef9ee 50%, #fffbeb 100%);">
+      <!-- Soft decorative blobs -->
+      <div class="absolute top-20 right-20 w-80 h-80 bg-google-yellow/[0.08] rounded-full blur-[120px] pointer-events-none"></div>
+      <div class="absolute bottom-20 left-20 w-64 h-64 bg-google-blue/[0.04] rounded-full blur-[100px] pointer-events-none"></div>
+      <div class="max-w-6xl mx-auto relative scroll-reveal">
+        <!-- Section Header -->
+        <div class="text-center mb-12" data-aos="fade-up">
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <div class="h-[2px] w-12 bg-google-yellow"></div>
+            <span class="text-google-yellow uppercase tracking-widest text-sm font-semibold">Weekly Spotlight</span>
+            <div class="h-[2px] w-12 bg-google-yellow"></div>
+          </div>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-brandTextPrimary mb-4">
+            Member of the Week
+          </h2>
+          <p class="text-brandTextSecondary text-lg max-w-2xl mx-auto">
+            Celebrating our outstanding members who go above and beyond.
+          </p>
+        </div>
+
+        <!-- Spotlight Card -->
+        <div id="spotlight-container" class="relative" data-aos="fade-up">
+          <!-- Spotlight content loaded dynamically by JS -->
+          <div class="glass-card p-8 md:p-12 border-2 border-google-yellow/30 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-google-yellow/10 rounded-full blur-3xl"></div>
+            <div class="relative z-10 flex flex-col md:flex-row gap-8 items-center">
+              <!-- Avatar -->
+              <div class="flex-shrink-0">
+                <div class="relative">
+                  <div class="w-40 h-40 rounded-full bg-gradient-to-br from-google-yellow to-google-red p-1">
+                    <div class="w-full h-full rounded-full bg-brandBgTertiary flex items-center justify-center overflow-hidden">
+                      <img id="spotlight-avatar" src="images/gdg-logo.jpg" alt="Spotlight Member" class="w-full h-full object-cover rounded-full" />
+                    </div>
+                  </div>
+                  <div class="absolute -bottom-2 -right-2 w-12 h-12 bg-google-yellow rounded-full flex items-center justify-center shadow-lg">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                  </div>
+                </div>
+              </div>
+              <!-- Info -->
+              <div class="flex-1 text-center md:text-left">
+                <span class="inline-block bg-google-yellow/20 text-google-yellow text-xs font-bold px-3 py-1 rounded-full mb-3">SPOTLIGHT OF THE WEEK</span>
+                <h3 id="spotlight-name" class="font-display text-3xl font-bold text-brandTextPrimary mb-2">Loading...</h3>
+                <p id="spotlight-role" class="text-google-blue text-lg font-semibold mb-4"></p>
+                <blockquote id="spotlight-quote" class="text-brandTextSecondary text-lg italic mb-6 border-l-4 border-google-yellow pl-4"></blockquote>
+                <div id="spotlight-project" class="mb-6"></div>
+                <div id="spotlight-socials" class="flex gap-4 justify-center md:justify-start"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
        PROJECT GALLERY SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="projects" class="py-24 px-6 bg-brandBgSecondary transition-colors duration-200">
+    <section id="projects" class="py-24 px-6 bg-brandBgPrimary transition-colors duration-200 scroll-mt-20">
       <div class="max-w-6xl mx-auto">
         <!-- Section Header -->
         <div
@@ -589,9 +597,14 @@
           </a>
         </div>
 
+        <!-- Filter Bar -->
+        <div class="flex flex-wrap gap-3 mb-10 mt-8" id="projects-filter">
+          <button id="filter-all" data-filter="all" class="filter-btn px-5 py-2 bg-google-blue text-white rounded-full text-sm font-semibold shadow-sm hover:bg-google-blue/90 transition-colors">All Projects</button>
+          <button id="filter-collab" data-filter="collab" class="filter-btn px-5 py-2 bg-brandBgTertiary border border-brandBorder text-brandTextSecondary rounded-full text-sm font-semibold hover:border-google-yellow/60 hover:text-brandTextPrimary transition-colors">Seeking Collaborators</button>
+        </div>
+
         <!-- Projects Grid (Dynamically loaded from Supabase) -->
         <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <!-- Project 1: Chef's Muse -->
           <div
             class="group bg-brandBgTertiary border border-brandBorder dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm transition-colors duration-200"
             data-aos="fade-up" data-aos-delay="100"
@@ -944,7 +957,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        TEAM SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="team" class="py-24 px-6 bg-brandBgPrimary transition-colors duration-200">
+    <section id="team" class="py-24 px-6 bg-brandBgSecondary transition-colors duration-200 scroll-mt-20">
       <div class="max-w-6xl mx-auto">
         <!-- Section Header -->
         <div class="text-center mb-16">
@@ -1178,7 +1191,7 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        EVENTS SECTION (UPCOMING)
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="events" class="py-24 px-6 bg-brandBgSecondary transition-colors duration-200">
+    <section id="events" class="py-24 px-6 bg-brandBgSecondary transition-colors duration-200 scroll-mt-20">
       <div class="max-w-6xl mx-auto">
         <!-- Section Header -->
         <div
@@ -1364,9 +1377,126 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════════════════════
+       STUDENT RESOURCES & FREE PACKS
+  ═══════════════════════════════════════════════════════════════════════════ -->
+    <section id="resources" class="py-24 px-6 bg-brandBgPrimary transition-colors duration-200 scroll-mt-20">
+      <div class="max-w-6xl mx-auto">
+        <!-- Section Header -->
+        <div class="text-center mb-12" data-aos="fade-up">
+          <div class="flex items-center justify-center gap-3 mb-4">
+            <div class="h-[2px] w-12 bg-google-green"></div>
+            <span class="text-google-green uppercase tracking-widest text-sm font-semibold">Free Perks</span>
+            <div class="h-[2px] w-12 bg-google-green"></div>
+          </div>
+          <h2 class="font-display text-4xl md:text-5xl font-bold text-brandTextPrimary mb-4">
+            Student Developer Packs
+          </h2>
+          <p class="text-brandTextSecondary text-lg max-w-2xl mx-auto">
+            As a student, you qualify for free tools, credits, and resources worth thousands of dollars.
+          </p>
+        </div>
+
+        <!-- Resources Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" data-aos="fade-up">
+          <!-- GitHub Student Pack -->
+          <a href="https://education.github.com/pack" target="_blank" rel="noopener" class="group bg-brandBgTertiary border border-brandBorder rounded-2xl p-6 hover:border-google-blue/50 transition-all hover:shadow-lg hover:shadow-google-blue/10">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-gray-800 flex items-center justify-center">
+                <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              </div>
+              <div>
+                <h3 class="font-display text-lg font-bold text-brandTextPrimary group-hover:text-google-blue transition-colors">GitHub Student Pack</h3>
+                <p class="text-xs text-google-green font-semibold">FREE</p>
+              </div>
+            </div>
+            <p class="text-brandTextSecondary text-sm leading-relaxed">GitHub Pro, Copilot, Codespaces, $150 in credits, and 100+ developer tools.</p>
+          </a>
+
+          <!-- JetBrains -->
+          <a href="https://www.jetbrains.com/community/education/" target="_blank" rel="noopener" class="group bg-brandBgTertiary border border-brandBorder rounded-2xl p-6 hover:border-google-red/50 transition-all hover:shadow-lg hover:shadow-google-red/10">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-pink-500 flex items-center justify-center">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+              </div>
+              <div>
+                <h3 class="font-display text-lg font-bold text-brandTextPrimary group-hover:text-google-red transition-colors">JetBrains IDEs</h3>
+                <p class="text-xs text-google-green font-semibold">FREE</p>
+              </div>
+            </div>
+            <p class="text-brandTextSecondary text-sm leading-relaxed">IntelliJ IDEA, PyCharm, WebStorm, and all JetBrains IDEs free for students.</p>
+          </a>
+
+          <!-- DigitalOcean -->
+          <a href="https://www.digitalocean.com/github-students" target="_blank" rel="noopener" class="group bg-brandBgTertiary border border-brandBorder rounded-2xl p-6 hover:border-google-blue/50 transition-all hover:shadow-lg hover:shadow-google-blue/10">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center">
+                <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+              </div>
+              <div>
+                <h3 class="font-display text-lg font-bold text-brandTextPrimary group-hover:text-google-blue transition-colors">DigitalOcean</h3>
+                <p class="text-xs text-google-green font-semibold">$200 FREE</p>
+              </div>
+            </div>
+            <p class="text-brandTextSecondary text-sm leading-relaxed">$200 in platform credits for cloud hosting, databases, and infrastructure.</p>
+          </a>
+
+          <!-- Microsoft Azure -->
+          <a href="https://azure.microsoft.com/en-us/free/students/" target="_blank" rel="noopener" class="group bg-brandBgTertiary border border-brandBorder rounded-2xl p-6 hover:border-google-yellow/50 transition-all hover:shadow-lg hover:shadow-google-yellow/10">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center">
+                <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M11.4 2L2 12.34l6.44 2.66L11.4 2zm1.2 0v13l6.44-2.66L12.6 2zM2 12.34L11.4 22h2.2L4.4 15l-2.4-.66z"/></svg>
+              </div>
+              <div>
+                <h3 class="font-display text-lg font-bold text-brandTextPrimary group-hover:text-google-yellow transition-colors">Microsoft Azure</h3>
+                <p class="text-xs text-google-green font-semibold">$100 FREE</p>
+              </div>
+            </div>
+            <p class="text-brandTextSecondary text-sm leading-relaxed">$100 Azure credit plus 25+ free services including AI/ML tools.</p>
+          </a>
+
+          <!-- Namecheap -->
+          <a href="https://www.namecheap.com/github-students/" target="_blank" rel="noopener" class="group bg-brandBgTertiary border border-brandBorder rounded-2xl p-6 hover:border-google-red/50 transition-all hover:shadow-lg hover:shadow-google-red/10">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-orange-500 flex items-center justify-center">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+              </div>
+              <div>
+                <h3 class="font-display text-lg font-bold text-brandTextPrimary group-hover:text-google-red transition-colors">Namecheap</h3>
+                <p class="text-xs text-google-green font-semibold">FREE DOMAIN</p>
+              </div>
+            </div>
+            <p class="text-brandTextSecondary text-sm leading-relaxed">Free .me domain for 1 year plus SSL certificate for your projects.</p>
+          </a>
+
+          <!-- Educative -->
+          <a href="https://www.educative.io/github-students" target="_blank" rel="noopener" class="group bg-brandBgTertiary border border-brandBorder rounded-2xl p-6 hover:border-google-green/50 transition-all hover:shadow-lg hover:shadow-google-green/10">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-12 h-12 rounded-xl bg-green-600 flex items-center justify-center">
+                <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+              </div>
+              <div>
+                <h3 class="font-display text-lg font-bold text-brandTextPrimary group-hover:text-google-green transition-colors">Educative</h3>
+                <p class="text-xs text-google-green font-semibold">6 MONTHS FREE</p>
+              </div>
+            </div>
+            <p class="text-brandTextSecondary text-sm leading-relaxed">6 months of interactive coding courses and learning paths.</p>
+          </a>
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center mt-10" data-aos="fade-up">
+          <a href="https://education.github.com/pack" target="_blank" rel="noopener" class="inline-flex items-center gap-2 bg-google-green text-white px-8 py-3 rounded-full font-semibold hover:bg-google-green/90 transition-all shadow-lg shadow-google-green/25 btn-press">
+            Explore All Student Benefits
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
        ALUMNI TESTIMONIALS SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="testimonials" class="py-24 px-6 bg-brandBgPrimary transition-colors duration-200">
+    <section id="testimonials" class="py-24 px-6 bg-brandBgPrimary transition-colors duration-200 scroll-mt-20">
       <div class="max-w-6xl mx-auto">
         <!-- Section Header -->
         <div class="text-center mb-16">
@@ -1410,7 +1540,7 @@
               </svg>
             </div>
             <p class="text-brandTextSecondary leading-relaxed mb-6">
-              "GDG AU completely transformed my career trajectory. The hands-on workshops and supportive community gave me the confidence to pursue a career in tech. I landed my first developer role just 6 months after joining!"
+              "I joined GDG AU knowing barely any code. The workshops and the people here pushed me to build real projects. Six months later, I had my first dev job."
             </p>
             <div class="flex items-center gap-4">
               <div class="w-12 h-12 rounded-full bg-gradient-to-br from-google-blue to-google-green flex items-center justify-center text-white font-bold">
@@ -1572,215 +1702,147 @@
     <!-- ═══════════════════════════════════════════════════════════════════════════
        NEWSLETTER SECTION
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <section id="newsletter" class="py-24 px-6 bg-brandBgSecondary transition-colors duration-200">
+    <section id="newsletter" class="py-24 px-6 bg-brandBgSecondary transition-colors duration-200 scroll-mt-20">
       <div class="max-w-6xl mx-auto">
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-          <!-- Illustration -->
-          <div class="flex justify-center md:justify-start">
-            <img 
-              src="images/newsletter-illustration.webp" 
-              alt="Newsletter subscription illustration" 
-              class="w-full max-w-sm h-auto mix-blend-multiply "
-              loading="lazy"
-            >
-          </div>
+        <div class="relative glass-card p-8 md:p-12 overflow-hidden border border-brandBorder">
+          <!-- Background decoration -->
+          <div class="absolute top-0 right-0 w-96 h-96 bg-google-blue/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+          <div class="absolute bottom-0 left-0 w-64 h-64 bg-google-green/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+          
+          <div class="relative z-10 grid md:grid-cols-2 gap-12 items-center">
+            <!-- Content -->
+            <div class="text-left">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="h-[2px] w-12 bg-google-blue"></div>
+                <span class="text-google-blue uppercase tracking-widest text-sm font-semibold">Stay Updated</span>
+              </div>
+              <h2 class="font-display text-3xl md:text-4xl font-bold text-brandTextPrimary mb-4">
+                Get Weekly Dev Updates
+              </h2>
+              <p class="text-brandTextSecondary text-lg mb-6">
+                Events, projects, opportunities, and free resources — straight to your inbox.
+              </p>
 
-          <!-- Content -->
-          <div class="text-left">
-            <div class="flex items-center gap-3 mb-4">
-              <div class="h-[2px] w-12 bg-google-blue"></div>
-              <span
-                class="text-google-blue uppercase tracking-widest text-sm font-semibold"
-                >Stay Updated</span
+              <!-- Social Proof -->
+              <div class="flex items-center gap-4 mb-6">
+                <div class="flex -space-x-2">
+                  <div class="w-8 h-8 rounded-full bg-google-blue flex items-center justify-center text-white text-xs font-bold border-2 border-brandBgSecondary">AU</div>
+                  <div class="w-8 h-8 rounded-full bg-google-red flex items-center justify-center text-white text-xs font-bold border-2 border-brandBgSecondary">GD</div>
+                  <div class="w-8 h-8 rounded-full bg-google-green flex items-center justify-center text-white text-xs font-bold border-2 border-brandBgSecondary">SC</div>
+                  <div class="w-8 h-8 rounded-full bg-google-yellow flex items-center justify-center text-white text-xs font-bold border-2 border-brandBgSecondary">+</div>
+                </div>
+                <p class="text-sm text-brandTextSecondary">
+                  Join <strong class="text-brandTextPrimary" id="subscriber-count">200+</strong> members getting updates
+                </p>
+              </div>
+
+              <form id="newsletter-form" class="flex flex-col sm:flex-row gap-3">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Enter your email address"
+                  class="flex-1 px-5 py-3 rounded-xl bg-brandBgPrimary border border-brandBorder text-brandTextPrimary focus:outline-none focus:border-google-blue focus:ring-2 focus:ring-google-blue/20 transition-all text-sm"
+                  required
+                />
+                <button
+                  type="submit"
+                  id="newsletter-submit-btn"
+                  class="bg-google-blue text-white px-6 py-3 rounded-xl font-bold hover:bg-google-blue/90 hover:shadow-lg transition-all transform hover:scale-105 text-sm whitespace-nowrap"
+                >
+                  Join Newsletter
+                </button>
+              </form>
+              <div id="newsletter-success" class="hidden mt-4 text-google-green font-semibold text-sm">
+                Thanks for subscribing! Check your inbox for a welcome message.
+              </div>
+              <div id="newsletter-error" class="hidden mt-4 text-google-red font-semibold text-sm"></div>
+              <p class="text-xs text-brandTextSecondary mt-3">
+                No spam. Unsubscribe anytime. We respect your inbox.
+              </p>
+            </div>
+
+            <!-- Illustration -->
+            <div class="flex justify-center md:justify-end">
+              <img 
+                src="images/newsletter-illustration.webp" 
+                alt="Newsletter subscription illustration" 
+                class="w-full max-w-xs h-auto drop-shadow-lg rounded-2xl float-animation hover:scale-105 transition-transform duration-500"
+                loading="lazy"
               >
             </div>
-            <h2 class="font-display text-4xl md:text-5xl font-bold text-brandTextPrimary mb-4">
-              Subscribe to Our Newsletter
-            </h2>
-            <p class="text-brandTextSecondary text-lg mb-8">
-              Get the latest updates on workshops, hackathons, and community events directly in your inbox.
-            </p>
-
-            <form id="newsletter-form" class="flex flex-col sm:flex-row gap-4">
-              <input
-                type="email"
-                name="email"
-                placeholder="Enter your email address"
-                class="flex-1 px-6 py-3 rounded-full bg-brandBgPrimary border border-brandBorder text-brandTextPrimary focus:outline-none focus:border-google-blue focus:ring-2 focus:ring-google-blue/20 transition-all"
-                required
-              />
-              <button
-                type="submit"
-                id="newsletter-submit-btn"
-                class="bg-google-blue text-white px-8 py-3 rounded-full font-bold hover:bg-google-blue/90 hover:shadow-lg transition-all transform hover:scale-105"
-              >
-                Subscribe
-              </button>
-            </form>
-            <div id="newsletter-success" class="hidden mt-4 text-green-600 font-semibold">
-              🎉 Thanks for subscribing! We'll allow you to keep up with the latest GDG news.
-            </div>
-            <div id="newsletter-error" class="hidden mt-4 text-red-600 font-semibold text-sm"></div>
-            <p class="text-xs text-gray-400 mt-4">
-              We respect your privacy. Unsubscribe at any time.
-            </p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════════════════════
-       FOOTER
+       FOOTER - Premium Dark
   ═══════════════════════════════════════════════════════════════════════════ -->
-    <footer class="bg-brandBgSecondary border-t border-brandBorder transition-colors duration-200">
+    <footer class="bg-[#0a0a0a] text-white">
       <!-- Main Footer -->
-      <div class="max-w-6xl mx-auto px-6 py-16">
-        <div class="grid md:grid-cols-4 gap-12">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8 py-16 lg:py-20">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-10 lg:gap-16">
           <!-- Brand Column -->
-          <div class="md:col-span-2">
-            <div class="flex items-center gap-3 mb-6">
-              <img src="images/gdg-logo.jpg" alt="GDG Logo" class="w-10 h-10 object-contain mix-blend-multiply logo-capsule">
-              <span class="font-display font-bold text-xl text-brandTextPrimary"
-                >GDG Africa University</span
-              >
-            </div>
-            <p class="text-brandTextSecondary leading-relaxed mb-6 max-w-md">
-              Google Developer Groups on Campus at Africa University. Building
-              pan-African tech talent through peer learning, hands-on projects,
-              and community.
+          <div class="col-span-2 md:col-span-1">
+            <a href="index.html" class="flex items-center gap-2.5 mb-6">
+              <div class="w-8 h-8 rounded-lg overflow-hidden bg-white flex items-center justify-center p-1">
+                <img src="images/gdg-logo.jpg" alt="GDG" class="w-full h-full object-contain">
+              </div>
+              <div class="flex items-center gap-1.5">
+                <span class="font-display font-bold text-sm text-white tracking-tight">GDG</span>
+                <span class="w-px h-3.5 bg-white/20"></span>
+                <span class="text-white/50 text-xs font-medium">AU</span>
+              </div>
+            </a>
+            <p class="text-white/40 text-sm leading-relaxed mb-6 max-w-xs">
+              Google Developer Groups on Campus at Africa University. Building pan-African tech talent.
             </p>
-            <div class="flex gap-4">
-              <!-- TikTok -->
-              <a
-                href="https://www.tiktok.com/@au_gdsc?_r=1&_t=ZS-93ne6ATIdGP"
-                target="_blank"
-                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-black hover:text-white transition-all"
-              >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path
-                     d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"
-                  />
-                </svg>
+            <div class="flex gap-3">
+              <a href="https://www.tiktok.com/@au_gdsc" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-white/10 hover:text-white transition-all">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
               </a>
-              <!-- Instagram -->
-              <a
-                href="https://www.instagram.com/au_gdsc?igsh=OW9vaXlseDM4Y2dw"
-                target="_blank"
-                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-google-red hover:text-white transition-all"
-              >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path
-                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
-                  />
-                </svg>
+              <a href="https://www.instagram.com/au_gdsc" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-white/10 hover:text-white transition-all">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
               </a>
-              <!-- GitHub -->
-              <a
-                href="https://github.com/gdg-au"
-                target="_blank"
-                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-gray-900 hover:text-white transition-all"
-              >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path
-                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-                  />
-                </svg>
+              <a href="https://github.com/gdg-au" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-white/10 hover:text-white transition-all">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
               </a>
-              <!-- LinkedIn -->
-              <a
-                href="https://www.linkedin.com/in/google-developer-group-on-campus-au-50317828b?utm_source=share_via&utm_content=profile&utm_medium=member_ios"
-                target="_blank"
-                class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-500 hover:bg-google-blue hover:text-white transition-all"
-              >
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path
-                    d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
-                  />
-                </svg>
+              <a href="https://www.linkedin.com/in/google-developer-group-on-campus-au-50317828b" target="_blank" class="w-9 h-9 rounded-full bg-white/5 flex items-center justify-center text-white/40 hover:bg-white/10 hover:text-white transition-all">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
               </a>
             </div>
           </div>
 
           <!-- Quick Links -->
           <div>
-            <h4 class="font-bold text-brandTextPrimary mb-6">Quick Links</h4>
+            <h4 class="text-white/30 text-xs font-medium tracking-widest uppercase mb-5">Club</h4>
             <ul class="space-y-3">
-              <li>
-                <a
-                  href="#about"
-                  class="text-brandTextSecondary hover:text-google-blue transition-colors"
-                  >About Us</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#pillars"
-                  class="text-brandTextSecondary hover:text-google-blue transition-colors"
-                  >Our Pillars</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#projects"
-                  class="text-brandTextSecondary hover:text-google-blue transition-colors"
-                  >Projects</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#team"
-                  class="text-brandTextSecondary hover:text-google-blue transition-colors"
-                  >Core Team</a
-                >
-              </li>
-              <li>
-                <a href="#events" class="text-brandTextSecondary hover:text-google-blue transition-colors">Events</a>
-              </li>
-              <li>
-                <a href="blog.html?v=v2" class="text-brandTextSecondary hover:text-google-blue transition-colors">Blog</a>
-              </li>
-              <li>
-                <a href="#apply" class="text-brandTextSecondary hover:text-google-blue transition-colors">Apply for Lead</a>
-              </li>
+              <li><a href="#about" class="text-white/50 hover:text-white text-sm transition-colors">About</a></li>
+              <li><a href="#projects" class="text-white/50 hover:text-white text-sm transition-colors">Projects</a></li>
+              <li><a href="#team" class="text-white/50 hover:text-white text-sm transition-colors">Team</a></li>
+              <li><a href="#events" class="text-white/50 hover:text-white text-sm transition-colors">Events</a></li>
+              <li><a href="blog.html" class="text-white/50 hover:text-white text-sm transition-colors">Blog</a></li>
             </ul>
           </div>
 
           <!-- Resources -->
           <div>
-            <h4 class="font-bold text-brandTextPrimary mb-6">Resources</h4>
+            <h4 class="text-white/30 text-xs font-medium tracking-widest uppercase mb-5">Resources</h4>
             <ul class="space-y-3">
-              <li>
-                <a
-                  href="https://gdsc.community.dev/"
-                  target="_blank"
-                  class="text-brandTextSecondary hover:text-google-blue transition-colors"
-                  >GDG Global</a
-                >
-              </li>
-              <li>
-                <a
-                  href="https://developers.google.com/"
-                  target="_blank"
-                  class="text-brandTextSecondary hover:text-google-blue transition-colors"
-                  >Google Developers</a
-                >
-              </li>
-              <li>
-                <a
-                  href="https://www.africau.edu/"
-                  target="_blank"
-                  class="text-brandTextSecondary hover:text-google-blue transition-colors"
-                  >Africa University</a
-                >
-              </li>
-              <li>
-                <a
-                  href="https://skillshop.withgoogle.com/"
-                  target="_blank"
-                  class="text-brandTextSecondary hover:text-google-blue transition-colors"
-                  >Google Skillshop</a
-                >
-              </li>
+              <li><a href="https://gdsc.community.dev/" target="_blank" class="text-white/50 hover:text-white text-sm transition-colors">GDG Global</a></li>
+              <li><a href="https://developers.google.com/" target="_blank" class="text-white/50 hover:text-white text-sm transition-colors">Google Developers</a></li>
+              <li><a href="https://www.africau.edu/" target="_blank" class="text-white/50 hover:text-white text-sm transition-colors">Africa University</a></li>
+              <li><a href="https://skillshop.withgoogle.com/" target="_blank" class="text-white/50 hover:text-white text-sm transition-colors">Google Skillshop</a></li>
+            </ul>
+          </div>
+
+          <!-- Community -->
+          <div>
+            <h4 class="text-white/30 text-xs font-medium tracking-widest uppercase mb-5">Community</h4>
+            <ul class="space-y-3">
+              <li><a href="#apply" class="text-white/50 hover:text-white text-sm transition-colors">Apply for Lead</a></li>
+              <li><a href="https://chat.whatsapp.com/HMTLxxUu00V3GZ6SEZjxdy" target="_blank" class="text-white/50 hover:text-white text-sm transition-colors">WhatsApp</a></li>
+              <li><a href="https://discord.gg/5gepG5Mj" target="_blank" class="text-white/50 hover:text-white text-sm transition-colors">Discord</a></li>
             </ul>
           </div>
         </div>
@@ -1788,33 +1850,18 @@
 
       <!-- Bottom Bar -->
       <div class="border-t border-brandBorder">
-        <div class="max-w-6xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p class="text-gray-500 text-sm text-center md:text-left">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p class="text-brandTextSecondary text-xs">
             &copy; 2026 GDG Africa University. Part of the global
-            <a href="https://gdsc.community.dev/" target="_blank" class="text-google-blue hover:underline">Google Developer Groups</a>
+            <a href="https://gdsc.community.dev/" target="_blank" class="text-brandTextPrimary hover:text-google-blue transition-colors">Google Developer Groups</a>
             program.
           </p>
-          <div class="flex items-center gap-4">
-            <span class="text-gray-500 text-sm">Made with</span>
-            <span class="text-google-red">❤</span>
-            <span class="text-gray-500 text-sm">in Mutare, Zimbabwe</span>
+          <div class="flex items-center gap-2 text-brandTextSecondary text-xs">
+            <span>Made with</span>
+            <span class="text-google-red">&#9829;</span>
+            <span>in Mutare, Zimbabwe</span>
           </div>
-          <!-- Admin Login Link (enhanced pill button) -->
-          <a href="admin.html" class="flex items-center gap-2 px-4 py-2 rounded-full bg-gray-200 border border-gray-300 text-xs font-semibold text-gray-500 hover:bg-white hover:text-google-blue hover:border-google-blue/30 hover:shadow-md transition-all duration-300">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-            </svg>
-            Admin Portal
-          </a>
         </div>
-      </div>
-
-      <!-- Google Color Bar -->
-      <div class="flex h-1">
-        <div class="w-1/4 bg-google-blue"></div>
-        <div class="w-1/4 bg-google-red"></div>
-        <div class="w-1/4 bg-google-yellow"></div>
-        <div class="w-1/4 bg-google-green"></div>
       </div>
     </footer>
 
@@ -1822,41 +1869,51 @@
        MEMBERSHIP MODAL
   ═══════════════════════════════════════════════════════════════════════════ -->
     <div id="membership-modal" class="modal-overlay">
-      <div class="modal-content relative">
+      <div class="modal-content relative max-w-md w-full mx-4">
         <button data-close-modal class="modal-close">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button>
         
         <div class="text-center mb-6">
-          <div class="flex justify-center gap-1 mb-4">
+          <div class="flex justify-center gap-1.5 mb-4">
             <div class="w-3 h-3 rounded-full bg-google-blue"></div>
             <div class="w-3 h-3 rounded-full bg-google-red"></div>
             <div class="w-3 h-3 rounded-full bg-google-yellow"></div>
             <div class="w-3 h-3 rounded-full bg-google-green"></div>
           </div>
-          <h3 class="text-2xl font-bold text-brandTextPrimary mb-2">Join Our Community</h3>
-          <p class="text-brandTextSecondary">Connect with GDSC Africa University on your favorite platform</p>
+          <h3 class="font-display text-2xl font-bold text-brandTextPrimary mb-2">Join Our Community</h3>
+          <p class="text-brandTextSecondary text-sm">Connect with 50+ developers at Africa University</p>
         </div>
         
-        <div class="space-y-4">
-          <a href="https://chat.whatsapp.com/HMTLxxUu00V3GZ6SEZjxdy" target="_blank" class="btn-whatsapp">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+        <div class="space-y-3">
+          <a href="https://chat.whatsapp.com/HMTLxxUu00V3GZ6SEZjxdy" target="_blank" class="btn-whatsapp flex items-center gap-3 w-full">
+            <svg class="w-6 h-6 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
             </svg>
-            Join WhatsApp Group
+            <div class="text-left">
+              <div class="font-semibold">WhatsApp Group</div>
+              <div class="text-xs opacity-80">Quick updates & casual chats</div>
+            </div>
           </a>
           
-          <a href="https://discord.gg/5gepG5Mj" target="_blank" class="btn-discord">
-            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <a href="https://discord.gg/5gepG5Mj" target="_blank" class="btn-discord flex items-center gap-3 w-full">
+            <svg class="w-6 h-6 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
               <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
             </svg>
-            Join Discord Server
+            <div class="text-left">
+              <div class="font-semibold">Discord Server</div>
+              <div class="text-xs opacity-80">Projects, voice chats & study groups</div>
+            </div>
           </a>
         </div>
         
-        <p class="text-center text-xs text-gray-400 mt-6">Or register on <a href="https://gdsc.community.dev/" target="_blank" class="text-google-blue hover:underline">GDSC Bevy</a></p>
+        <div class="mt-6 pt-4 border-t border-brandBorder">
+          <p class="text-center text-xs text-brandTextSecondary">
+            Or register on <a href="https://gdsc.community.dev/" target="_blank" class="text-google-blue hover:underline font-semibold">GDSC Bevy</a>
+          </p>
+        </div>
       </div>
     </div>
 
@@ -1884,18 +1941,6 @@
     <!-- External JavaScript (module for Supabase) -->
     <script type="module" src="js/site.js"></script>
 
-    <!-- PWA Service Worker Registration -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('sw.js')
-            .then(registration => console.log('ServiceWorker registered with scope:', registration.scope))
-            .catch(error => console.log('ServiceWorker registration failed:', error));
-        });
-      }
-    </script>
-
-    <script type="module" src="js/theme-toggle.js"></script>
   </body>
 </html>
 

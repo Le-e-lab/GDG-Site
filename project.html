@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,6 @@
     
     <!-- PWA Manifest & Icons -->
     <link rel="icon" type="image/jpeg" href="images/gdg-logo.jpg" />
-    <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#4285F4" />
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -36,39 +35,17 @@
               brandBorder: "hsl(var(--border-color) / <alpha-value>)",
             },
             fontFamily: {
-              sans: ["Inter", "sans-serif"],
-              display: ["Space Grotesk", "sans-serif"],
+              sans: ["Outfit", "system-ui", "sans-serif"],
+              display: ["Space Grotesk", "system-ui", "sans-serif"],
             },
           },
         },
       };
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         .hero-blob { position: absolute; border-radius: 9999px; filter: blur(80px); opacity: 0.12; pointer-events: none; }
     </style>
-    <script>
-      /* URGENT CACHE BUSTER */
-      try {
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.getRegistrations().then(regs => {
-            for (const reg of regs) {
-              reg.unregister().then(success => {
-                if (success) {
-                  console.log('Successfully unregistered sticky service worker');
-                  window.location.reload(true);
-                }
-              }).catch(e => console.error(e));
-            }
-          }).catch(e => console.error(e));
-          caches.keys().then(keys => {
-            keys.forEach(key => caches.delete(key));
-          }).catch(e => console.error(e));
-        }
-      } catch (e) {
-        console.error('Cache buster error', e);
-      }
-    </script>
 
     <!-- Custom Styles -->
     <link rel="stylesheet" href="css/styles.css" />
@@ -92,62 +69,38 @@
 </head>
 <body class="font-sans antialiased transition-colors duration-200">
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-brandBgPrimary/95 backdrop-blur-md border-b border-brandBorder shadow-sm transition-colors duration-200">
-        <div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-            <div class="flex items-center gap-4">
-                <!-- Back button: icon only on mobile, text on desktop -->
-                <a href="index.html" class="flex items-center gap-2 text-brandTextSecondary hover:text-google-blue transition-colors group mr-2" title="Back to Home">
-                    <svg class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                    <span class="hidden md:inline text-sm font-semibold">Home</span>
-                </a>
-                <div class="h-8 w-[1px] bg-brandBorder hidden md:block"></div>
-                <a href="blog.html?v=v2" class="flex items-center gap-2">
-                    <img src="images/gdg-logo.jpg" alt="GDG Logo" class="w-10 h-10 object-contain rounded mix-blend-multiply logo-capsule">
-                    <span class="font-display font-bold text-lg text-brandTextPrimary hidden sm:inline">GDG</span>
-                </a>
-            </div>
-            <div class="hidden md:flex items-center gap-8">
-                <a href="index.html#about" class="text-sm font-semibold uppercase tracking-wide text-brandTextSecondary hover:text-brandTextPrimary transition-colors">About</a>
-                <a href="index.html#projects" class="text-sm font-semibold uppercase tracking-wide text-brandTextSecondary hover:text-brandTextPrimary transition-colors">Projects</a>
-                <a href="index.html#events" class="text-sm font-semibold uppercase tracking-wide text-brandTextSecondary hover:text-brandTextPrimary transition-colors">Events</a>
-                <a href="blog.html?v=v2" class="text-sm font-semibold uppercase tracking-wide text-brandTextSecondary hover:text-brandTextPrimary transition-colors flex items-center gap-1">Blog</a>
-                <!-- Theme Toggle -->
-                <button id="theme-toggle" class="p-2 rounded-full hover:bg-brandBgSecondary transition-colors text-brandTextPrimary focus:outline-none" aria-label="Toggle Theme">
-                    <!-- Sun Icon (visible in dark / default) -->
-                    <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"></path>
-                    </svg>
-                    <!-- Moon Icon (visible in light) -->
-                    <svg class="w-5 h-5 moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-                    </svg>
-                </button>
+    <!-- Navigation - Floating Glass Pill -->
+    <nav class="fixed top-3 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1.5rem)] max-w-5xl" id="main-nav">
+        <div class="nav-pill flex justify-between items-center px-3 md:px-5 py-2.5 rounded-full bg-white/92 backdrop-blur-xl border border-white/30 shadow-lg shadow-black/5">
+            <a href="index.html" class="flex items-center gap-2 group flex-shrink-0">
+                <div class="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center">
+                    <img src="images/gdg-logo.jpg" alt="GDG" class="w-full h-full object-cover rounded-full">
                 </div>
-            <!-- Mobile menu button -->
-            <button id="mobile-blog-menu-btn" class="md:hidden p-2 text-brandTextSecondary">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                <span class="font-display font-bold text-sm text-gray-900 tracking-tight hidden sm:inline">GDG <span class="font-normal text-gray-400">Projects</span></span>
+            </a>
+            <div class="hidden md:flex items-center gap-0.5">
+                <a href="index.html" class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all">Home</a>
+                <a href="index.html#about" class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all">About</a>
+                <a href="index.html#team" class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all">Team</a>
+                <a href="blog.html?v=v2" class="px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all">Blog</a>
+            </div>
+            <button id="mobile-blog-menu-btn" class="md:hidden p-2 text-gray-500 hover:text-gray-900 rounded-full hover:bg-gray-100 transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
         </div>
-        <div id="mobile-blog-menu" class="hidden md:hidden bg-brandBgSecondary border-t border-brandBorder px-6 py-4">
-            <div class="flex flex-col gap-4">
-                <a href="index.html" class="text-brandTextSecondary hover:text-brandTextPrimary py-2">Home</a>
-                <a href="index.html#projects" class="text-brandTextSecondary hover:text-brandTextPrimary py-2">Projects</a>
-                <a href="index.html#events" class="text-brandTextSecondary hover:text-brandTextPrimary py-2">Events</a>
-                <a href="blog.html?v=v2" class="text-brandTextSecondary hover:text-brandTextPrimary py-2">Blog</a>
-                <div class="h-px bg-brandBorder my-2"></div>
-                <!-- Mobile Theme Toggle -->
-                <button id="mobile-theme-toggle" class="flex items-center gap-3 text-brandTextSecondary py-2 w-full text-left font-medium">
-                    <span id="mobile-theme-text" class="block">Dark Mode</span>
-                    <span id="mobile-theme-text-dark" class="hidden">Light Mode</span>
-                </button>
+        <div id="mobile-blog-menu" class="hidden md:hidden mt-2 mx-2 bg-white/95 backdrop-blur-xl rounded-2xl border border-gray-200 shadow-2xl px-4 py-4">
+            <div class="flex flex-col gap-1">
+                <a href="index.html" class="text-gray-600 hover:text-gray-900 py-3 px-3 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium">Home</a>
+                <a href="index.html#about" class="text-gray-600 hover:text-gray-900 py-3 px-3 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium">About</a>
+                <a href="index.html#team" class="text-gray-600 hover:text-gray-900 py-3 px-3 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium">Team</a>
+                <a href="blog.html?v=v2" class="text-gray-600 hover:text-gray-900 py-3 px-3 rounded-xl hover:bg-gray-50 transition-colors text-sm font-medium">Blog</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <header class="relative pt-24 pb-6 px-6 bg-brandBgPrimary overflow-hidden transition-colors duration-200" id="blog-header">
-        <div class="relative max-w-4xl mx-auto text-center">
+    <header class="relative pt-28 pb-6 px-6 bg-brandBgPrimary overflow-hidden transition-colors duration-200" id="blog-header">
+        <div class="relative max-w-4xl mx-auto text-center scroll-reveal">
             <!-- Label -->
             <div class="inline-flex items-center gap-2 bg-google-green/10 text-google-green px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
                 <span class="w-2 h-2 rounded-full bg-google-green animate-pulse"></span>
@@ -252,14 +205,20 @@
         document.getElementById('mobile-blog-menu-btn').addEventListener('click', () => {
             document.getElementById('mobile-blog-menu').classList.toggle('hidden');
         });
-
-        // PWA Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js');
-            });
-        }
-
-        <script type="module" src="js/theme-toggle.js"></script>
+    </script>
+    <script>
+        // Scroll reveal animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('revealed');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+            document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+        });
+    </script>
 </body>
 </html>

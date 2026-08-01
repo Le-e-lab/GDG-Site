@@ -1,4 +1,5 @@
 import { supabase } from './supabase-config.js';
+import { BlogAPI, ProjectsAPI, TeamAPI, EventsAPI, TestimonialsAPI, NewsletterAPI, ApplicationsAPI, MembershipAPI, SemesterPlanAPI, NewslettersArchiveAPI, AuthAPI, ImageAPI } from './api.js';
 
 // --- Global UI Elements ---
 const loginModal = document.getElementById('login-modal');

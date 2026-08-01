@@ -77,7 +77,7 @@ const tableConfigs = {
     },
     team: {
         title: 'Manage Core Team',
-        subtitle: 'Update members of the core team.',
+        subtitle: 'Update members of the core team. Mark a member as the weekly Spotlight to feature them on the homepage.',
         table: 'team',
         hasPreview: true,
         fields: [
@@ -88,9 +88,13 @@ const tableConfigs = {
             { name: 'bio', label: 'Bio (e.g. Computer Science • Class of 2026)', type: 'text', required: false },
             { name: 'linkedin', label: 'LinkedIn URL', type: 'url', required: false },
             { name: 'github', label: 'GitHub URL', type: 'url', required: false },
-            { name: 'image', label: 'Profile Picture', type: 'file', required: false, isImage: true }
+            { name: 'image', label: 'Profile Picture', type: 'file', required: false, isImage: true },
+            { name: 'is_spotlight', label: 'Feature as Member of the Week?', type: 'select', required: false, options: ['false', 'true'] },
+            { name: 'spotlight_date', label: 'Spotlight Date (YYYY-MM-DD)', type: 'date', required: false },
+            { name: 'spotlight_quote', label: 'Spotlight Quote', type: 'textarea', required: false },
+            { name: 'spotlight_project', label: 'Spotlight Project Name', type: 'text', required: false }
         ],
-        displayCols: ['name', 'role']
+        displayCols: ['name', 'role', 'is_spotlight']
     },
     events: {
         title: 'Manage Events',
@@ -425,6 +429,10 @@ function renderTable(data, config) {
                   </div>`;
             } else if (col === 'role') {
                content = `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">${val}</span>`;
+            } else if (col === 'is_spotlight') {
+               content = item[col]
+                 ? '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">★ Spotlight</span>'
+                 : '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-500">—</span>';
             } else if (col === 'created_at') {
                 content = new Date(val).toLocaleDateString();
             } else if (col === 'image' || (typeof val === 'string' && val.match(/\\.(jpeg|jpg|gif|png|webp|svg)(\\?.*)?$/i))) {
@@ -623,7 +631,7 @@ editForm.addEventListener('submit', async (e) => {
         } else {
             const raw = formData.get(field.name);
             // Convert 'true'/'false' string selects to real booleans for boolean columns
-            saveObj[field.name] = (field.name === 'is_startup' || field.name === 'needs_help')
+            saveObj[field.name] = (field.name === 'is_startup' || field.name === 'needs_help' || field.name === 'is_spotlight')
               ? raw === 'true'
               : raw;
         }

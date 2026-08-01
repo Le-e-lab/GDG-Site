@@ -411,8 +411,8 @@
           </p>
         </div>
         
-        <!-- Timeline Track -->
-        <div class="relative border-l border-brandBorder ml-4 md:ml-32 space-y-12" id="timeline-container">
+        <!-- Timeline Track (horizontal scroll) -->
+        <div class="h-scroll-timeline" id="timeline-container">
           <!-- Rendered timeline items injected here -->
         </div>
       </div>
@@ -678,8 +678,8 @@
           <button id="filter-collab" data-filter="collab" class="filter-btn px-5 py-2 bg-brandBgTertiary border border-brandBorder text-brandTextSecondary rounded-full text-sm font-semibold hover:border-google-yellow/60 hover:text-brandTextPrimary transition-colors">Seeking Collaborators</button>
         </div>
 
-        <!-- Projects Grid (Dynamically loaded from Supabase) -->
-        <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Projects Grid (Dynamically loaded from Supabase - horizontal scroll) -->
+        <div id="projects-grid" class="h-scroll">
           <div
             class="group bg-brandBgTertiary border border-brandBorder dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm transition-colors duration-200"
             data-aos="fade-up" data-aos-delay="100"
@@ -1307,7 +1307,7 @@
         </div>
 
         <!-- Events Grid (Dynamically loaded from Supabase) -->
-        <div id="events-grid" class="grid md:grid-cols-3 gap-6">
+        <div id="events-grid" class="h-scroll">
           <!-- Placeholder spin while Supabase loads -->
           <div class="col-span-3 py-10 text-center text-gray-400">Loading events...</div>
           <!-- Event 1 (Static Fallback, removed once dynamic) -->

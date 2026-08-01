@@ -94,7 +94,7 @@ const tableConfigs = {
     },
     events: {
         title: 'Manage Events',
-        subtitle: 'Update upcoming and past events.',
+        subtitle: 'Update upcoming and past events. Events auto-pulled from the GDG community site arrive as pending — approve the good ones.',
         table: 'events',
         hasPreview: true,
         fields: [
@@ -102,9 +102,11 @@ const tableConfigs = {
             { name: 'date', label: 'Event Date (YYYY-MM-DD)', type: 'date', required: true },
             { name: 'description', label: 'Description', type: 'textarea', required: true },
             { name: 'link', label: 'Event Link (Bevy)', type: 'url', required: false },
-            { name: 'image', label: 'Event Banner', type: 'file', required: false, isImage: true }
+            { name: 'image', label: 'Event Banner', type: 'file', required: false, isImage: true },
+            { name: 'status', label: 'Status', type: 'select', required: false, options: ['approved', 'pending'] },
+            { name: 'source_url', label: 'Source URL (GDG)', type: 'url', required: false }
         ],
-        displayCols: ['title', 'date']
+        displayCols: ['title', 'date', 'status']
     },
     testimonials: {
         title: 'Manage Testimonials',

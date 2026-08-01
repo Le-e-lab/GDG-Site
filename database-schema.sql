@@ -289,3 +289,16 @@ CREATE POLICY "Authenticated Admin All Access" ON resources FOR ALL USING (auth.
 
 DROP POLICY IF EXISTS "Authenticated Admin All Access" ON collab_applications;
 CREATE POLICY "Authenticated Admin All Access" ON collab_applications FOR ALL USING (auth.uid() IS NOT NULL);
+
+-- ============================================================
+-- (Synced from supabase/migrations/20260801020000_events_moderation_team_images.sql)
+-- Events moderation + team image separation
+-- ============================================================
+ALTER TABLE events ADD COLUMN IF NOT EXISTS status VARCHAR DEFAULT 'approved';
+ALTER TABLE events ADD COLUMN IF NOT EXISTS source_url VARCHAR;
+UPDATE events SET status = 'approved' WHERE status IS NULL;
+
+-- Team/spotlight must never reuse hero background files (images/PHOTO-*.jpg)
+UPDATE team SET image = NULL WHERE image IS NOT NULL AND image LIKE 'images/%';
+
+ALTER TABLE collab_applications ALTER COLUMN status SET DEFAULT 'pending';

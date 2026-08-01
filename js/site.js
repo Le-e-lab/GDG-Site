@@ -174,7 +174,7 @@ async function loadProjects() {
     projectsCache = [];
     // Show empty state + keep the 'Build With Us' CTA
     grid.innerHTML = `
-      <div class="col-span-full md:col-span-2 lg:col-span-2 flex flex-col items-center justify-center py-16 text-center">
+      <div class="flex flex-col items-center justify-center py-16 text-center">
         <div class="w-20 h-20 rounded-2xl bg-google-green/10 flex items-center justify-center mb-5">
           <svg class="w-10 h-10 text-google-green/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
@@ -264,7 +264,7 @@ function renderProjectCards(filter) {
 
   if (list.length === 0) {
     grid.innerHTML = `
-      <div class="col-span-full flex flex-col items-center justify-center py-16 text-center">
+      <div class="flex flex-col items-center justify-center py-16 text-center">
         <div class="w-16 h-16 mb-5 rounded-2xl bg-google-yellow/10 flex items-center justify-center">
           <svg class="w-8 h-8 text-google-yellow/50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
         </div>
@@ -410,11 +410,12 @@ async function loadEvents() {
   const { data, error } = await supabase
     .from('events')
     .select('*')
+    .eq('status', 'approved')
     .order('date', { ascending: true });
 
   if (error || !data || data.length === 0) {
     grid.innerHTML = `
-      <div class="col-span-3 py-16 text-center flex flex-col items-center gap-3">
+      <div class="py-16 text-center flex flex-col items-center gap-3">
         <svg class="w-12 h-12 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         <p class="text-gray-400 font-medium">No upcoming events scheduled yet. Check back soon!</p>
         <a href="https://gdsc.community.dev/" target="_blank" class="text-google-blue text-sm font-semibold hover:underline">View past events on Bevy →</a>
@@ -545,8 +546,7 @@ async function loadSemesterPlan() {
   data.forEach((plan, i) => {
     const isCompleted = plan.status === 'completed';
     const isLive = plan.status === 'live' || plan.status === 'ongoing';
-    const indicatorColor = isCompleted ? 'bg-google-green' : isLive ? 'bg-google-yellow' : 'bg-google-blue animate-pulse';
-    const cardBorder = isCompleted ? 'border-brandBorder' : 'border-google-blue/30';
+    const topBar = isCompleted ? 'bg-google-green' : isLive ? 'bg-google-yellow' : 'bg-google-blue';
     const badgeColor = plan.activity_type === 'Workshop'
       ? 'bg-google-blue/20 text-google-blue'
       : plan.activity_type === 'Community'
@@ -560,15 +560,15 @@ async function loadSemesterPlan() {
     const delay = Math.min(i * 60, 300);
 
     container.insertAdjacentHTML('beforeend', `
-      <div class="relative pl-8 md:pl-12 group" data-aos="fade-up" data-aos-delay="${delay}">
-        <span class="absolute -left-[9px] top-2 w-4 h-4 rounded-full ${indicatorColor} border-4 border-brandBgPrimary"></span>
-        <div class="bg-brandBgTertiary border ${cardBorder} rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow">
+      <div class="group bg-brandBgTertiary border border-brandBorder rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow h-full flex flex-col" data-aos="fade-up" data-aos-delay="${delay}">
+        <div class="h-1.5 bg-gradient-to-r ${topBar}"></div>
+        <div class="p-6 flex flex-col flex-1">
           <div class="flex items-center justify-between gap-4 mb-2 flex-wrap">
             <span class="text-xs font-semibold px-2 py-1 rounded ${badgeColor}">${plan.activity_type || 'Activity'}</span>
             ${statusBadge}
           </div>
           <h3 class="font-display text-xl font-bold text-brandTextPrimary mb-2">${plan.title}</h3>
-          <p class="text-brandTextSecondary text-sm leading-relaxed">${plan.description || ''}</p>
+          <p class="text-brandTextSecondary text-sm leading-relaxed flex-1">${plan.description || ''}</p>
           ${plan.date ? `<p class="text-brandTextSecondary/70 text-xs mt-4 flex items-center gap-1.5"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> ${new Date(plan.date).toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}</p>` : ''}
         </div>
       </div>

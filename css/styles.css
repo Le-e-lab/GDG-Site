@@ -697,3 +697,63 @@ a:focus-visible, button:focus-visible {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.15); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.25); }
+
+/* ==========================================
+   HORIZONTAL SCROLL ROWS (compact layouts)
+   ========================================== */
+.h-scroll {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(300px, 340px);
+  gap: 1.5rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 0.25rem 0.25rem 1.25rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.15) transparent;
+}
+.h-scroll > * {
+  scroll-snap-align: start;
+}
+.h-scroll::-webkit-scrollbar { height: 6px; }
+.h-scroll::-webkit-scrollbar-track { background: transparent; }
+.h-scroll::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 9999px; }
+.h-scroll::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.22); }
+
+.h-scroll-timeline {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(320px, 360px);
+  gap: 1.25rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 1rem 0.25rem 1.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.15) transparent;
+}
+.h-scroll-timeline > * {
+  scroll-snap-align: start;
+}
+.h-scroll-timeline::-webkit-scrollbar { height: 6px; }
+.h-scroll-timeline::-webkit-scrollbar-track { background: transparent; }
+.h-scroll-timeline::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 9999px; }
+
+/* Mobile: tighter columns */
+@media (max-width: 640px) {
+  .h-scroll { grid-auto-columns: minmax(260px, 85vw); }
+  .h-scroll-timeline { grid-auto-columns: minmax(260px, 85vw); }
+}
+
+/* Scroll hint chevrons */
+.h-scroll-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  opacity: 0.7;
+  margin-top: 0.25rem;
+}

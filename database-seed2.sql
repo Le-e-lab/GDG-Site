@@ -35,11 +35,9 @@ INSERT INTO blog (id, title, author, content, image, status, created_at) VALUES
   ('80000000-0000-4000-8000-000000000003', 'How to Make the Most of Your Student Developer Packs', 'GDG Africa University', '<p>Every student at Africa University qualifies for free tools worth thousands of dollars — GitHub Pro, JetBrains IDEs, cloud credits, and more.</p><p>Here''s the playbook: 1) Grab the GitHub Student Pack first, 2) claim your JetBrains IDEs, 3) use the cloud credits to deploy a real project, 4) never pay for software again.</p><p>Check the Student Developer Packs section below for the full list.</p>', NULL, 'published', NOW() - INTERVAL '1 day');
 
 -- ------------------------------------------------------------
--- TEAM PHOTOS (use club member photos already in the repo)
+-- TEAM PHOTOS
+-- NOTE: Team/spotlight portraits must NEVER reuse the hero grid files
+-- (images/PHOTO-*.jpg are reserved for the hero background marquee).
+-- Leave team.image NULL to show premium initials avatars, or upload a
+-- real portrait via the Admin panel (stored in Supabase storage).
 -- ------------------------------------------------------------
-UPDATE team SET image = 'images/PHOTO-2025-09-05-06-21-59.jpg' WHERE name = 'Lesley Mutsambiwa';
-UPDATE team SET image = 'images/1000267415-compressed.jpg' WHERE name = 'Tanaka Chikede';
-UPDATE team SET image = 'images/1000267427-compressed.jpg' WHERE name = 'Ropafadzo Moyo';
-UPDATE team SET image = 'images/1000267438-compressed.jpg' WHERE name = 'Tafadzwa Nyamukapa';
-UPDATE team SET image = 'images/PHOTO-2025-09-05-06-21-11.jpg' WHERE name = 'Chipo Dube';
-UPDATE team SET image = 'images/PHOTO-2025-09-05-06-21-11_2.jpg' WHERE name = 'Nyasha Banda';

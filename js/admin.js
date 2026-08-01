@@ -58,16 +58,20 @@ const tableConfigs = {
     },
     projects: {
         title: 'Manage Projects',
-        subtitle: 'Showcase projects built by members.',
+        subtitle: 'Showcase projects and student startups built by members.',
         table: 'projects',
         hasPreview: true,
         fields: [
-            { name: 'title', label: 'Project Title', type: 'text', required: true },
+            { name: 'title', label: 'Project / Startup Title', type: 'text', required: true },
             { name: 'description', label: 'Description', type: 'textarea', required: true },
             { name: 'tags', label: 'Tags (comma separated)', type: 'text', required: false },
             { name: 'link', label: 'Project / Demo Link', type: 'url', required: false },
             { name: 'github', label: 'GitHub Repository', type: 'url', required: false },
-            { name: 'image', label: 'Project Image', type: 'file', required: false, isImage: true }
+            { name: 'image', label: 'Project Image', type: 'file', required: false, isImage: true },
+            { name: 'status', label: 'Status', type: 'select', required: false, options: ['approved', 'pending'] },
+            { name: 'is_startup', label: 'Is a Student Startup?', type: 'select', required: false, options: ['false', 'true'] },
+            { name: 'needs_help', label: 'Seeking Collaborators?', type: 'select', required: false, options: ['false', 'true'] },
+            { name: 'help_description', label: 'Collaboration Description', type: 'textarea', required: false }
         ],
         displayCols: ['title', 'link']
     },
@@ -140,6 +144,36 @@ const tableConfigs = {
         hasCompose: true,
         fields: [],
         displayCols: ['email', 'created_at']
+    },
+    resources: {
+        title: 'Student Resources',
+        subtitle: 'Edit the free tools and student packs shown on the homepage.',
+        table: 'resources',
+        fields: [
+            { name: 'title', label: 'Resource Name', type: 'text', required: true },
+            { name: 'description', label: 'Description', type: 'textarea', required: true },
+            { name: 'url', label: 'Link URL', type: 'url', required: false },
+            { name: 'badge', label: 'Badge (e.g. FREE, $200 FREE)', type: 'text', required: false },
+            { name: 'color_key', label: 'Color', type: 'select', required: false, options: ['blue', 'red', 'green', 'yellow', 'purple', 'orange'] },
+            { name: 'sort_order', label: 'Sort Order (lower = first)', type: 'number', required: false }
+        ],
+        displayCols: ['title', 'badge']
+    },
+    collab: {
+        title: 'Collaboration Applications',
+        subtitle: 'Review volunteers who want to help teams and startups. Update their status after you reach out.',
+        table: 'collab_applications',
+        allowDelete: true,
+        hasDetails: true,
+        fields: [
+            { name: 'name', label: 'Volunteer Name', type: 'text', required: true },
+            { name: 'email', label: 'Email Address', type: 'text', required: true },
+            { name: 'project_title', label: 'Project', type: 'text' },
+            { name: 'skills', label: 'Skills', type: 'textarea' },
+            { name: 'motivation', label: 'Motivation', type: 'textarea' },
+            { name: 'status', label: 'Status', type: 'select', options: ['pending', 'contacted', 'approved', 'declined'] }
+        ],
+        displayCols: ['name', 'email', 'project_title', 'status', 'created_at']
     }
 };
 
@@ -584,7 +618,11 @@ editForm.addEventListener('submit', async (e) => {
                 saveObj.image = publicUrl;
             }
         } else {
-            saveObj[field.name] = formData.get(field.name);
+            const raw = formData.get(field.name);
+            // Convert 'true'/'false' string selects to real booleans for boolean columns
+            saveObj[field.name] = (field.name === 'is_startup' || field.name === 'needs_help')
+              ? raw === 'true'
+              : raw;
         }
     }
 

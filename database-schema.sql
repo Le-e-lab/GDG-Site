@@ -246,3 +246,46 @@ CREATE POLICY "Authenticated Admin All Access" ON newsletters FOR ALL USING (aut
 
 DROP POLICY IF EXISTS "Authenticated Admin All Access" ON membership_applications;
 CREATE POLICY "Authenticated Admin All Access" ON membership_applications FOR ALL USING (auth.uid() IS NOT NULL);
+-- ============================================================
+-- (Synced from supabase/migrations/20260801010000_startups_resources_collab.sql)
+-- Student startups, dynamic resources, collaboration applications
+-- ============================================================
+ALTER TABLE projects ADD COLUMN IF NOT EXISTS is_startup BOOLEAN DEFAULT false;
+
+CREATE TABLE IF NOT EXISTS resources (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    title VARCHAR NOT NULL,
+    description TEXT,
+    url VARCHAR,
+    badge VARCHAR,
+    color_key VARCHAR DEFAULT 'blue',
+    sort_order INT DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS collab_applications (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR NOT NULL,
+    email VARCHAR NOT NULL,
+    project_id UUID,
+    project_title VARCHAR,
+    skills TEXT,
+    motivation TEXT,
+    status VARCHAR DEFAULT 'pending',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+ALTER TABLE resources ENABLE ROW LEVEL SECURITY;
+ALTER TABLE collab_applications ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public Read Access" ON resources;
+CREATE POLICY "Public Read Access" ON resources FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Public Insert Access" ON collab_applications;
+CREATE POLICY "Public Insert Access" ON collab_applications FOR INSERT WITH CHECK (true);
+
+DROP POLICY IF EXISTS "Authenticated Admin All Access" ON resources;
+CREATE POLICY "Authenticated Admin All Access" ON resources FOR ALL USING (auth.uid() IS NOT NULL);
+
+DROP POLICY IF EXISTS "Authenticated Admin All Access" ON collab_applications;
+CREATE POLICY "Authenticated Admin All Access" ON collab_applications FOR ALL USING (auth.uid() IS NOT NULL);

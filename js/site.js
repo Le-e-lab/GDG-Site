@@ -214,20 +214,30 @@ function projectCardHtml(project, i) {
         <p class="text-xs text-brandTextSecondary leading-relaxed">${project.help_description || 'This project is looking for teammates to join the build.'}</p>
       </div>`
     : '';
+  const startupBadge = project.is_startup
+    ? `<span class="absolute top-3 right-3 bg-gradient-to-r from-google-blue to-google-green text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm">STUDENT STARTUP</span>`
+    : '';
+  const collabBtn = project.needs_help
+    ? `<button data-collab-project='${JSON.stringify({ id: project.id, title: project.title }).replace(/'/g, '&#39;')}' class="mt-3 w-full py-2.5 rounded-full bg-google-yellow/15 border border-google-yellow/40 text-google-yellow text-sm font-bold hover:bg-google-yellow hover:text-white transition-colors btn-press">Volunteer / Collaborate</button>`
+    : '';
 
   return `
-    <a href="project.html?v=v2&id=${project.id}" class="group bg-brandBgTertiary border border-brandBorder rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow block card-hover">
+    <div class="group bg-brandBgTertiary border border-brandBorder rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow card-hover relative">
       <div class="h-48 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden">
         ${imageHtml}
       </div>
+      ${startupBadge}
       <div class="p-6">
-        <div class="flex items-center gap-2 mb-3">${tagsHtml}</div>
+        <div class="flex items-center gap-2 mb-3 flex-wrap">${tagsHtml}</div>
         <h3 class="font-display text-xl font-bold mb-2 text-brandTextPrimary">${project.title}</h3>
         <p class="text-brandTextSecondary text-sm leading-relaxed mb-4">${project.description.substring(0, 120)}${project.description.length > 120 ? '...' : ''}</p>
         ${helpHtml}
-        <span class="text-google-blue text-sm font-semibold group-hover:text-brandTextPrimary transition-colors inline-flex items-center gap-1">View Project <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></span>
+        <div class="flex items-center justify-between gap-3">
+          <a href="project.html?v=v2&id=${project.id}" class="text-google-blue text-sm font-semibold group-hover:text-brandTextPrimary transition-colors inline-flex items-center gap-1">View Project <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></a>
+        </div>
+        ${collabBtn}
       </div>
-    </a>
+    </div>
   `;
 }
 
@@ -267,6 +277,19 @@ function renderProjectCards(filter) {
 
   grid.innerHTML = list.map(projectCardHtml).join('') + buildWithUsCard();
   attachModalTriggers();
+  // Delegate collaborate button clicks (cards are re-rendered on filter change)
+  grid.querySelectorAll('[data-collab-project]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      try {
+        const project = JSON.parse(btn.dataset.collabProject);
+        openCollabModal(project);
+      } catch (err) {
+        openCollabModal({ id: '', title: 'this team' });
+      }
+    });
+  });
   if (typeof AOS !== 'undefined') AOS.refresh();
 }
 
@@ -556,6 +579,73 @@ async function loadSemesterPlan() {
 }
 
 // ==========================================
+//  STUDENT RESOURCES (Student Developer Packs)
+// ==========================================
+const RESOURCE_COLORS = {
+  blue: 'bg-blue-600',
+  red: 'bg-google-red',
+  green: 'bg-google-green',
+  yellow: 'bg-google-yellow',
+  purple: 'bg-gradient-to-br from-purple-600 to-pink-500',
+  orange: 'bg-orange-500',
+};
+
+async function loadResources() {
+  const grid = document.getElementById('resources-grid');
+  if (!grid) return;
+
+  grid.innerHTML = `
+    ${Array(3).fill(`
+      <div class="bg-brandBgTertiary border border-brandBorder rounded-2xl p-6 animate-pulse">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-12 h-12 rounded-xl bg-brandBgSecondary"></div>
+          <div class="flex-1"><div class="h-5 w-3/4 bg-brandBgSecondary rounded mb-2"></div><div class="h-4 w-12 bg-brandBgSecondary rounded"></div></div>
+        </div>
+        <div class="h-4 w-full bg-brandBgSecondary rounded mb-2"></div>
+        <div class="h-4 w-5/6 bg-brandBgSecondary rounded"></div>
+      </div>
+    `).join('')}
+  `;
+
+  const { data, error } = await supabase
+    .from('resources')
+    .select('*')
+    .order('sort_order', { ascending: true });
+
+  if (error || !data || data.length === 0) {
+    grid.innerHTML = '<div class="col-span-full py-10 text-center text-gray-400">Resources coming soon. Check back shortly!</div>';
+    return;
+  }
+
+  grid.innerHTML = '';
+
+  data.forEach((res, i) => {
+    const boxColor = RESOURCE_COLORS[res.color_key] || RESOURCE_COLORS.blue;
+    const accentHover = res.color_key === 'red' ? 'hover:border-google-red/50 hover:shadow-google-red/10'
+      : res.color_key === 'green' ? 'hover:border-google-green/50 hover:shadow-google-green/10'
+      : res.color_key === 'yellow' ? 'hover:border-google-yellow/50 hover:shadow-google-yellow/10'
+      : 'hover:border-google-blue/50 hover:shadow-google-blue/10';
+
+    grid.insertAdjacentHTML('beforeend', `
+      <a href="${res.url || '#'}" target="_blank" rel="noopener" class="group bg-brandBgTertiary border border-brandBorder rounded-2xl p-6 ${accentHover} transition-all hover:shadow-lg card-hover">
+        <div class="flex items-center gap-4 mb-4">
+          <div class="w-12 h-12 rounded-xl ${boxColor} flex items-center justify-center">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+          </div>
+          <div>
+            <h3 class="font-display text-lg font-bold text-brandTextPrimary group-hover:text-google-blue transition-colors">${res.title}</h3>
+            ${res.badge ? `<p class="text-xs text-google-green font-semibold">${res.badge}</p>` : ''}
+          </div>
+        </div>
+        <p class="text-brandTextSecondary text-sm leading-relaxed">${res.description || ''}</p>
+      </a>
+    `);
+  });
+
+  if (typeof AOS !== 'undefined') AOS.refresh();
+}
+
+// ==========================================
 //  LEAD ROLE APPLICATION FORM
 // ==========================================
 async function handleApplicationForm() {
@@ -593,6 +683,78 @@ async function handleApplicationForm() {
       form.reset();
       successDiv.classList.remove('hidden');
       btn.classList.add('hidden');
+    }
+  });
+}
+
+// ==========================================
+//  COLLABORATE / VOLUNTEER MODAL
+// ==========================================
+function openCollabModal(project) {
+  const modal = document.getElementById('collab-modal');
+  if (!modal) return;
+  const idInput = document.getElementById('collab-project-id');
+  const titleInput = document.getElementById('collab-project-title');
+  const desc = document.getElementById('collab-modal-desc');
+  if (idInput) idInput.value = project.id || '';
+  if (titleInput) titleInput.value = project.title || '';
+  if (desc) desc.textContent = `Lend your skills to ${project.title || 'this team'} and help build something real.`;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function initCollabModal() {
+  const modal = document.getElementById('collab-modal');
+  if (!modal) return;
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = ''; }
+  });
+  document.querySelectorAll('[data-close-modal]').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const m = btn.closest('.modal-overlay');
+      if (m) { m.classList.remove('active'); document.body.style.overflow = ''; }
+    });
+  });
+
+  const form = document.getElementById('collab-form');
+  if (!form) return;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('collab-submit-btn');
+    const successDiv = document.getElementById('collab-success');
+    const errorDiv = document.getElementById('collab-error');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    errorDiv.classList.add('hidden');
+    successDiv.classList.add('hidden');
+
+    const formData = new FormData(form);
+    const payload = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      project_id: formData.get('project_id') || null,
+      project_title: formData.get('project_title') || null,
+      skills: formData.get('skills') || '',
+      motivation: formData.get('motivation') || '',
+      status: 'pending'
+    };
+
+    const { error } = await supabase.from('collab_applications').insert([payload]);
+
+    btn.textContent = 'Send Application';
+    btn.disabled = false;
+
+    if (error) {
+      errorDiv.textContent = 'Something went wrong: ' + error.message;
+      errorDiv.classList.remove('hidden');
+    } else {
+      form.reset();
+      successDiv.classList.remove('hidden');
+      setTimeout(() => {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+        successDiv.classList.add('hidden');
+      }, 1600);
     }
   });
 }
@@ -1005,7 +1167,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   initScrollReveal();
   initNavScroll();
   initStatCounters();
-  await Promise.all([loadProjects(), loadTeam(), loadEvents(), loadTestimonials(), loadSpotlight(), loadSemesterPlan(), checkBlogUpdates()]);
+  await Promise.all([loadProjects(), loadTeam(), loadEvents(), loadTestimonials(), loadSpotlight(), loadSemesterPlan(), loadResources(), checkBlogUpdates()]);
+  initCollabModal();
   handleApplicationForm();
   handleNewsletterForm();
 

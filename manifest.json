@@ -1,11 +1,14 @@
 {
   "name": "GDG Africa University",
   "short_name": "GDG AU",
-  "description": "Tech news, events, and projects from the GDSC Africa University community.",
-  "start_url": "/index.html",
+  "description": "Tech news, events, and projects from the GDG Africa University community.",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4285F4",
+  "lang": "en",
+  "categories": ["education", "technology"],
   "icons": [
     {
       "src": "images/gdg-logo.jpg",

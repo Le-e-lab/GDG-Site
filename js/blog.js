@@ -213,7 +213,7 @@ async function fetchSinglePost(id) {
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                         LinkedIn
                     </a>
-                    <a href="mailto:?subject=${encodeURIComponent(post.title + ' — GDSC Africa University')}&body=${encodeURIComponent('Check out this post from GDSC Africa University:\n\n' + post.title + '\n\n' + shareUrl)}" 
+                    <a href="mailto:?subject=${encodeURIComponent(post.title + ' — GDG Africa University')}&body=${encodeURIComponent('Check out this post from GDG Africa University:\n\n' + post.title + '\n\n' + shareUrl)}" 
                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-google-red text-white font-semibold text-sm hover:opacity-90 transition-opacity shadow-sm">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                         Email
@@ -232,7 +232,7 @@ async function fetchSinglePost(id) {
                 </a>
             </div>
         </article>`;
-        document.title = `${post.title} | GDSC Africa University`;
+        document.title = `${post.title} | GDG Africa University`;
         
         const pureTextDesc = post.content.replace(/<[^>]+>/g, '').substring(0, 160) + '...';
         const metaDesc = document.getElementById('meta-description');
@@ -245,6 +245,30 @@ async function fetchSinglePost(id) {
         if(ogTitle) ogTitle.content = document.title;
         if(ogDesc) ogDesc.content = pureTextDesc;
         if(ogImage && imageUrl) ogImage.content = imageUrl;
+        if(ogUrl) ogUrl.content = shareUrl;
+
+        // Dynamic BlogPosting structured data (GEO/AEO)
+        const existingLd = document.getElementById('ld-article');
+        if (existingLd) existingLd.remove();
+        const ld = document.createElement('script');
+        ld.type = 'application/ld+json';
+        ld.id = 'ld-article';
+        ld.textContent = JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'BlogPosting',
+          'headline': post.title,
+          'description': pureTextDesc,
+          'image': imageUrl || 'https://gdg-africa-university.netlify.app/images/gdg-logo.jpg',
+          'datePublished': post.created_at || new Date().toISOString(),
+          'author': { '@type': 'Person', 'name': post.author || 'GDG Africa University' },
+          'publisher': {
+            '@type': 'Organization',
+            'name': 'GDG Africa University',
+            'logo': { '@type': 'ImageObject', 'url': 'https://gdg-africa-university.netlify.app/images/gdg-logo.jpg' }
+          },
+          'mainEntityOfPage': shareUrl || 'https://gdg-africa-university.netlify.app/blog.html'
+        });
+        document.head.appendChild(ld);
         if(ogUrl) ogUrl.content = shareUrl;
     }
 }

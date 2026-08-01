@@ -5,3 +5,8 @@ node_modules/
 
 # Raw photo originals (compressed versions are used on the site)
 images/*.JPG
+
+# Supabase CLI local state
+supabase/.temp/
+supabase/.branches/
+supabase/.env

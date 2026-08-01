@@ -65,7 +65,7 @@ function initPreloader() {
   let loaded = 0;
   const total = imagesToPreload.length;
   const startTime = Date.now();
-  const MIN_DISPLAY_TIME = 3500; // 3.5 seconds minimum
+  const MIN_DISPLAY_TIME = 1200; // 1.2 seconds minimum (was 3.5s — too slow)
 
   const onImageLoad = () => {
     loaded++;
@@ -796,11 +796,13 @@ async function initHeroGrid() {
   const allImages = clubPhotos;
 
   // Build image items for a track (duplicated for seamless loop)
+  // NOTE: eager (not lazy) — this marquee is the hero visual above the fold.
+  // Lazy + CSS transform animation can stall image loads entirely.
   const buildTrack = (track, imgs) => {
     const doubled = [...imgs, ...imgs];
     track.innerHTML = doubled.map(src => `
       <div class="hero-grid-item">
-        <img src="${src}" alt="GDG Community" loading="eager" fetchpriority="high" />
+        <img src="${src}" alt="GDG Community" loading="eager" decoding="async" fetchpriority="low" />
       </div>
     `).join('');
   };
@@ -820,7 +822,7 @@ async function initHeroGrid() {
       if (members && members.length > 0) {
         const memberImages = members.map(m => m.image).filter(Boolean);
         if (memberImages.length > 0) {
-          const enriched = [...memberImages, ...localImages, ...extraImages];
+          const enriched = [...memberImages, ...allImages];
           const r1 = enriched.filter((_, i) => i % 3 === 0);
           const r2 = enriched.filter((_, i) => i % 3 === 1);
           const r3 = enriched.filter((_, i) => i % 3 === 2);

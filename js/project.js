@@ -170,7 +170,7 @@ async function fetchSingleProject(id) {
                 <div class="flex flex-wrap gap-3">
                     <a href="https://wa.me/?text=${encodeURIComponent(project.title + ' — Check it out: ' + shareUrl)}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#25D366] text-white font-semibold text-sm hover:opacity-90 transition-opacity">WhatsApp</a>
                     <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0A66C2] text-white font-semibold text-sm hover:opacity-90 transition-opacity">LinkedIn</a>
-                    <a href="mailto:?subject=${encodeURIComponent(project.title + ' — GDSC Africa University')}&body=${encodeURIComponent('Check out this project from GDSC Africa University:\n\n' + project.title + '\n\n' + shareUrl)}" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-google-red text-white font-semibold text-sm hover:opacity-90 transition-opacity">Email</a>
+                    <a href="mailto:?subject=${encodeURIComponent(project.title + ' — GDG Africa University')}&body=${encodeURIComponent('Check out this project from GDG Africa University:\n\n' + project.title + '\n\n' + shareUrl)}" class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-google-red text-white font-semibold text-sm hover:opacity-90 transition-opacity">Email</a>
                 </div>
             </div>
 
@@ -180,7 +180,7 @@ async function fetchSingleProject(id) {
                 </a>
             </div>
         </article>`;
-        document.title = `${project.title} | GDSC Africa University`;
+        document.title = `${project.title} | GDG Africa University`;
         
         const pureTextDesc = project.description.replace(/<[^>]+>/g, '').substring(0, 160) + '...';
         const metaDesc = document.getElementById('meta-description');
@@ -194,6 +194,34 @@ async function fetchSingleProject(id) {
         if(ogDesc) ogDesc.content = pureTextDesc;
         if(ogImage && imageUrl) ogImage.content = imageUrl;
         if(ogUrl) ogUrl.content = shareUrl;
+
+        // Dynamic SoftwareApplication structured data (GEO/AEO)
+        const existingLd = document.getElementById('ld-project');
+        if (existingLd) existingLd.remove();
+        const ld = document.createElement('script');
+        ld.type = 'application/ld+json';
+        ld.id = 'ld-project';
+        ld.textContent = JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'SoftwareApplication',
+          'name': project.title,
+          'description': pureTextDesc,
+          'image': imageUrl || 'https://gdg-africa-university.netlify.app/images/gdg-logo.jpg',
+          'url': shareUrl || 'https://gdg-africa-university.netlify.app/project.html',
+          'applicationCategory': 'DeveloperApplication',
+          'operatingSystem': 'Web, Android, iOS',
+          'author': {
+            '@type': 'Organization',
+            'name': 'GDG Africa University',
+            'url': 'https://gdg-africa-university.netlify.app/'
+          },
+          'offers': {
+            '@type': 'Offer',
+            'price': '0',
+            'priceCurrency': 'USD'
+          }
+        });
+        document.head.appendChild(ld);
     }
 }
 

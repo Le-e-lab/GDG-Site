@@ -3,34 +3,109 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GDSC Africa University | Ubuntu Meets Innovation</title>
+    <title>GDG Africa University | Ubuntu Meets Innovation</title>
     <meta
       name="description"
-      content="Join Google Developer Student Clubs at Africa University. The premier tech community bridging classroom theory with real-world practice through peer learning, workshops, and hackathons."
+      content="Join Google Developer Groups (GDG) at Africa University. The premier pan-African tech community bridging classroom theory with real-world practice through workshops, hackathons, and peer-led projects."
     />
-    <meta name="keywords" content="GDSC, Africa University, Google Developer Student Clubs, Tech Community, Zimbabwe, Coding, Innovation, Ubuntu, Software Engineering" />
+    <meta name="keywords" content="GDG, Africa University, Google Developer Groups, Tech Community, Zimbabwe, Coding, Innovation, Ubuntu, Software Engineering, Google Technologies" />
     <meta name="author" content="GDG Africa University" />
-    
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://gdg-africa-university.netlify.app/" />
+    <meta name="geo.region" content="ZW" />
+    <meta name="geo.placename" content="Mutare, Zimbabwe" />
+    <meta name="geo.position" content="-18.9683;32.6709" />
+    <meta name="ICBM" content="-18.9683, 32.6709" />
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://gdsc-africa-university.netlify.app/" />
-    <meta property="og:title" content="GDSC Africa University | Ubuntu Meets Innovation" />
+    <meta property="og:site_name" content="GDG Africa University" />
+    <meta property="og:url" content="https://gdg-africa-university.netlify.app/" />
+    <meta property="og:title" content="GDG Africa University | Ubuntu Meets Innovation" />
     <meta property="og:description" content="Building pan-African tech talent. Join our community of developers, designers, and innovators at Africa University." />
-    <meta property="og:image" content="about-illustration.webp" />
+    <meta property="og:image" content="https://gdg-africa-university.netlify.app/images/gdg-logo.jpg" />
+    <meta property="og:image:alt" content="GDG Africa University community logo" />
+    <meta property="og:locale" content="en_ZW" />
 
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://gdsc-africa-university.netlify.app/" />
-    <meta property="twitter:title" content="GDSC Africa University | Ubuntu Meets Innovation" />
-    <meta property="twitter:description" content="Building pan-African tech talent. Join our community of developers, designers, and innovators at Africa University." />
-    <meta property="twitter:image" content="about-illustration.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://gdg-africa-university.netlify.app/" />
+    <meta name="twitter:title" content="GDG Africa University | Ubuntu Meets Innovation" />
+    <meta name="twitter:description" content="Building pan-African tech talent. Join our community of developers, designers, and innovators at Africa University." />
+    <meta name="twitter:image" content="https://gdg-africa-university.netlify.app/images/gdg-logo.jpg" />
+    <meta name="twitter:image:alt" content="GDG Africa University community logo" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="images/gdg-logo.jpg" />
+    <link rel="apple-touch-icon" href="images/gdg-logo.jpg" />
     
     <!-- PWA Manifest -->
-    <!-- Removed: no working service worker -->
+    <link rel="manifest" href="manifest.json" />
     <meta name="theme-color" content="#4285F4" />
+
+    <!-- Structured Data: Organization (GEO/AEO) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "GDG Africa University",
+      "alternateName": "Google Developer Groups Africa University",
+      "url": "https://gdg-africa-university.netlify.app/",
+      "logo": "https://gdg-africa-university.netlify.app/images/gdg-logo.jpg",
+      "description": "A pan-African tech community at Africa University equipping students with Google technologies and the skills to build Africa's digital future.",
+      "foundingDate": "2021",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Mutare",
+        "addressRegion": "Manicaland",
+        "addressCountry": "ZW"
+      },
+      "areaServed": ["Africa", "Zimbabwe"],
+      "knowsAbout": ["Google Technologies", "Android", "Flutter", "Cloud Computing", "Machine Learning", "Web Development"],
+      "memberOf": {
+        "@type": "Organization",
+        "name": "Google Developer Groups"
+      },
+      "sameAs": [
+        "https://github.com/gdsc-africau",
+        "https://gdg.community.dev/"
+      ]
+    }
+    </script>
+
+    <!-- Structured Data: FAQ (AEO) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is GDG Africa University?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "GDG Africa University is the Google Developer Groups chapter at Africa University in Mutare, Zimbabwe. It is a student-led tech community that organizes workshops, hackathons, and study groups to help students build real-world skills with Google technologies."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I join GDG Africa University?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Any Africa University student can join. Use the 'Start Building' or 'Apply' buttons on this page to submit a membership application, or attend any of our open workshops and events listed in the semester plan."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What technologies does the GDG chapter focus on?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The chapter focuses on Google technologies including Android with Kotlin, Flutter, Google Cloud, Firebase, machine learning with TensorFlow, and modern web development."
+          }
+        }
+      ]
+    }
+    </script>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -979,7 +1054,7 @@
 
         <!-- Team Grid (Dynamically loaded from Supabase) -->
         <div id="team-grid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8" data-aos="fade-up">
-          <!-- Team Member 1: GDSC Lead -->
+          <!-- Team Member 1: GDG Lead -->
           <div class="text-center group">
             <div class="relative w-32 h-32 mx-auto mb-6">
               <div
@@ -998,7 +1073,7 @@
               </div>
             </div>
             <h3 class="font-display text-xl font-bold text-brandTextPrimary mb-1">
-              GDSC Lead
+              GDG Lead
             </h3>
             <p class="text-google-blue text-sm mb-3">Chapter Lead</p>
             <p class="text-brandTextSecondary text-sm">
@@ -1911,7 +1986,7 @@
         
         <div class="mt-6 pt-4 border-t border-brandBorder">
           <p class="text-center text-xs text-brandTextSecondary">
-            Or register on <a href="https://gdsc.community.dev/" target="_blank" class="text-google-blue hover:underline font-semibold">GDSC Bevy</a>
+            Or register on <a href="https://gdsc.community.dev/" target="_blank" class="text-google-blue hover:underline font-semibold">GDG Bevy</a>
           </p>
         </div>
       </div>

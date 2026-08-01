@@ -656,7 +656,17 @@ async function loadResources() {
 
   grid.innerHTML = '';
 
-  data.forEach((res, i) => {
+  // Homepage shows 2 rows (6); archive pages (data-full) show everything
+  const isFull = grid.dataset.full === 'true';
+  const visible = isFull ? data : data.slice(0, 6);
+
+  // "Showing X of Y" hint
+  const hint = document.getElementById('resources-count-hint');
+  if (hint && !isFull && data.length > 6) {
+    hint.textContent = `Showing ${visible.length} of ${data.length} resources`;
+  }
+
+  visible.forEach((res, i) => {
     const boxColor = RESOURCE_COLORS[res.color_key] || RESOURCE_COLORS.blue;
     const accentHover = res.color_key === 'red' ? 'hover:border-google-red/50 hover:shadow-google-red/10'
       : res.color_key === 'green' ? 'hover:border-google-green/50 hover:shadow-google-green/10'

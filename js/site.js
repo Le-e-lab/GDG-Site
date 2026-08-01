@@ -1053,7 +1053,22 @@ async function loadSpotlight() {
   const container = document.getElementById('spotlight-container');
   if (!container) return;
 
-  // Fetch the spotlight member (most recent spotlight_date or is_spotlight flag)
+  // 1. Preferred: dedicated spotlight_members table (can feature ANY club member)
+  //    Newest active member wins (created_at, not manual date, so admins
+  //    don't need to set a spotlight_date)
+  const { data: spotlightMembers } = await supabase
+    .from('spotlight_members')
+    .select('*')
+    .eq('is_active', true)
+    .order('created_at', { ascending: false })
+    .limit(1);
+
+  if (spotlightMembers && spotlightMembers.length > 0) {
+    renderSpotlight(spotlightMembers[0]);
+    return;
+  }
+
+  // 2. Fallback: team member flagged as spotlight
   const { data: spotlight, error } = await supabase
     .from('team')
     .select('*')
@@ -1063,7 +1078,7 @@ async function loadSpotlight() {
     .single();
 
   if (error || !spotlight) {
-    // If no spotlight member, try to get the most recently added team member
+    // 3. Last fallback: most recently added team member
     const { data: latest } = await supabase
       .from('team')
       .select('*')

@@ -302,3 +302,30 @@ UPDATE events SET status = 'approved' WHERE status IS NULL;
 UPDATE team SET image = NULL WHERE image IS NOT NULL AND image LIKE 'images/%';
 
 ALTER TABLE collab_applications ALTER COLUMN status SET DEFAULT 'pending';
+
+-- ============================================================
+-- (Synced from supabase/migrations/20260801030000_spotlight_members.sql)
+-- Dedicated spotlight: can feature ANY club member
+-- ============================================================
+CREATE TABLE IF NOT EXISTS spotlight_members (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR NOT NULL,
+    role VARCHAR,
+    bio VARCHAR,
+    image VARCHAR,
+    linkedin VARCHAR,
+    github VARCHAR,
+    spotlight_quote TEXT,
+    spotlight_project VARCHAR,
+    spotlight_date DATE DEFAULT CURRENT_DATE,
+    is_active BOOLEAN DEFAULT true,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+ALTER TABLE spotlight_members ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Public Read Access" ON spotlight_members;
+CREATE POLICY "Public Read Access" ON spotlight_members FOR SELECT USING (true);
+
+DROP POLICY IF EXISTS "Authenticated Admin All Access" ON spotlight_members;
+CREATE POLICY "Authenticated Admin All Access" ON spotlight_members FOR ALL USING (auth.uid() IS NOT NULL);

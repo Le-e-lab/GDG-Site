@@ -96,6 +96,25 @@ const tableConfigs = {
         ],
         displayCols: ['name', 'role', 'is_spotlight']
     },
+    spotlight: {
+        title: 'Member of the Week',
+        subtitle: 'Feature ANY club member — they don\'t need to be on the core team. The most recent active member shows on the homepage.',
+        table: 'spotlight_members',
+        hasPreview: true,
+        fields: [
+            { name: 'name', label: 'Full Name', type: 'text', required: true },
+            { name: 'role', label: 'Role / Year (e.g. Club Member, 2nd Year CS)', type: 'text', required: false },
+            { name: 'bio', label: 'Bio', type: 'text', required: false },
+            { name: 'image', label: 'Profile Picture', type: 'file', required: false, isImage: true },
+            { name: 'linkedin', label: 'LinkedIn URL', type: 'url', required: false },
+            { name: 'github', label: 'GitHub URL', type: 'url', required: false },
+            { name: 'spotlight_quote', label: 'Spotlight Quote', type: 'textarea', required: false },
+            { name: 'spotlight_project', label: 'Spotlight Project Name', type: 'text', required: false },
+            { name: 'spotlight_date', label: 'Spotlight Date (YYYY-MM-DD)', type: 'date', required: false },
+            { name: 'is_active', label: 'Active (shows on homepage)?', type: 'select', required: false, options: ['false', 'true'] }
+        ],
+        displayCols: ['name', 'role', 'is_active', 'spotlight_date']
+    },
     events: {
         title: 'Manage Events',
         subtitle: 'Update upcoming and past events. Events auto-pulled from the GDG community site arrive as pending — approve the good ones.',
@@ -433,6 +452,10 @@ function renderTable(data, config) {
                content = item[col]
                  ? '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">★ Spotlight</span>'
                  : '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-500">—</span>';
+            } else if (col === 'is_active') {
+               content = item[col]
+                 ? '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Active</span>'
+                 : '<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-500">Inactive</span>';
             } else if (col === 'created_at') {
                 content = new Date(val).toLocaleDateString();
             } else if (col === 'image' || (typeof val === 'string' && val.match(/\\.(jpeg|jpg|gif|png|webp|svg)(\\?.*)?$/i))) {
@@ -631,7 +654,7 @@ editForm.addEventListener('submit', async (e) => {
         } else {
             const raw = formData.get(field.name);
             // Convert 'true'/'false' string selects to real booleans for boolean columns
-            saveObj[field.name] = (field.name === 'is_startup' || field.name === 'needs_help' || field.name === 'is_spotlight')
+            saveObj[field.name] = (field.name === 'is_startup' || field.name === 'needs_help' || field.name === 'is_spotlight' || field.name === 'is_active')
               ? raw === 'true'
               : raw;
         }

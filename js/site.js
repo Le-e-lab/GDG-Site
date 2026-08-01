@@ -1073,6 +1073,10 @@ async function loadSpotlight() {
 }
 
 function renderSpotlight(member) {
+  // Never error even if elements are missing or data is malformed
+  if (!member || typeof member !== 'object') return;
+  const safe = (v) => (v === null || v === undefined) ? '' : String(v);
+
   const avatar = document.getElementById('spotlight-avatar');
   const name = document.getElementById('spotlight-name');
   const role = document.getElementById('spotlight-role');
@@ -1081,17 +1085,19 @@ function renderSpotlight(member) {
   const socials = document.getElementById('spotlight-socials');
 
   if (avatar) avatar.src = member.image || 'images/gdg-logo.jpg';
-  if (name) name.textContent = member.name;
-  if (role) role.textContent = member.role;
-  if (quote) quote.textContent = member.spotlight_quote || '"Proud to be part of the GDG Africa University community!"';
+  if (name) name.textContent = safe(member.name) || 'Community Member';
+  if (role) role.textContent = safe(member.role);
+  if (quote) quote.textContent = safe(member.spotlight_quote) || '"Proud to be part of the GDG Africa University community!"';
   
   if (project && member.spotlight_project) {
     project.innerHTML = `
       <div class="inline-flex items-center gap-2 bg-brandBgTertiary border border-brandBorder rounded-xl px-4 py-2">
         <svg class="w-5 h-5 text-google-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-        <span class="text-sm text-brandTextSecondary">Currently working on: <strong class="text-brandTextPrimary">${member.spotlight_project}</strong></span>
+        <span class="text-sm text-brandTextSecondary">Currently working on: <strong class="text-brandTextPrimary">${safe(member.spotlight_project)}</strong></span>
       </div>
     `;
+  } else if (project) {
+    project.innerHTML = '';
   }
 
   if (socials) {

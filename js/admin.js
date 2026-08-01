@@ -523,9 +523,10 @@ function openModal(id = null) {
             }
         } else if (field.type === 'select' && field.options) {
             html += `<select name="${field.name}" ${field.required ? 'required' : ''} class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-google-blue outline-none transition-all bg-white">`;
-            html += `<option value="" disabled ${!val ? 'selected' : ''}>Select ${field.label}...</option>`;
+            html += `<option value="" disabled ${!val && val !== false && val !== true ? 'selected' : ''}>Select ${field.label}...</option>`;
             field.options.forEach(opt => {
-                html += `<option value="${opt}" ${val === opt ? 'selected' : ''}>${opt}</option>`;
+                // DB stores booleans for is_startup/needs_help; options are strings
+                html += `<option value="${opt}" ${String(val) === opt ? 'selected' : ''}>${opt}</option>`;
             });
             html += `</select>`;
         } else {

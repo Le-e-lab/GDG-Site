@@ -258,13 +258,25 @@ function renderProjectCards(filter) {
   const grid = document.getElementById('projects-grid');
   if (!grid) return;
 
-  const list = filter === 'collab'
+  let list = filter === 'collab'
     ? projectsCache.filter(p => p.needs_help)
     : projectsCache;
+
+  // Pin student startups to the front of the homepage preview so new
+  // projects never push them out of the first 2 rows
+  if (grid.dataset.full !== 'true') {
+    list = [...list].sort((a, b) => (b.is_startup ? 1 : 0) - (a.is_startup ? 1 : 0));
+  }
 
   // Homepage shows 2 rows (6); archive pages (data-full) show everything
   const isFull = grid.dataset.full === 'true';
   const visible = isFull ? list : list.slice(0, 6);
+
+  // "Showing X of Y" hint
+  const hint = document.getElementById('projects-count-hint');
+  if (hint && !isFull && projectsCache.length > 6) {
+    hint.textContent = `Showing ${visible.length} of ${projectsCache.length} projects`;
+  }
 
   if (visible.length === 0) {
     grid.innerHTML = `
@@ -434,6 +446,12 @@ async function loadEvents() {
   const isFull = grid.dataset.full === 'true';
   const visible = isFull ? data : data.slice(0, 6);
 
+  // "Showing X of Y" hint
+  const hint = document.getElementById('events-count-hint');
+  if (hint && !isFull && data.length > 6) {
+    hint.textContent = `Showing ${visible.length} of ${data.length} events`;
+  }
+
   visible.forEach((event, i) => {
     const accent = EVENT_ACCENT_CLASSES[i % EVENT_ACCENT_CLASSES.length];
     const eventDate = new Date(event.date);
@@ -555,6 +573,12 @@ async function loadSemesterPlan() {
   // Homepage shows 2 rows (6); archive pages (data-full) show everything
   const isFull = container.dataset.full === 'true';
   const visible = isFull ? data : data.slice(0, 6);
+
+  // "Showing X of Y" hint
+  const hint = document.getElementById('plan-count-hint');
+  if (hint && !isFull && data.length > 6) {
+    hint.textContent = `Showing ${visible.length} of ${data.length} activities`;
+  }
 
   visible.forEach((plan, i) => {
     const isCompleted = plan.status === 'completed';

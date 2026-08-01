@@ -467,8 +467,8 @@ async function loadTestimonials() {
   data.forEach((t, i) => {
     const gradient = AVATAR_GRADIENTS[i % AVATAR_GRADIENTS.length];
     const initials = t.name.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase();
-    const avatarHtml = t.image_url
-      ? `<img src="${t.image_url}" alt="${t.name}" class="w-full h-full object-cover rounded-full">`
+    const avatarHtml = t.image
+      ? `<img src="${t.image}" alt="${t.name}" class="w-full h-full object-cover rounded-full">`
       : initials;
 
     grid.insertAdjacentHTML('beforeend', `

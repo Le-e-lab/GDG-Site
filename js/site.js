@@ -1053,9 +1053,9 @@ async function loadSpotlight() {
   const container = document.getElementById('spotlight-container');
   if (!container) return;
 
-  // 1. Preferred: dedicated spotlight_members table (can feature ANY club member)
-  //    Newest active member wins (created_at, not manual date, so admins
-  //    don't need to set a spotlight_date)
+  // Single source of truth: the dedicated spotlight_members table.
+  // Newest active member wins (created_at, so admins don't set dates).
+  // No team-table fallback — if nothing is set here, show the empty state.
   const { data: spotlightMembers } = await supabase
     .from('spotlight_members')
     .select('*')
@@ -1068,33 +1068,8 @@ async function loadSpotlight() {
     return;
   }
 
-  // 2. Fallback: team member flagged as spotlight
-  const { data: spotlight, error } = await supabase
-    .from('team')
-    .select('*')
-    .eq('is_spotlight', true)
-    .order('spotlight_date', { ascending: false })
-    .limit(1)
-    .single();
-
-  if (error || !spotlight) {
-    // 3. Last fallback: most recently added team member
-    const { data: latest } = await supabase
-      .from('team')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .single();
-    
-    if (!latest) {
-      container.innerHTML = '<p class="text-center text-brandTextSecondary">No spotlight member yet. Check back soon!</p>';
-      return;
-    }
-    renderSpotlight(latest);
-    return;
-  }
-
-  renderSpotlight(spotlight);
+  // No active spotlight member — show a clean empty state.
+  container.innerHTML = '<p class="text-center text-brandTextSecondary">No spotlight member yet. Check back soon!</p>';
 }
 
 function renderSpotlight(member) {

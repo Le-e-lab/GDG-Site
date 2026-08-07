@@ -281,7 +281,7 @@ logoutBtn.addEventListener('click', async () => {
 // --- Tab Navigation ---
 function switchTab(tabId) {
     currentTab = tabId;
-    
+
     // Update Desktop Sidebar UI
     tabBtns.forEach(btn => {
         if (btn.dataset.tab === tabId) {
@@ -298,6 +298,13 @@ function switchTab(tabId) {
 
     // Update Header Content
     const config = tableConfigs[tabId];
+    if (!config) {
+        // Stale cached admin.js (no config for this tab yet) — surface it instead of dying silently
+        pageTitle.textContent = 'Unknown Section';
+        pageSubtitle.textContent = `No admin configuration for "${tabId}".`;
+        contentContainer.innerHTML = `<div class="p-8 text-center text-red-500">No admin configuration found for "${tabId}".<br>This usually means an old admin script is cached — do a hard refresh (Ctrl/Cmd+Shift+R) to load the latest version.</div>`;
+        return;
+    }
     pageTitle.textContent = config.title;
     pageSubtitle.textContent = config.subtitle;
     

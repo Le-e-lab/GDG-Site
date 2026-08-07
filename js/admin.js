@@ -131,6 +131,23 @@ const tableConfigs = {
         ],
         displayCols: ['title', 'date', 'status']
     },
+    schedule: {
+        title: 'Manage Schedule',
+        subtitle: 'Add or edit activities in the Semester Plan timeline shown on the homepage and the full plan page.',
+        table: 'semester_plan',
+        hasPreview: true,
+        sortCol: 'date',
+        sortAsc: true,
+        fields: [
+            { name: 'title', label: 'Activity Title', type: 'text', required: true },
+            { name: 'date', label: 'Activity Date (YYYY-MM-DD)', type: 'date', required: true },
+            { name: 'week_number', label: 'Week Number', type: 'number', required: false },
+            { name: 'activity_type', label: 'Activity Type', type: 'select', required: true, options: ['Workshop', 'Community', 'Study Group', 'Hackathon', 'Talk', 'Other'] },
+            { name: 'description', label: 'Description', type: 'textarea', required: false },
+            { name: 'status', label: 'Status', type: 'select', required: false, options: ['upcoming', 'live', 'ongoing', 'completed'] }
+        ],
+        displayCols: ['title', 'date', 'activity_type', 'status']
+    },
     testimonials: {
         title: 'Manage Testimonials',
         subtitle: 'Add quotes from members and partners.',
@@ -159,6 +176,23 @@ const tableConfigs = {
             { name: 'created_at', label: 'Applied On', type: 'text' }
         ],
         displayCols: ['name', 'email', 'role', 'created_at']
+    },
+    membership: {
+        title: 'Membership Applications',
+        subtitle: 'Review general membership applications from the join form. Update their status after you reach out.',
+        table: 'membership_applications',
+        allowDelete: true,
+        hasDetails: true,
+        fields: [
+            { name: 'name', label: 'Applicant Name', type: 'text', required: true },
+            { name: 'email', label: 'Email Address', type: 'text', required: true },
+            { name: 'academic_year', label: 'Academic Year', type: 'text' },
+            { name: 'department', label: 'Department', type: 'text' },
+            { name: 'motivation', label: 'Motivation', type: 'textarea' },
+            { name: 'interests', label: 'Interests', type: 'textarea' },
+            { name: 'status', label: 'Status', type: 'select', options: ['pending', 'contacted', 'approved', 'declined'] }
+        ],
+        displayCols: ['name', 'email', 'department', 'status', 'created_at']
     },
     newsletter: {
         title: 'Newsletter Subscribers',
@@ -321,6 +355,7 @@ async function loadDashboardStats() {
     document.getElementById('stat-projects').textContent = await getCount('projects');
     document.getElementById('stat-team').textContent = await getCount('team');
     document.getElementById('stat-events').textContent = await getCount('events');
+    document.getElementById('stat-schedule').textContent = await getCount('semester_plan');
 }
 
 // --- Dynamic Toasts and Modals ---
@@ -403,7 +438,7 @@ async function loadTabData(tabId) {
     const { data, error } = await supabase
         .from(config.table)
         .select('*')
-        .order('id', { ascending: false });
+        .order(config.sortCol || 'id', { ascending: config.sortAsc === true });
 
     if (error) {
         contentContainer.innerHTML = `<div class="p-8 text-center text-red-500">Error loading data: ${error.message}. <br>Make sure the table '${config.table}' exists in Supabase.</div>`;
@@ -479,6 +514,7 @@ function renderTable(data, config) {
                let previewHref = 'index.html';
                if(currentTab === 'blog') previewHref = `blog.html?v=v2&id=${item.id}`;
                else if(currentTab === 'projects') previewHref = `project.html?v=v2&id=${item.id}`;
+               else if(currentTab === 'schedule') previewHref = 'plan.html';
                else previewHref = `index.html#${currentTab}`;
                
                tbody += `<a href="${previewHref}" target="_blank" class="text-green-600 hover:text-green-900 mr-3 transition-colors hover:bg-green-50 px-2 py-1 rounded inline-block">Preview</a>`;

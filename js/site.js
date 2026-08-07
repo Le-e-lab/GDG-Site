@@ -952,6 +952,53 @@ function attachModalTriggers() {
 }
 
 // ==========================================
+//  GENERAL MEMBERSHIP FORM (Join modal)
+// ==========================================
+async function handleMembershipForm() {
+  const form = document.getElementById('membership-form');
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('membership-submit-btn');
+    const successDiv = document.getElementById('membership-success');
+    const errorDiv = document.getElementById('membership-error');
+    const modal = document.getElementById('membership-modal');
+
+    btn.textContent = 'Submitting...';
+    btn.disabled = true;
+    errorDiv.classList.add('hidden');
+    successDiv.classList.add('hidden');
+
+    const formData = new FormData(form);
+    const { error } = await supabase.from('membership_applications').insert([{
+      name: formData.get('name'),
+      email: formData.get('email'),
+      academic_year: formData.get('academic_year'),
+      department: formData.get('department'),
+      interests: formData.get('interests') || '',
+      motivation: formData.get('motivation') || '',
+      status: 'pending'
+    }]);
+
+    btn.textContent = 'Join GDG Africa University';
+    btn.disabled = false;
+
+    if (error) {
+      errorDiv.textContent = 'Something went wrong: ' + error.message;
+      errorDiv.classList.remove('hidden');
+    } else {
+      form.reset();
+      successDiv.classList.remove('hidden');
+      setTimeout(() => {
+        if (modal) { modal.classList.remove('active'); document.body.style.overflow = ''; }
+        successDiv.classList.add('hidden');
+      }, 1600);
+    }
+  });
+}
+
+// ==========================================
 //  BLOG UPDATES
 // ==========================================
 async function checkBlogUpdates() {
@@ -1215,6 +1262,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await Promise.all([loadProjects(), loadTeam(), loadEvents(), loadTestimonials(), loadSpotlight(), loadSemesterPlan(), loadResources(), checkBlogUpdates()]);
   initCollabModal();
   handleApplicationForm();
+  handleMembershipForm();
   handleNewsletterForm();
 
   const showApplyBtn = document.getElementById('show-apply-btn');

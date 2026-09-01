@@ -40,11 +40,14 @@ Updated: 2026-09-01 (Lesley + Luke session)
    - To use next session: `set -a; source .env; set +a` then execute SQL via
      `POST https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF/database/query`
      with `Authorization: Bearer $SUPABASE_ACCESS_TOKEN` and `User-Agent: Mozilla/5.0` (required, or 403).
-2. **DO NOT PUSH by default** — Lesley has NOT approved deploying. 3 unpushed commits: `9c7f824`, `a54daca`, `c4fd502`.
+2. ✅ **DEPLOYED 2026-09-01**: pushed to origin/master. Live on Netlify (canonical) + GitHub Pages mirror:
+   - https://gdg-africa-university.netlify.app/  (canonical — sitemap/canonicals point here)
+   - https://le-e-lab.github.io/GDG-Site/       (mirror)
+   - GitHub repo description + homepage set to the Netlify URL.
 3. (Optional) `npm i playwright` to fix broken project shim; delete local `.JPG` originals for disk hygiene.
 
 ## Pending / Known Gaps
-- [ ] Commits NOT pushed (awaiting explicit Lesley approval to deploy).
+- [x] Commits pushed + deployed (5 commits: 9c7f824, a54daca, c4fd502, a4035aa, 0c3861a).
 - [x] Access token saved to `.env` (gitignored) for future DB edits.
 - [ ] `.JPG` originals still local (gitignored; optional).
 - [ ] `playwright` project dep broken shim (uses global install).

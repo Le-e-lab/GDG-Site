@@ -717,10 +717,24 @@ editForm.addEventListener('submit', async (e) => {
             }
         } else {
             const raw = formData.get(field.name);
-            // Convert 'true'/'false' string selects to real booleans for boolean columns
-            saveObj[field.name] = (field.name === 'is_startup' || field.name === 'needs_help' || field.name === 'is_spotlight' || field.name === 'is_active')
-              ? raw === 'true'
-              : raw;
+            // Boolean fields ('true'/'false' string selects) → real booleans.
+            if (field.name === 'is_startup' || field.name === 'needs_help' || field.name === 'is_spotlight' || field.name === 'is_active') {
+                saveObj[field.name] = raw === 'true';
+                continue;
+            }
+            // Numeric fields → real numbers, or omit when empty.
+            if (field.type === 'number') {
+                const trimmed = (raw || '').trim();
+                if (trimmed === '') continue; // let DB keep/use default
+                const num = Number(trimmed);
+                saveObj[field.name] = Number.isFinite(num) ? num : null;
+                continue;
+            }
+            // Trim strings; skip whitespace-only so we never send "" to a
+            // typed column (date/int) and trigger Postgres 22007 errors.
+            const trimmed = (raw === null || raw === undefined) ? '' : String(raw).trim();
+            if (trimmed === '') continue; // omit → DB default / not overwritten
+            saveObj[field.name] = trimmed;
         }
     }
 

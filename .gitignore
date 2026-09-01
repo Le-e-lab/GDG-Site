@@ -3,6 +3,10 @@ node_modules/
 .gemini/
 *.log
 
+# Local secrets (Supabase access token etc.) — never commit
+.env
+.env.local
+
 # Raw photo originals (compressed versions are used on the site)
 images/*.JPG
 

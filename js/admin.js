@@ -613,23 +613,42 @@ function openModal(id = null) {
 
     formFields.innerHTML = html;
     
-    // Initialize Quill instances
+    // Initialize Quill rich-text editors. CDN may be blocked or slow (common
+    // in some regions), so wrap in try/catch and fall back to a plain textarea
+    // so editing never silently fails.
     quillInstances = {};
     config.fields.forEach(field => {
         if (field.isHtml && !config.readonly) {
-            quillInstances[field.name] = new Quill(`#quill-editor-${field.name}`, {
-                theme: 'snow',
-                modules: {
-                    toolbar: [
-                        [{ 'header': [1, 2, 3, false] }],
-                        ['bold', 'italic', 'underline', 'strike'],
-                        ['blockquote', 'code-block'],
-                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                        ['link', 'image'],
-                        ['clean']
-                    ]
+            try {
+                if (typeof Quill === 'undefined') throw new Error('Quill CDN not loaded');
+                quillInstances[field.name] = new Quill(`#quill-editor-${field.name}`, {
+                    theme: 'snow',
+                    modules: {
+                        toolbar: [
+                            [{ 'header': [1, 2, 3, false] }],
+                            ['bold', 'italic', 'underline', 'strike'],
+                            ['blockquote', 'code-block'],
+                            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                            ['link', 'image'],
+                            ['clean']
+                        ]
+                    }
+                });
+            } catch (e) {
+                // Fallback: replace the Quill div with a plain textarea containing
+                // the raw HTML so the save handler can still read the content.
+                console.warn('Quill init failed, falling back to textarea:', e.message);
+                const container = document.getElementById(`quill-editor-${field.name}`);
+                if (container) {
+                    const currentHTML = container.innerHTML;
+                    const ta = document.createElement('textarea');
+                    ta.name = field.name;
+                    ta.rows = 8;
+                    ta.className = 'w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-google-blue outline-none transition-all';
+                    ta.value = currentHTML.replace(/<p><br><\/p>/g, '').replace(/<br>/g, '\n');
+                    container.replaceWith(ta);
                 }
-            });
+            }
         }
     });
 

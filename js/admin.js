@@ -126,10 +126,12 @@ const tableConfigs = {
             { name: 'description', label: 'Description', type: 'textarea', required: true },
             { name: 'link', label: 'Event Link (Bevy)', type: 'url', required: false },
             { name: 'image', label: 'Event Banner', type: 'file', required: false, isImage: true },
+            { name: 'location_type', label: 'Format', type: 'select', required: false, options: ['online', 'inperson'] },
+            { name: 'location', label: 'Location / Venue (e.g. Zoom, Africa University, Harare)', type: 'text', required: false },
             { name: 'status', label: 'Status', type: 'select', required: false, options: ['approved', 'pending'] },
             { name: 'source_url', label: 'Source URL (GDG)', type: 'url', required: false }
         ],
-        displayCols: ['title', 'date', 'status']
+        displayCols: ['title', 'date', 'location_type', 'status']
     },
     schedule: {
         title: 'Manage Schedule',

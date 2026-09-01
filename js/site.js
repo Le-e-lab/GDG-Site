@@ -30,29 +30,9 @@ function initPreloader() {
     { type: 'success', text: '✓ Ready to build the future' },
   ];
 
-  let lineIdx = 0;
-  const typeLine = () => {
-    if (lineIdx >= terminalLines.length) return;
-    const line = terminalLines[lineIdx];
-    const div = document.createElement('div');
-    div.className = 'preloader-line';
-    if (line.type === 'cmd') {
-      div.innerHTML = `<span class="cmd">$ ${line.text}</span>`;
-    } else {
-      div.innerHTML = `<span class="${line.type}">${line.text}</span>`;
-    }
-    linesContainer.appendChild(div);
-    lineIdx++;
-    const pct = Math.min(Math.round((lineIdx / terminalLines.length) * 70), 70);
-    if (progressBar) progressBar.style.width = pct + '%';
-    if (percentText) percentText.textContent = pct + '%';
-    setTimeout(typeLine, 150 + Math.random() * 200);
-  };
-
-  setTimeout(typeLine, 300);
-
-  // Preload hero images — club member photos
-  const imagesToPreload = [
+  // Fire-and-forget: warm the most important hero images in parallel so the
+  // marquee has them cached the moment the preloader fades. Non-blocking.
+  const warmImages = [
     'images/1000267438-compressed.jpg',
     'images/1000267415-compressed.jpg',
     'images/1000267427-compressed.jpg',
@@ -61,51 +41,52 @@ function initPreloader() {
     'images/PHOTO-2025-09-05-06-21-11_2.jpg',
     'images/PHOTO-2025-09-05-06-21-11.jpg',
   ];
-
-  let loaded = 0;
-  const total = imagesToPreload.length;
-  const startTime = Date.now();
-  const MIN_DISPLAY_TIME = 1200; // 1.2 seconds minimum (was 3.5s — too slow)
-
-  const onImageLoad = () => {
-    loaded++;
-    const pct = Math.min(70 + Math.round((loaded / total) * 30), 100);
-    if (progressBar) progressBar.style.width = pct + '%';
-    if (percentText) percentText.textContent = pct + '%';
-    if (loaded >= total) finishPreloader();
-  };
-
-  imagesToPreload.forEach(src => {
+  warmImages.forEach(src => {
     const img = new Image();
-    img.onload = onImageLoad;
-    img.onerror = onImageLoad;
+    img.decoding = 'async';
     img.src = src;
   });
 
-  // Safety timeout — 8 seconds max
-  setTimeout(finishPreloader, 8000);
+  // Key timing principle: never hold the page hostage. The preloader is pure
+  // visual polish. Type the boot lines fast, snap progress to 100%, and fade the
+  // overlay out the moment the final line lands — under ~1.5s on cold caches,
+  // near-instant on warm ones. No image preload count, no 8s ceiling.
+  const lineDelay = 100; // fast, snappy typing
+  const MAX_DISPLAY = 1800; // absolute ceiling so nothing ever hangs
 
   let dismissed = false;
-  function finishPreloader() {
+  function dismiss() {
     if (dismissed) return;
-    const elapsed = Date.now() - startTime;
-    const remaining = Math.max(0, MIN_DISPLAY_TIME - elapsed);
-    // Wait until minimum display time has passed
-    setTimeout(() => {
-      if (dismissed) return;
-      dismissed = true;
-      if (progressBar) progressBar.style.width = '100%';
-      if (percentText) percentText.textContent = '100%';
-      const doneLine = document.createElement('div');
-      doneLine.className = 'preloader-line';
-      doneLine.innerHTML = '<span class="success">✓ All systems ready</span>';
-      linesContainer.appendChild(doneLine);
-      setTimeout(() => {
-        preloader.classList.add('hidden');
-        setTimeout(() => preloader.remove(), 600);
-      }, 800);
-    }, remaining);
+    dismissed = true;
+    if (progressBar) progressBar.style.width = '100%';
+    if (percentText) percentText.textContent = '100%';
+    const doneLine = document.createElement('div');
+    doneLine.className = 'preloader-line';
+    doneLine.innerHTML = '<span class="success">✓ All systems ready</span>';
+    linesContainer.appendChild(doneLine);
+    preloader.classList.add('hidden');
+    setTimeout(() => preloader.remove(), 600);
   }
+
+  // Type the boot lines line-by-line; when the last one lands, dismiss.
+  function typeLine(i) {
+    if (i >= terminalLines.length || dismissed) { dismiss(); return; }
+    const line = terminalLines[i];
+    const div = document.createElement('div');
+    div.className = 'preloader-line';
+    div.innerHTML = line.type === 'cmd'
+      ? `<span class="cmd">$ ${line.text}</span>`
+      : `<span class="${line.type}">${line.text}</span>`;
+    linesContainer.appendChild(div);
+    const pct = Math.min(Math.round(((i + 1) / terminalLines.length) * 100), 100);
+    if (progressBar) progressBar.style.width = pct + '%';
+    if (percentText) percentText.textContent = pct + '%';
+    setTimeout(() => typeLine(i + 1), lineDelay);
+  }
+  typeLine(0);
+
+  // Absolute safety net — never hold the page past this.
+  setTimeout(dismiss, MAX_DISPLAY);
 }
 
 // ==========================================
@@ -458,21 +439,33 @@ async function loadEvents() {
     const month = eventDate.toLocaleString('en-US', { month: 'short' }).toUpperCase();
     const day = eventDate.getDate().toString().padStart(2, '0');
 
+    // Location / format badge (dynamic, driven by the DB).
+    // location_type: 'online' (default) | 'inperson'
+    const isOnline = String(event.location_type || 'online').toLowerCase() !== 'inperson';
+    const badge = isOnline
+      ? '<span class="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-full bg-google-green/15 text-google-green"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h9l3 3h4a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"/></svg>Online</span>'
+      : '<span class="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-full bg-google-blue/15 text-google-blue"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>In-Person</span>';
+    const location = event.location ? `<span class="text-[11px] font-medium text-brandTextSecondary/70 flex items-center gap-1.5"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>${event.location}</span>` : '';
+
     grid.insertAdjacentHTML('beforeend', `
       <div class="bg-brandBgTertiary border border-brandBorder rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow card-hover">
         <div class="h-3 bg-gradient-to-r ${accent.bar}"></div>
         <div class="p-6">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-14 h-14 rounded-xl ${accent.box} flex flex-col items-center justify-center">
+          <div class="flex items-start gap-3 mb-4">
+            <div class="w-14 h-14 rounded-xl ${accent.box} flex flex-col items-center justify-center flex-shrink-0">
               <span class="text-xs ${accent.text} font-bold">${month}</span>
               <span class="text-xl text-brandTextPrimary font-bold">${day}</span>
             </div>
-            <div>
-              <h4 class="text-brandTextPrimary font-bold">${event.title}</h4>
+            <div class="min-w-0">
+              <div class="flex items-center gap-2 flex-wrap mb-1">${badge}</div>
+              <h4 class="text-brandTextPrimary font-bold leading-snug">${event.title}</h4>
             </div>
           </div>
-          <p class="text-brandTextSecondary text-sm mb-4">${event.description}</p>
-          ${event.link ? `<a href="${event.link}" target="_blank" class="text-google-blue text-xs font-semibold hover:underline">Register on Bevy →</a>` : ''}
+          <p class="text-brandTextSecondary text-sm mb-3">${event.description}</p>
+          <div class="flex items-center justify-between gap-2 flex-wrap">
+            <div>${location}</div>
+            ${event.link ? `<a href="${event.link}" target="_blank" class="text-google-blue text-xs font-semibold hover:underline">Register →</a>` : ''}
+          </div>
         </div>
       </div>
     `);
@@ -1053,14 +1046,18 @@ async function initHeroGrid() {
 
   const allImages = clubPhotos;
 
-  // Build image items for a track (duplicated for seamless loop)
-  // NOTE: eager (not lazy) — this marquee is the hero visual above the fold.
-  // Lazy + CSS transform animation can stall image loads entirely.
+  // Build image items for a track (duplicated for seamless loop).
+  // First-paint items use eager + high priority so the hero appears instantly;
+  // the duplicated tail is lazy so ~15 extra above-fold loads never compete
+  // with the initial hero (lazy is safe here because each item is independent).
   const buildTrack = (track, imgs) => {
     const doubled = [...imgs, ...imgs];
-    track.innerHTML = doubled.map(src => `
+    track.innerHTML = doubled.map((src, idx) => `
       <div class="hero-grid-item">
-        <img src="${src}" alt="GDG Community" loading="eager" decoding="async" fetchpriority="low" />
+        <img src="${src}" alt="GDG Community"
+          loading="${idx < imgs.length ? 'eager' : 'lazy'}"
+          decoding="async"
+          fetchpriority="${idx === 0 ? 'high' : idx < imgs.length ? 'low' : 'auto'}" />
       </div>
     `).join('');
   };
@@ -1074,21 +1071,24 @@ async function initHeroGrid() {
   buildTrack(track2, row2.length > 0 ? row2 : allImages);
   if (track3) buildTrack(track3, row3.length > 0 ? row3 : allImages);
 
-  // THEN try to add Supabase member photos (non-blocking, fire and forget)
+  // THEN try to enrich with Supabase member photos — only rebuild if there are
+  // genuinely new images, so we never waste a full re-render on empty data.
   supabase.from('team').select('image').not('image', 'is', null).limit(12)
     .then(({ data: members }) => {
-      if (members && members.length > 0) {
-        const memberImages = members.map(m => m.image).filter(Boolean);
-        if (memberImages.length > 0) {
-          const enriched = [...memberImages, ...allImages];
-          const r1 = enriched.filter((_, i) => i % 3 === 0);
-          const r2 = enriched.filter((_, i) => i % 3 === 1);
-          const r3 = enriched.filter((_, i) => i % 3 === 2);
-          buildTrack(track1, r1.length > 0 ? r1 : enriched);
-          buildTrack(track2, r2.length > 0 ? r2 : enriched);
-          if (track3) buildTrack(track3, r3.length > 0 ? r3 : enriched);
-        }
-      }
+      if (!members || members.length === 0) return;
+      const memberImages = members.map(m => m.image).filter(Boolean);
+      if (!memberImages.length) return;
+      // Dedupe so a member photo that already appears isn't injected twice.
+      const baseUrls = new Set(allImages.map(s => s.split('?')[0]));
+      const fresh = memberImages.filter(u => !baseUrls.has(u.split('?')[0]));
+      if (!fresh.length) return;
+      const enriched = [...fresh, ...allImages];
+      const r1 = enriched.filter((_, i) => i % 3 === 0);
+      const r2 = enriched.filter((_, i) => i % 3 === 1);
+      const r3 = enriched.filter((_, i) => i % 3 === 2);
+      buildTrack(track1, r1.length > 0 ? r1 : enriched);
+      buildTrack(track2, r2.length > 0 ? r2 : enriched);
+      if (track3) buildTrack(track3, r3.length > 0 ? r3 : enriched);
     })
     .catch(() => {}); // silently fail
 }

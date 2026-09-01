@@ -20,20 +20,32 @@
  *                  Defaults to the global GDG events feed.
  *   MAX_EVENTS   - cap on how many events to insert per run (default 10)
  */
-import { chromium } from 'playwright';
-
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://ihmsyiczhhxmupouipnu.supabase.co';
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const CHAPTER_URL = process.env.CHAPTER_URL || 'https://gdg.community.dev/events/';
 const MAX_EVENTS = parseInt(process.env.MAX_EVENTS || '10', 10);
 const CHROME = process.env.CHROME_PATH || '/home/lee/.cache/ms-playwright/chromium-1223/chrome-linux64/chrome';
 
-if (!SUPABASE_KEY) {
+// We only want events from OUR region: Africa University (Mutare) and
+// Zimbabwe chapters (Harare, Bulawayo). Every other GDG chapter (Lusaka,
+// Pretoria, Nairobi, etc.) is NOT ours and is auto-rejected below so the
+// admin queue stays clean and Zimbabwe-focused.
+const ZIM_CHAPTER_SLUGS = ['gdg-on-campus-africa-university', 'google-gdg-harare', 'google-gdg-bulawayo', 'gdg-harare'];
+export const isZimbabweEvent = (ev) => {
+  const src = (ev.source_url || ev.link || ev.title || '').toLowerCase();
+  return ZIM_CHAPTER_SLUGS.some(slug => src.includes(slug));
+};
+
+const isMain = process.argv[1] && import.meta.url === new URL(`file://${process.argv[1]}`).href;
+if (isMain && !SUPABASE_KEY) {
   console.error('Missing SUPABASE_KEY env var. Set it to a key with insert rights on the events table.');
   process.exit(1);
 }
 
 async function fetchRenderedEvents(url) {
+  // Lazy import so the pure filter logic stays importable/unit-testable
+  // without requiring Playwright to be resolvable in every environment.
+  const { chromium } = await import('playwright');
   const browser = await chromium.launch({ executablePath: CHROME });
   try {
     const page = await browser.newPage();
@@ -125,13 +137,21 @@ async function upsertToSupabase(events) {
 
 async function main() {
   console.log(`Rendering GDG events from ${CHAPTER_URL}...`);
-  const events = await fetchRenderedEvents(CHAPTER_URL);
-  console.log(`Parsed ${events.length} events. Inserting up to ${MAX_EVENTS}...`);
+  let events = await fetchRenderedEvents(CHAPTER_URL);
+  // Keep only our chapter / Zimbabwe events so the queue never fills with
+  // foreign chapters. Log what we discard for transparency.
+  const before = events.length;
+  events = events.filter(isZimbabweEvent);
+  const dropped = before - events.length;
+  if (dropped > 0) console.log(`Filtered out ${dropped} non-Zimbabwe event(s) (other chapters).`);
+  console.log(`Parsed ${events.length} Zimbabwe-relevant events. Inserting up to ${MAX_EVENTS}...`);
   const result = await upsertToSupabase(events.slice(0, MAX_EVENTS));
   console.log(`Done. Inserted ${result.inserted}, skipped ${result.skipped} duplicates.`);
 }
 
-main().catch((err) => {
-  console.error('Sync failed:', err.message);
-  process.exit(1);
-});
+if (isMain) {
+  main().catch((err) => {
+    console.error('Sync failed:', err.message);
+    process.exit(1);
+  });
+}

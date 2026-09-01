@@ -34,6 +34,7 @@ Updated: 2026-09-01 (Lesley + Luke session)
 - INDEX: badges `[Online, Online, In-Person, In-Person]`, locations correct, no overflow, 0 broken images, preloader removed.
 - EVENTS: full page shows 4 events with badges, no errors.
 - PLAN: 13 items, no errors.
+- ADMIN (2026-09-01): root-caused + fixed "editing not working" — Quill CDN (`cdn.quilljs.com`) failing threw an uncaught `new Quill(...)` which killed the edit modal. Fixed with try/catch + textarea fallback; bumped `?v=` cache-buster to 20260901 on all pages. Live-verified: login works, blog edit saves (PATCH 204) with Quill OK AND with Quill CDN blocked. Membership QA test row cleaned.
 
 ## Next Steps (handoff)
 1. 🔒 **Local access token saved in `.env`** (gitignored, never committed). Lesley added a usage limit.
@@ -47,7 +48,8 @@ Updated: 2026-09-01 (Lesley + Luke session)
 3. (Optional) `npm i playwright` to fix broken project shim; delete local `.JPG` originals for disk hygiene.
 
 ## Pending / Known Gaps
-- [x] Commits pushed + deployed (5 commits: 9c7f824, a54daca, c4fd502, a4035aa, 0c3861a).
+- [x] Commits pushed + deployed (7 commits: 9c7f824 … e882a79).
 - [x] Access token saved to `.env` (gitignored) for future DB edits.
 - [ ] `.JPG` originals still local (gitignored; optional).
 - [ ] `playwright` project dep broken shim (uses global install).
+- [ ] Quill CDN is the single remaining third-party dependency for blog editing — now has graceful textarea fallback, but a self-hosted editor (or bundling Quill locally) is the long-term hardening option.

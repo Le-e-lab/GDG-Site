@@ -23,16 +23,24 @@ Updated: 2026-09-01 (Lesley + Luke session)
 - Admin login gate works, 12 tabs visible
 
 ## Current Task Step
-Frontend + script + migration changes are written and verified locally.
-✅ Phase 1 (image speed), ✅ Phase 2 (events frontend/sync), ✅ Phase 3 (schedule SQL), ✅ Phase 4 sweep.
+✅ ALL PHASES COMPLETE — migration applied to live DB via Management API (2026-09-01).
+
+## Live DB State (verified via REST)
+- Events: **4 rows, all approved, all Zimbabwe** — Google I/O (online/Zoom), Cloud Study Jam (online/Meet), GDG AU Hackathon (inperson/Africa University Mutare), DevFest Harare (inperson/Harare). Zero pending, zero foreign chapters.
+- Semester plan: **13 rows** fresh (Sep 4 → Nov 27).
+- Location columns present on events.
+
+## Browser Verification (post-migration, live DB + new code)
+- INDEX: badges `[Online, Online, In-Person, In-Person]`, locations correct, no overflow, 0 broken images, preloader removed.
+- EVENTS: full page shows 4 events with badges, no errors.
+- PLAN: 13 items, no errors.
 
 ## Next Steps (handoff)
-1. **APPLY THE MIGRATION** — needs elevated access Lesley must run (see below):
-   - Option A (easiest): open Supabase Dashboard → SQL Editor → paste contents of `supabase/migrations/20260901010000_zim_events_and_schedule.sql` → Run.
-   - Option B (CLI): `supabase login` then `supabase db push` (needs service role / DB password).
-2. After migration, re-run `npm test` and browser sweep to confirm DevFest Harare shows In-Person and schedule has 13 items.
+1. Push `9c7f824` to origin/master to deploy new JS (preloader speed, badges) to Netlify.
+2. (Optional) `npm i playwright` to fix broken project shim; delete local `.JPG` originals for disk hygiene.
+3. ⚠️ Lesley shared a Supabase PAT in chat — recommend revoking/rotating it after this session since it has Management API powers.
 
 ## Pending / Known Gaps
-- [ ] Migration not yet applied to live DB (anon key cannot DDL/delete).
-- [ ] `.JPG` originals still in local `images/` (gitignored; optional to delete for disk hygiene).
-- [ ] `playwright` project dep is a broken shim (`.bin/playwright` exists but package dir missing) — sync script uses global playwright via absolute path; optional to `npm i playwright` for portability.
+- [ ] Commit pushed? — NOT YET (waiting on Lesley's go).
+- [ ] `.JPG` originals still local (gitignored; optional).
+- [ ] `playwright` project dep broken shim (uses global install).

@@ -2,6 +2,10 @@
 
 ![GDG Badge](https://img.shields.io/badge/Google_Developer_Groups-Africa_University-blue.svg?logo=google&logoColor=white)
 
+## 🌐 Live Site
+
+[**gdg-africa-university.netlify.app**](https://gdg-africa-university.netlify.app/)
+
 Welcome to the official website repository for the **Google Developer Groups (GDG) on Campus at Africa University**. This project serves as a dynamic, scalable, and beautifully designed landing page for our community, providing a centralized hub for events, team introductions, project showcases, and member applications.
 
 ## 🚀 Features

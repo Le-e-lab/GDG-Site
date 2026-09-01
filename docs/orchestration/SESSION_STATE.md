@@ -35,6 +35,7 @@ Updated: 2026-09-01 (Lesley + Luke session)
 - EVENTS: full page shows 4 events with badges, no errors.
 - PLAN: 13 items, no errors.
 - ADMIN (2026-09-01): root-caused + fixed "editing not working" — Quill CDN (`cdn.quilljs.com`) failing threw an uncaught `new Quill(...)` which killed the edit modal. Fixed with try/catch + textarea fallback; bumped `?v=` cache-buster to 20260901 on all pages. Live-verified: login works, blog edit saves (PATCH 204) with Quill OK AND with Quill CDN blocked. Membership QA test row cleaned.
+- ADMIN (2026-09-01, 2nd fix): **Core Team edit threw Postgres 22007** — save handler sent empty string `""` to the `spotlight_date` DATE column. Rewrote the save handler generically: omit empty optional fields, coerce number→real number, boolean→true/false. Verified all 8 editable tabs save with empty optionals, zero 4xx. Deployed as `admin.js?v=20260901b`. Live-verified Core Team edit works.
 
 ## Next Steps (handoff)
 1. 🔒 **Local access token saved in `.env`** (gitignored, never committed). Lesley added a usage limit.

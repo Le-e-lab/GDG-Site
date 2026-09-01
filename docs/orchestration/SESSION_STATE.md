@@ -36,11 +36,15 @@ Updated: 2026-09-01 (Lesley + Luke session)
 - PLAN: 13 items, no errors.
 
 ## Next Steps (handoff)
-1. Push `9c7f824` to origin/master to deploy new JS (preloader speed, badges) to Netlify.
-2. (Optional) `npm i playwright` to fix broken project shim; delete local `.JPG` originals for disk hygiene.
-3. ⚠️ Lesley shared a Supabase PAT in chat — recommend revoking/rotating it after this session since it has Management API powers.
+1. 🔒 **Local access token saved in `.env`** (gitignored, never committed). Lesley added a usage limit.
+   - To use next session: `set -a; source .env; set +a` then execute SQL via
+     `POST https://api.supabase.com/v1/projects/$SUPABASE_PROJECT_REF/database/query`
+     with `Authorization: Bearer $SUPABASE_ACCESS_TOKEN` and `User-Agent: Mozilla/5.0` (required, or 403).
+2. **DO NOT PUSH by default** — Lesley has NOT approved deploying. 3 unpushed commits: `9c7f824`, `a54daca`, `c4fd502`.
+3. (Optional) `npm i playwright` to fix broken project shim; delete local `.JPG` originals for disk hygiene.
 
 ## Pending / Known Gaps
-- [ ] Commit pushed? — NOT YET (waiting on Lesley's go).
+- [ ] Commits NOT pushed (awaiting explicit Lesley approval to deploy).
+- [x] Access token saved to `.env` (gitignored) for future DB edits.
 - [ ] `.JPG` originals still local (gitignored; optional).
 - [ ] `playwright` project dep broken shim (uses global install).

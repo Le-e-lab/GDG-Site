@@ -235,6 +235,23 @@ const tableConfigs = {
             { name: 'status', label: 'Status', type: 'select', options: ['pending', 'contacted', 'approved', 'declined'] }
         ],
         displayCols: ['name', 'email', 'project_title', 'status', 'created_at']
+    },
+    comments: {
+        title: 'Comments & Q&A',
+        subtitle: 'Moderate reader comments and Q&A on blog posts. Mark responses as team answers, hide spam, or delete.',
+        table: 'post_comments',
+        allowDelete: true,
+        hasDetails: true,
+        fields: [
+            { name: 'name', label: 'Commenter Name', type: 'text' },
+            { name: 'post_id', label: 'Post ID', type: 'text' },
+            { name: 'content', label: 'Comment / Question', type: 'textarea' },
+            { name: 'is_question', label: 'Is a Question', type: 'select', options: ['false', 'true'] },
+            { name: 'is_answer', label: 'Is a Team Answer', type: 'select', options: ['false', 'true'] },
+            { name: 'status', label: 'Status', type: 'select', options: ['approved', 'pending', 'hidden'] },
+            { name: 'created_at', label: 'Date', type: 'text' }
+        ],
+        displayCols: ['name', 'content', 'status', 'created_at']
     }
 };
 

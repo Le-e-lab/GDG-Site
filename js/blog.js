@@ -1,4 +1,5 @@
 import { supabase } from './supabase-config.js';
+import { renderEngagement } from './comments.js';
 
 async function fetchBlogPosts() {
     const loadingEl = document.getElementById('blog-loading');
@@ -210,21 +211,24 @@ async function fetchSinglePost(id) {
                     </a>
                     <a href="https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}" target="_blank" rel="noopener"
                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#0A66C2] text-white font-semibold text-sm hover:opacity-90 transition-opacity shadow-sm">
-                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 23.227 24 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                         LinkedIn
                     </a>
-                    <a href="mailto:?subject=${encodeURIComponent(post.title + ' — GDG Africa University')}&body=${encodeURIComponent('Check out this post from GDG Africa University:\n\n' + post.title + '\n\n' + shareUrl)}" 
+                    <a href="mailto:?subject=${encodeURIComponent(post.title + ' — GDG Africa University')}&body=${encodeURIComponent('Check out this post from GDG Africa University:\n\n' + post.title + '\n\n' + shareUrl)}"
                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-google-red text-white font-semibold text-sm hover:opacity-90 transition-opacity shadow-sm">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                         Email
                     </a>
-                    <button onclick="navigator.clipboard.writeText('${shareUrl}').then(()=>{this.textContent='✓ Copied!';setTimeout(()=>{this.innerHTML='<svg class=\\&quot;w-4 h-4\\&quot; fill=\\&quot;none\\&quot; stroke=\\&quot;currentColor\\&quot; viewBox=\\&quot;0 0 24 24\\&quot;><path stroke-linecap=\\&quot;round\\&quot; stroke-linejoin=\\&quot;round\\&quot; stroke-width=\\&quot;2\\&quot; d=\\&quot;M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3\\&quot;/></svg> Copy Link'},1500)})" 
+                    <button onclick="navigator.clipboard.writeText('${shareUrl}').then(()=>{this.textContent='✓ Copied!';setTimeout(()=>{this.innerHTML='Copy Link'},1500)})"
                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gray-800 text-white font-semibold text-sm hover:bg-gray-700 transition-colors shadow-sm">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
                         Copy Link
                     </button>
                 </div>
             </div>
+
+            <!-- Blog Engagement: reactions + comments + Q&A (injected by comments.js) -->
+            <div id="blog-engagement"></div>
 
             <div class="mt-8 pt-6 border-t border-gray-100">
                 <a href="blog.html?v=v2" class="inline-flex items-center gap-2 text-google-blue font-semibold hover:bg-blue-50 px-4 py-2 rounded-lg transition-colors">
@@ -233,6 +237,7 @@ async function fetchSinglePost(id) {
             </div>
         </article>`;
         document.title = `${post.title} | GDG Africa University`;
+        renderEngagement(post.id, document.getElementById('blog-engagement'));
         
         const pureTextDesc = post.content.replace(/<[^>]+>/g, '').substring(0, 160) + '...';
         const metaDesc = document.getElementById('meta-description');
